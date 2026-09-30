@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A3D4F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Frases">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Frases — Spanish phrases</title>
+<style>
+:root{
+  --bg:#F4FAF9; --ink:#0A2A35; --muted:#5A7780; --line:#D3E7E4;
+  --deep:#0A3D4F; --turq:#159C95; --shallow:#BDEBE3; --pink:#D6006F; --card:#FFFFFF;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#06222C;--ink:#E6F5F2;--muted:#8FB3B6;--line:#16414D;--deep:#0F5570;--turq:#3CC7BE;--shallow:#12474F;--pink:#FF4FA3;--card:#0B2F3B;}}
+:root[data-theme="dark"]{--bg:#06222C;--ink:#E6F5F2;--muted:#8FB3B6;--line:#16414D;--deep:#0F5570;--turq:#3CC7BE;--shallow:#12474F;--pink:#FF4FA3;--card:#0B2F3B;}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+header{position:sticky;top:env(safe-area-inset-top,0);z-index:5;background:var(--bg);padding:12px 16px 8px;border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+h1{margin:0;font-size:1.9rem;font-weight:800;letter-spacing:-.03em;line-height:1;background:linear-gradient(90deg,var(--deep),var(--turq) 55%,var(--shallow));-webkit-background-clip:text;background-clip:text;color:transparent}
+.count{color:var(--muted);font-size:.9rem;white-space:nowrap}.count b{color:var(--turq)}
+.modes{display:flex;gap:6px;margin-top:12px;background:var(--line);padding:4px;border-radius:12px}
+.modes button{flex:1;border:0;padding:11px;border-radius:9px;background:transparent;color:var(--ink);font:inherit;font-weight:700;font-size:1rem}
+.modes button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 0 var(--line)}
+.row{display:flex;gap:8px;margin-top:10px}
+input[type=search]{flex:1;min-width:0;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:11px 12px;font:inherit;font-size:1rem}
+.tog{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:0 12px;font:inherit;font-size:.85rem}
+.tog[aria-pressed="true"]{background:var(--deep);color:#fff;border-color:var(--deep)}
+.chips{display:flex;gap:6px;overflow-x:auto;margin:10px -16px 0;padding:0 16px 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 13px;font:inherit;font-size:.9rem}
+.chip[aria-pressed="true"]{background:var(--turq);border-color:var(--turq);color:#fff}
+main{padding:8px 16px 40px;max-width:680px;margin:0 auto}
+ul{list-style:none;margin:0;padding:0}
+li.p{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}
+.txt{flex:1;min-width:0;cursor:pointer}
+.es{font-size:1.3rem;font-weight:600;line-height:1.25}
+.en{margin-top:3px;color:var(--muted);font-size:1rem;transition:filter .2s,opacity .2s}
+.hide .en{filter:blur(6px);opacity:.55}
+.note{display:inline-block;margin-left:6px;font-size:.72rem;color:var(--pink);font-weight:600;vertical-align:middle}
+li.known .es{color:var(--muted)}
+.ib{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;padding:0}
+.ib svg{width:20px;height:20px}.ib.say{color:var(--pink)}
+.ib.play{color:var(--pink);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+li.known .ib.ok{background:var(--turq);border-color:var(--turq);color:#fff}
+.empty{padding:40px 0;color:var(--muted);text-align:center}
+#listen{display:none}
+.player{margin-top:16px;border-radius:24px;padding:26px 22px;min-height:46vh;display:flex;flex-direction:column;justify-content:center;text-align:center;background:linear-gradient(160deg,var(--deep),var(--turq));color:#fff;position:relative}
+.pmeta{position:absolute;top:16px;left:0;right:0;display:flex;justify-content:space-between;padding:0 20px;font-size:.85rem;opacity:.8}
+.pes{font-size:clamp(2rem,9vw,3rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.pen{margin-top:16px;color:#E3F8F4;font-size:1.25rem}
+.pbar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.2);border-radius:0 0 24px 24px;overflow:hidden}
+.pbar>i{display:block;height:100%;width:0;background:var(--shallow);transition:width .2s linear}
+.controls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:20px}
+.cbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:50%;width:66px;height:66px;display:grid;place-items:center;padding:0}
+.cbtn svg{width:30px;height:30px}
+.cbtn.big{width:92px;height:92px;background:var(--turq);border-color:var(--turq);color:#fff}
+.cbtn.big svg{width:42px;height:42px}
+.cbtn:active{transform:scale(.94)}
+.opts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.opt{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:11px 16px;font:inherit;font-size:.95rem;font-weight:600}
+.opt[aria-pressed="true"]{background:var(--deep);color:#fff;border-color:var(--deep)}
+.opt.know[aria-pressed="true"]{background:var(--turq);border-color:var(--turq)}
+button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Frases</h1><div class="count"><b id="kn">0</b> / <span id="tot">0</span> known</div></div>
+  <div class="modes" role="group">
+    <button id="mList" aria-pressed="true">Browse</button>
+    <button id="mListen" aria-pressed="false">Listen</button>
+  </div>
+  <div class="row" id="searchRow">
+    <input type="search" id="q" placeholder="Search Spanish or English" autocomplete="off">
+    <button class="tog" id="showEn" aria-pressed="false">Show English</button>
+  </div>
+  <div class="chips" id="chips"></div>
+</header>
+<main>
+  <section id="list"><ul id="ul"></ul></section>
+  <section id="listen">
+    <div class="player">
+      <div class="pmeta"><span id="lCat"></span><span id="lPos"></span></div>
+      <div class="pes" id="lEs">—</div>
+      <div class="pen" id="lEn"></div>
+      <div class="pbar"><i id="lProg"></i></div>
+    </div>
+    <div class="controls">
+      <button id="lPrev" class="cbtn" aria-label="Previous"></button>
+      <button id="lPlay" class="cbtn big" aria-label="Play"></button>
+      <button id="lNext" class="cbtn" aria-label="Next"></button>
+    </div>
+    <div class="opts">
+      <button class="opt" id="oEn" aria-pressed="false">🇬🇧 English</button>
+      <button class="opt" id="oRep" aria-pressed="false">Repeat ×2</button>
+      <button class="opt" id="oLoop" aria-pressed="true">Loop</button>
+      <button class="opt" id="oGap">Gap 0.7s</button>
+      <button class="opt know" id="lKnow" aria-pressed="false">✓ Known</button>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

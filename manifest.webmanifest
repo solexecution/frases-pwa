@@ -1,0 +1,17 @@
+{
+  "name": "Frases — Spanish phrases",
+  "short_name": "Frases",
+  "description": "Offline Spanish phrase trainer with audio.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A3D4F",
+  "theme_color": "#0A3D4F",
+  "lang": "es",
+  "icons": [
+    { "src": "icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any maskable" },
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ]
+}

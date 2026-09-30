@@ -1,0 +1,130 @@
+const CATS=["All","Conversation","Understanding","Opinions","Plans","Social","Out & about","Work","To learn"];
+const GAPS=[400,700,1200,2000];
+const SVG={
+ say:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>',
+ ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg>',
+ play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>',
+ pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
+ prev:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>',
+ next:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>'};
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+ set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(3,"0");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+
+let P=[];
+let known=new Set(store.get("frases-known",[]));
+let st={mode:store.get("frases-mode","list"),cat:store.get("frases-cat","All"),q:"",showEn:false};
+let opt=Object.assign({en:false,rep:false,loop:true,gap:1},store.get("frases-opt",{}));
+
+const audio=new Audio();audio.preload="auto";
+let esVoice=null,enVoice=null;
+function pickVoices(){if(!("speechSynthesis" in window))return;const v=speechSynthesis.getVoices();
+ esVoice=v.find(x=>/es[-_]MX/i.test(x.lang))||v.find(x=>/^es/i.test(x.lang))||null;
+ enVoice=v.find(x=>/en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null}
+if("speechSynthesis" in window){pickVoices();speechSynthesis.onvoiceschanged=pickVoices}
+function speak(text,lang){return new Promise(res=>{
+ if(!("speechSynthesis" in window)){res();return}
+ const u=new SpeechSynthesisUtterance(text.replace(/[…¿¡]/g,""));
+ const v=lang==="en"?enVoice:esVoice;u.lang=v?v.lang:(lang==="en"?"en-US":"es-MX");if(v)u.voice=v;u.rate=.92;
+ u.onend=res;u.onerror=res;try{speechSynthesis.cancel()}catch(e){}speechSynthesis.speak(u);
+ setTimeout(res,6000)})}
+function playAudio(i){return new Promise(res=>{
+ audio.onended=res;audio.onerror=()=>speak(P[i].es,"es").then(res);
+ audio.src="audio/"+pad(i)+".mp3";audio.currentTime=0;
+ const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>speak(P[i].es,"es").then(res))})}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+
+function filtered(){const q=norm(st.q.trim());
+ return P.filter(p=>{
+  if(st.cat==="To learn"&&known.has(p.i))return false;
+  if(st.cat!=="All"&&st.cat!=="To learn"&&p.cat!==st.cat)return false;
+  if(!q)return true;return norm(p.es+" "+p.en).includes(q)})}
+
+function renderChips(){$("chips").innerHTML=CATS.map(c=>`<button class="chip" aria-pressed="${c===st.cat}" data-c="${c}">${c}</button>`).join("")}
+function renderList(){const f=filtered();
+ $("ul").innerHTML=f.length?f.map(p=>`<li class="p ${st.showEn?"":"hide"} ${known.has(p.i)?"known":""}" data-i="${p.i}">
+  <div class="txt" tabindex="0"><div class="es">${esc(p.es)}${p.note?`<span class="note">${esc(p.note)}</span>`:""}</div><div class="en">${esc(p.en)}</div></div>
+  <button class="ib say" aria-label="Listen">${SVG.say}</button>
+  <button class="ib ok" aria-label="Mark as known">${SVG.ok}</button></li>`).join("")
+  :`<li class="empty">No phrases match. Clear the search or pick another group.</li>`;
+ $("kn").textContent=known.size}
+function tapSay(i,btn){try{speechSynthesis&&speechSynthesis.cancel()}catch(e){}
+ audio.pause();document.querySelectorAll(".play").forEach(b=>b.classList.remove("play"));
+ if(btn)btn.classList.add("play");const clr=()=>btn&&btn.classList.remove("play");
+ audio.onended=clr;audio.onerror=()=>{clr();speak(P[i].es,"es")};
+ audio.src="audio/"+pad(i)+".mp3";audio.currentTime=0;const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>{clr();speak(P[i].es,"es")})}
+
+let queue=[],qi=0,playing=false,token=0;
+function rebuildQueue(keep){const before=queue[qi];queue=filtered();
+ if(keep&&before){const j=queue.findIndex(p=>p.i===before.i);qi=j<0?0:j}else qi=0;
+ if(qi>=queue.length)qi=Math.max(0,queue.length-1);showCurrent()}
+function showCurrent(){const p=queue[qi];
+ if(!p){$("lEs").textContent="¡Listo!";$("lEn").textContent="No phrases in this group.";$("lCat").textContent="";$("lPos").textContent="";$("lProg").style.width="0";$("lKnow").setAttribute("aria-pressed",false);return}
+ $("lEs").textContent=p.es;$("lEn").textContent=p.en;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"");
+ $("lPos").textContent=(qi+1)+" / "+queue.length;$("lProg").style.width=((qi+1)/queue.length*100)+"%";
+ $("lKnow").setAttribute("aria-pressed",known.has(p.i));$("kn").textContent=known.size;setMeta(p)}
+function setMeta(p){if("mediaSession" in navigator&&window.MediaMetadata){
+ navigator.mediaSession.metadata=new MediaMetadata({title:p.es,artist:p.en,album:"Frases"})}}
+function setPlayIcon(){$("lPlay").innerHTML=playing?SVG.pause:SVG.play;$("lPlay").setAttribute("aria-label",playing?"Pause":"Play");
+ if("mediaSession" in navigator)navigator.mediaSession.playbackState=playing?"playing":"paused"}
+
+async function playLoop(){const my=++token;playing=true;setPlayIcon();
+ while(playing&&token===my){const p=queue[qi];if(!p){playing=false;break}
+  showCurrent();
+  if(opt.en){await speak(p.en,"en");if(token!==my)return;await wait(200);if(token!==my)return}
+  await playAudio(p.i);if(token!==my)return;
+  if(opt.rep){await wait(300);if(token!==my)return;await playAudio(p.i);if(token!==my)return}
+  await wait(GAPS[opt.gap]);if(token!==my)return;
+  if(qi+1>=queue.length){if(opt.loop)qi=0;else{playing=false;break}}else qi++;}
+ playing=false;setPlayIcon()}
+function play(){if(!queue.length)return;if(playing)return;playLoop()}
+function pause(){playing=false;token++;audio.pause();try{speechSynthesis&&speechSynthesis.cancel()}catch(e){}setPlayIcon()}
+function toggle(){playing?pause():play()}
+function seek(d){const was=playing;pause();if(!queue.length)return;
+ qi=(qi+d+queue.length)%queue.length;showCurrent();if(was)play()}
+
+function saveKnown(){store.set("frases-known",[...known])}
+function saveOpt(){store.set("frases-opt",opt)}
+function setMode(m){st.mode=m;store.set("frases-mode",m);
+ $("mList").setAttribute("aria-pressed",m==="list");$("mListen").setAttribute("aria-pressed",m==="listen");
+ $("list").style.display=m==="list"?"block":"none";$("listen").style.display=m==="listen"?"block":"none";
+ $("searchRow").style.display=m==="list"?"flex":"none";
+ if(m==="listen"){rebuildQueue(false)}else{pause();renderList()}}
+
+function wire(){
+ $("mList").onclick=()=>setMode("list");$("mListen").onclick=()=>setMode("listen");
+ $("q").oninput=e=>{st.q=e.target.value;renderList()};
+ $("showEn").onclick=e=>{st.showEn=!st.showEn;e.target.setAttribute("aria-pressed",st.showEn);e.target.textContent=st.showEn?"Hide English":"Show English";renderList()};
+ $("chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.c;store.set("frases-cat",st.cat);renderChips();
+  st.mode==="listen"?(pause(),rebuildQueue(false)):renderList()};
+ $("ul").onclick=e=>{const li=e.target.closest("li.p");if(!li)return;const p=P[+li.dataset.i];
+  if(e.target.closest(".say"))tapSay(p.i,e.target.closest(".say"));
+  else if(e.target.closest(".ok")){known.has(p.i)?known.delete(p.i):known.add(p.i);saveKnown();renderList()}
+  else if(e.target.closest(".txt")&&!st.showEn)li.classList.toggle("hide")};
+ $("ul").onkeydown=e=>{if(e.key==="Enter"&&e.target.classList.contains("txt"))e.target.click()};
+ $("lPlay").onclick=toggle;$("lPrev").onclick=()=>seek(-1);$("lNext").onclick=()=>seek(1);
+ $("lPrev").innerHTML=SVG.prev;$("lNext").innerHTML=SVG.next;setPlayIcon();
+ const flag=(id,key)=>{$(id).onclick=e=>{opt[key]=!opt[key];e.currentTarget.setAttribute("aria-pressed",opt[key]);saveOpt()};
+  $(id).setAttribute("aria-pressed",opt[key])};
+ flag("oEn","en");flag("oRep","rep");flag("oLoop","loop");
+ $("oGap").onclick=()=>{opt.gap=(opt.gap+1)%GAPS.length;$("oGap").textContent="Gap "+(GAPS[opt.gap]/1000)+"s";saveOpt()};
+ $("oGap").textContent="Gap "+(GAPS[opt.gap]/1000)+"s";
+ $("lKnow").onclick=()=>{const p=queue[qi];if(!p)return;known.has(p.i)?known.delete(p.i):known.add(p.i);saveKnown();showCurrent()};
+ if("mediaSession" in navigator){
+  navigator.mediaSession.setActionHandler("play",play);
+  navigator.mediaSession.setActionHandler("pause",pause);
+  navigator.mediaSession.setActionHandler("nexttrack",()=>seek(1));
+  navigator.mediaSession.setActionHandler("previoustrack",()=>seek(-1));}
+ document.addEventListener("keydown",e=>{if(st.mode!=="listen")return;
+  if(e.key===" "){e.preventDefault();toggle()}else if(e.key==="ArrowRight")seek(1);else if(e.key==="ArrowLeft")seek(-1)})}
+
+async function boot(){
+ P=(await fetch("phrases.json").then(r=>r.json())).map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||""}));
+ known=new Set([...known].filter(i=>i<P.length));
+ $("tot").textContent=P.length;
+ wire();renderChips();setMode(st.mode);
+ if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{})}
+boot();
