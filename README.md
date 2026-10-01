@@ -1,6 +1,11 @@
 # Frases — offline Spanish PWA
 
-Installable, fully-offline Spanish phrase trainer with bundled audio.
+Installable, fully-offline Spanish phrase trainer with bundled audio. 300 phrases
+across Basics, Conversation, Understanding, Opinions, Plans, Social, Out & about,
+Work, Networking, Dating and Solar.
+
+New category groups live in the `CATS` array in `app.js`. Add phrases to `phrases.json`
+(use one of those category strings), then run `gen_audio.py` and `build_align.py`.
 
 Voice: es-MX-DaliaNeural (female). Change it in `gen_audio.py`.
 Each phrase is generated three times: Spanish normal (`audio/NNN.mp3`), Spanish **Slow**
