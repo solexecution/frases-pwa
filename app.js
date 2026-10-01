@@ -22,6 +22,7 @@ let known=new Set(store.get("frases-known",[]));
 let st={mode:store.get("frases-mode","list"),cat:store.get("frases-cat","All"),q:"",showEn:false};
 let opt=Object.assign({en:false,rep:false,loop:true,gap:1,slow:false},store.get("frases-opt",{}));
 const srcFor=i=>(opt.slow?"audio/slow/":"audio/")+pad(i)+".mp3";
+let ALIGN=[];let cur=null,hlMode="es",lastGi=null;
 
 const audio=new Audio();audio.preload="auto";
 let esVoice=null,enVoice=null;
@@ -37,11 +38,13 @@ function speak(text,lang){return new Promise(res=>{
  u.onend=res;u.onerror=res;try{speechSynthesis.cancel()}catch(e){}speechSynthesis.speak(u);
  setTimeout(res,12000)})}
 function playAudio(i){return new Promise(res=>{
+ hlMode="es";lastGi=null;
  audio.onended=res;
  audio.onerror=()=>{if(opt.slow&&!audio.src.endsWith("/"+pad(i)+".mp3")){audio.onerror=()=>speak(P[i].es,"es").then(res);audio.src="audio/"+pad(i)+".mp3";audio.play().catch(()=>speak(P[i].es,"es").then(res))}else speak(P[i].es,"es").then(res)};
  audio.src=srcFor(i);audio.currentTime=0;
  const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>speak(P[i].es,"es").then(res))})}
 function playEn(i){return new Promise(res=>{
+ hlMode="en";lastGi=null;
  audio.onended=res;audio.onerror=()=>speak(P[i].en,"en").then(res);
  audio.src="audio/en/"+pad(i)+".mp3";audio.currentTime=0;
  const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>speak(P[i].en,"en").then(res))})}
@@ -71,9 +74,23 @@ let queue=[],qi=0,playing=false,token=0;
 function rebuildQueue(keep){const before=queue[qi];queue=filtered();
  if(keep&&before){const j=queue.findIndex(p=>p.i===before.i);qi=j<0?0:j}else qi=0;
  if(qi>=queue.length)qi=Math.max(0,queue.length-1);showCurrent()}
+function groupMaps(p){const esT=p.es.split(/\s+/),enT=p.en.split(/\s+/);
+ const g=(ALIGN[p.i]&&ALIGN[p.i].length)?ALIGN[p.i]:[{es:esT.map((_,i)=>i),en:enT.map((_,i)=>i)}];
+ const esG={},enG={};g.forEach((grp,gi)=>{(grp.es||[]).forEach(i=>esG[i]=gi);(grp.en||[]).forEach(i=>enG[i]=gi)});
+ return {esT,enT,g,esG,enG}}
+function wordsHTML(ts,gm){return ts.map((w,i)=>`<span class="w"${gm[i]!=null?` data-g="${gm[i]}"`:""}>${esc(w)}</span>`).join(" ")}
+function timeline(g,ts,key){const items=g.map((grp,gi)=>({gi,idx:grp[key]||[]})).filter(x=>x.idx.length);
+ items.sort((a,b)=>Math.min(...a.idx)-Math.min(...b.idx));
+ let tot=0;const w=items.map(it=>{const c=it.idx.reduce((s,i)=>s+Math.max(1,(ts[i]||"").replace(/[^\p{L}\p{N}]/gu,"").length),0);tot+=c;return c});
+ let acc=0;return items.map((it,k)=>{acc+=w[k];return {gi:it.gi,c1:tot?acc/tot:1}})}
+function hlGroup(gi){document.querySelectorAll('#lEs .w.hl,#lEn .w.hl').forEach(e=>e.classList.remove('hl'));
+ if(gi==null)return;document.querySelectorAll('#lEs .w[data-g="'+gi+'"],#lEn .w[data-g="'+gi+'"]').forEach(e=>e.classList.add('hl'))}
 function showCurrent(){const p=queue[qi];
- if(!p){$("lEs").textContent="¡Listo!";$("lEn").textContent="No phrases in this group.";$("lCat").textContent="";$("lPos").textContent="";$("lProg").style.width="0";$("lKnow").setAttribute("aria-pressed",false);return}
- $("lEs").textContent=p.es;$("lEn").textContent=p.en;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"");
+ if(!p){cur=null;$("lEs").textContent="¡Listo!";$("lEn").textContent="No phrases in this group.";$("lCat").textContent="";$("lPos").textContent="";$("lProg").style.width="0";$("lKnow").setAttribute("aria-pressed",false);return}
+ const m=groupMaps(p);
+ $("lEs").innerHTML=wordsHTML(m.esT,m.esG);$("lEn").innerHTML=wordsHTML(m.enT,m.enG);
+ cur={es:timeline(m.g,m.esT,"es"),en:timeline(m.g,m.enT,"en")};lastGi=null;hlGroup(null);
+ $("lCat").textContent=p.cat+(p.note?" · "+p.note:"");
  $("lPos").textContent=(qi+1)+" / "+queue.length;$("lProg").style.width=((qi+1)/queue.length*100)+"%";
  $("lKnow").setAttribute("aria-pressed",known.has(p.i));$("kn").textContent=known.size;setMeta(p)}
 function setMeta(p){if("mediaSession" in navigator&&window.MediaMetadata){
@@ -128,6 +145,14 @@ function wire(){
   navigator.mediaSession.setActionHandler("pause",pause);
   navigator.mediaSession.setActionHandler("nexttrack",()=>seek(1));
   navigator.mediaSession.setActionHandler("previoustrack",()=>seek(-1));}
+ const tap=e=>{const w=e.target.closest(".w");if(!w||w.dataset.g==null)return;hlGroup(+w.dataset.g)};
+ $("lEs").addEventListener("click",tap);$("lEn").addEventListener("click",tap);
+ audio.addEventListener("timeupdate",()=>{
+  if(st.mode!=="listen"||!playing||!cur||!audio.duration)return;
+  const seq=hlMode==="en"?cur.en:cur.es;if(!seq.length)return;
+  const f=audio.currentTime/audio.duration;let gi=seq[seq.length-1].gi;
+  for(const s of seq){if(f<s.c1){gi=s.gi;break}}
+  if(gi!==lastGi){lastGi=gi;hlGroup(gi)}});
  wireInstall();wireRemind();
  document.addEventListener("keydown",e=>{if(st.mode!=="listen")return;
   if(e.key===" "){e.preventDefault();toggle()}else if(e.key==="ArrowRight")seek(1);else if(e.key==="ArrowLeft")seek(-1)})}
@@ -168,6 +193,7 @@ function wireRemind(){const b=$("btnRemind");
 
 async function boot(){
  P=(await fetch("phrases.json").then(r=>r.json())).map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||""}));
+ ALIGN=await fetch("align.json").then(r=>r.json()).catch(()=>[]);
  known=new Set([...known].filter(i=>i<P.length));
  $("tot").textContent=P.length;
  wire();renderChips();setMode(st.mode);

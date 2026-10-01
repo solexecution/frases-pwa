@@ -40,7 +40,7 @@ SRC = {
  36:[["Estoy","I"],["de acuerdo","agree"]],
  37:[["No","not"],["estoy","I'm"],["seguro","sure"]],
  38:[["Me","to me"],["parece","Sounds"],["bien","good"]],
- 43:[["No","not"],["vale la pena","It's worth it"]],
+ 43:[["No","not"],["vale","worth"]],
  44:[["Tiene","makes"],["sentido","sense"]],
  45:[["Qué","What"],["lástima","shame"]],
  46:[["Voy","I'm"],["en camino","on my way"]],

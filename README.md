@@ -18,6 +18,13 @@ once installed, Chrome on Android wakes the service worker roughly once a day an
 "phrase of the day" notification — no server, fully offline. Timing is browser-controlled
 (best-effort daily, based on how much you use the app), not a fixed alarm. Tap again to turn off.
 
+## Word pairing / highlight
+In Listen, each line is split into word chips. During playback the spoken Spanish word
+lights up together with its English match (e.g. `tarde` ↔ `late`); tap any word to pair
+it with its counterpart. Pairings live in `align.json`, built from `build_align.py`
+(`SRC` holds the hand-authored word pairs; phrases not listed there pair as a whole block
+for idioms). Edit `SRC`, run `python build_align.py`, then bump the SW cache.
+
 ## Two modes
 - **Browse** — search, filter by group, tap a phrase to hear it, mark as known.
 - **Listen** — hands-free autoplay for car / walking. Plays the filtered group

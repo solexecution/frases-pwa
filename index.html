@@ -62,6 +62,9 @@ li.known .ib.ok{background:var(--turq);border-color:var(--turq);color:#fff}
 .pmeta{position:absolute;top:16px;left:0;right:0;display:flex;justify-content:space-between;padding:0 20px;font-size:.85rem;opacity:.8}
 .pes{font-size:clamp(2rem,9vw,3rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .pen{margin-top:16px;color:#E3F8F4;font-size:1.25rem}
+.pes .w,.pen .w{display:inline-block;padding:0 .12em;border-radius:7px;cursor:pointer;transition:background .12s,color .12s}
+.pes .w.hl,.pen .w.hl{background:var(--pink);color:#fff}
+.pen .w[data-g]{text-decoration:underline;text-decoration-color:rgba(255,255,255,.25);text-underline-offset:3px}
 .pbar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.2);border-radius:0 0 24px 24px;overflow:hidden}
 .pbar>i{display:block;height:100%;width:0;background:var(--shallow);transition:width .2s linear}
 .controls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:20px}

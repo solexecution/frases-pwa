@@ -1,5 +1,5 @@
-const CACHE="frases-v8";
-const CORE=["./","index.html","app.js","phrases.json","manifest.webmanifest","icon.svg","icon-180.png"];
+const CACHE="frases-v9";
+const CORE=["./","index.html","app.js","phrases.json","align.json","manifest.webmanifest","icon.svg","icon-180.png"];
 
 self.addEventListener("install",e=>{
  e.waitUntil((async()=>{

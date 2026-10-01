@@ -3,7 +3,7 @@ from pathlib import Path
 import edge_tts
 
 VOICE = "es-MX-DaliaNeural"
-EN_VOICE = "en-US-JennyNeural"
+EN_VOICE = "en-US-AriaNeural"
 EN_PITCH = "+0Hz"
 RATE = "-8%"
 EN_RATE = "-4%"
