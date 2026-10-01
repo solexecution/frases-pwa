@@ -1,4 +1,4 @@
-const CACHE="frases-v6";
+const CACHE="frases-v7";
 const CORE=["./","index.html","app.js","phrases.json","manifest.webmanifest","icon.svg","icon-180.png"];
 
 self.addEventListener("install",e=>{

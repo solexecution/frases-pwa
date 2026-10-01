@@ -55,7 +55,8 @@ Hosting: drop the whole folder on any static host — GitHub Pages, Netlify drop
    python gen_audio.py
    ```
    `--force` re-renders every clip. Removing a phrase deletes its orphaned MP3.
-3. Bump `CACHE` in `sw.js` (e.g. `frases-v1` -> `frases-v2`) so installed copies update.
+3. Bump `CACHE` in `sw.js` (e.g. `frases-v7` -> `frases-v8`) so installed copies update.
+   Open apps auto-reload to the new version (checked on focus + hourly); no manual refresh.
 
 A phrase with no matching MP3 still works: it falls back to the device's built-in text-to-speech.
 

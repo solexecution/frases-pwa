@@ -171,5 +171,12 @@ async function boot(){
  known=new Set([...known].filter(i=>i<P.length));
  $("tot").textContent=P.length;
  wire();renderChips();setMode(st.mode);
- if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{})}
+ if("serviceWorker" in navigator){
+  const hadController=!!navigator.serviceWorker.controller;let reloaded=false;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{
+   if(!hadController||reloaded)return;reloaded=true;location.reload()});
+  navigator.serviceWorker.register("sw.js").then(reg=>{
+   reg.update();setInterval(()=>reg.update(),60*60*1000)}).catch(()=>{});
+  document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")
+   navigator.serviceWorker.getRegistration().then(r=>r&&r.update())})}}
 boot();
