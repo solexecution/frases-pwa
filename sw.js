@@ -1,5 +1,5 @@
-const CACHE="frases-v10";
-const CORE=["./","index.html","app.js","phrases.json","align.json","manifest.webmanifest","icon.svg","icon-180.png"];
+const CACHE="frases-v11";
+const CORE=["./","index.html","app.js","phrases.json","align.json","manifest.webmanifest","icon.svg","icon-180.png","icon-192.png","icon-512.png"];
 
 self.addEventListener("install",e=>{
  e.waitUntil((async()=>{
@@ -9,7 +9,9 @@ self.addEventListener("install",e=>{
    const phrases=await fetch("phrases.json").then(r=>r.json());
    const audio=[];
    phrases.forEach((_,i)=>{const n=String(i).padStart(3,"0")+".mp3";audio.push("audio/"+n,"audio/slow/"+n,"audio/en/"+n)});
-   await Promise.all(audio.map(u=>cache.add(u).catch(()=>{})));
+   for(let i=0;i<audio.length;i+=40){
+    await Promise.all(audio.slice(i,i+40).map(u=>cache.add(u).catch(()=>{})));
+   }
   }catch(e){}
   self.skipWaiting();
  })());
