@@ -203,8 +203,11 @@ function offlineCard(){const c=$("offCard");
  const pct=off.need?Math.floor(off.have/off.need*100):0;
  c.className="card off";c.innerHTML=`<span class="dot"></span><span>Getting offline pack… ${pct}%</span><div class="bar"><i style="width:${pct}%"></i></div>`}
 let filling=false;
+async function curCache(){
+ const ks=(await caches.keys()).filter(k=>/^frases-v\d+-a\d+$/.test(k)).sort((a,b)=>parseInt(b.slice(8))-parseInt(a.slice(8)));
+ return caches.open(ks[0]||"frases-"+VER+"-a"+AV)}
 async function fillOffline(){if(filling||!window.caches||!P.length)return;filling=true;
- try{const c=await caches.open("frases-"+VER+"-a"+AV);
+ try{const c=await curCache();
   const t=audioTiers(P,MISS);const urls=[...CORE,...t.base,...t.extra].map(u=>new URL(u,location.href).href);
   off.need=urls.length;
   for(let pass=0;pass<4;pass++){
