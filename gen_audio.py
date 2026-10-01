@@ -3,9 +3,10 @@ from pathlib import Path
 import edge_tts
 
 VOICE = "es-MX-DaliaNeural"
-EN_VOICE = "en-GB-SoniaNeural"
+EN_VOICE = "en-US-AvaNeural"
+EN_PITCH = "-10Hz"
 RATE = "-8%"
-EN_RATE = "-5%"
+EN_RATE = "-6%"
 SLOW_RATE = "-30%"
 ROOT = Path(__file__).parent
 AUDIO = ROOT / "audio"
@@ -28,8 +29,8 @@ def spaced(s):
     words = [w for w in clean(s).replace(",", " ").split() if w]
     return ", ".join(words)
 
-async def synth(text, voice, rate, out):
-    await edge_tts.Communicate(text, voice, rate=rate).save(str(out))
+async def synth(text, voice, rate, out, pitch="+0Hz"):
+    await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(str(out))
 
 async def main():
     force = "--force" in sys.argv
@@ -51,9 +52,9 @@ async def main():
             await synth(spaced(row[0]), VOICE, SLOW_RATE, SLOW / f"{i:03d}.mp3")
             done[sname] = sk; made += 1; print(f"  {sname}")
         ename = f"en/{i:03d}.mp3"
-        ek = hashlib.sha1((EN_VOICE + EN_RATE + row[1]).encode("utf-8")).hexdigest()[:12]
+        ek = hashlib.sha1((EN_VOICE + EN_RATE + EN_PITCH + row[1]).encode("utf-8")).hexdigest()[:12]
         if force or not (EN / f"{i:03d}.mp3").exists() or done.get(ename) != ek:
-            await synth(en_clean(row[1]), EN_VOICE, EN_RATE, EN / f"{i:03d}.mp3")
+            await synth(en_clean(row[1]), EN_VOICE, EN_RATE, EN / f"{i:03d}.mp3", EN_PITCH)
             done[ename] = ek; made += 1; print(f"  {ename}  {row[1]}")
     prefix = {AUDIO: "", SLOW: "slow/", EN: "en/"}
     for base in (AUDIO, SLOW, EN):
