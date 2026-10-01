@@ -1,4 +1,4 @@
-import asyncio, json, sys, hashlib
+import asyncio, json, sys, hashlib, subprocess, os
 from pathlib import Path
 import edge_tts
 
@@ -29,8 +29,20 @@ def spaced(s):
     words = [w for w in clean(s).replace(",", " ").split() if w]
     return ", ".join(words)
 
+TRIM = "areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB"
+
+def shrink(path):
+    tmp = Path(str(path) + ".tmp.mp3")
+    r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(path), "-af", TRIM,
+                        "-ac", "1", "-ar", "24000", "-c:a", "libmp3lame", "-b:a", "32k", str(tmp)])
+    if r.returncode == 0 and tmp.exists() and tmp.stat().st_size > 500:
+        os.replace(tmp, path)
+    else:
+        tmp.unlink(missing_ok=True)
+
 async def synth(text, voice, rate, out, pitch="+0Hz"):
     await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(str(out))
+    shrink(out)
 
 async def main():
     force = "--force" in sys.argv

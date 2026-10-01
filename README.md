@@ -1,77 +1,44 @@
-# Frases — offline Spanish PWA
+# Frases: learn Spanish every day
 
-Installable, fully-offline Spanish phrase trainer with bundled audio. 300 phrases
-across Basics, Conversation, Understanding, Opinions, Plans, Social, Out & about,
-Work, Networking, Dating and Solar.
+Offline PWA with audio, 300 phrases, daily sessions, missions and push reminders.
+Live at https://solexecution.github.io/frases-pwa/
 
-New category groups live in the `CATS` array in `app.js`. Add phrases to `phrases.json`
-(use one of those category strings), then run `gen_audio.py` and `build_align.py`.
+## What's inside
+| Screen | What it does |
+|---|---|
+| Today | Daily session (spaced repetition), Event prep (3-min mixer drill), Pocket mode, phrase of the day, focus picker, offline status |
+| Missions | 8 scripted conversations (networking, solar sales, dates, restaurant, lost). Voiced characters, pick the right reply, earn stars |
+| Listen | Hands-free player for the car or a walk: slow, English first, Echo (pause for you to repeat), repeat, loop. Lock-screen controls |
+| Browse | Search, groups, tap to hear, mark as known |
+| Me | XP, level, streak, 7-day chart, badges, settings |
 
-Voice: es-MX-DaliaNeural (female). Change it in `gen_audio.py`.
-Each phrase is generated three times: Spanish normal (`audio/NNN.mp3`), Spanish **Slow**
-(`audio/slow/NNN.mp3`, slower + a pause between each word), and the **English** prompt
-(`audio/en/NNN.mp3`, en-US-AvaNeural at pitch -10Hz — a warm human voice, used by the 🇬🇧 English toggle).
-Tune `RATE` / `SLOW_RATE` / `EN_RATE` and the voices in `gen_audio.py`.
+Learning loop: new phrases are introduced, then quizzed (listen, pick, fill the blank, build the sentence),
+then a say-it round. Misses come back sooner (boxes at 1, 2, 4, 8, 16, 32 days). XP, combos and a daily streak
+(with a streak freeze earned every 7 days) keep it fun.
 
-## Install on Android
-Open the site in Chrome, tap **⬇ Install app** (or menu ⋮ → Install app). It lands on
-your home screen and runs full-screen, offline.
+## Release a new version
+1. Edit what you need.
+2. Bump `VER` in `ver.js` (for example `v12` to `v13`). Bump `AV` only if you regenerate existing audio.
+3. Commit and push. Open apps reload themselves to the new version.
 
-## Daily reminders
-Tap **🔔 Daily reminder** and allow notifications. Uses the Periodic Background Sync API:
-once installed, Chrome on Android wakes the service worker roughly once a day and shows a
-"phrase of the day" notification — no server, fully offline. Timing is browser-controlled
-(best-effort daily, based on how much you use the app), not a fixed alarm. Tap again to turn off.
+Install is small because `AV` unchanged means already-downloaded audio is reused.
 
-## Word pairing / highlight
-In Listen, each line is split into word chips. During playback the spoken Spanish word
-lights up together with its English match (e.g. `tarde` ↔ `late`); tap any word to pair
-it with its counterpart. Pairings live in `align.json`, built from `build_align.py`
-(`SRC` holds the hand-authored word pairs; phrases not listed there pair as a whole block
-for idioms). Edit `SRC`, run `python build_align.py`, then bump the SW cache.
+## Add phrases
+1. Add lines to `phrases.json`: `["Nueva frase","New phrase","Work","MX"]`. The 4th item is optional.
+   Category must be one in `CATS` in `app.js` (add a new one there to create a group).
+2. `python gen_audio.py` renders normal, slow and English clips and trims silence (needs ffmpeg and `pip install edge-tts`).
+3. `python build_align.py` rebuilds word pairing (hand-authored pairs live in `SRC`).
+4. Bump `VER`, commit, push.
 
-## Two modes
-- **Browse** — search, filter by group, tap a phrase to hear it, mark as known.
-- **Listen** — hands-free autoplay for car / walking. Plays the filtered group
-  continuously with big Prev / Play-Pause / Next controls. Keeps playing with the
-  screen locked and responds to Bluetooth / car / headphone / lock-screen controls
-  (Media Session API). Options: English first (device TTS), Repeat ×2, Loop, and a
-  gap-length toggle. Space / ← / → work on desktop. Whatever group + search you set
-  defines the play queue; "To learn" plays only the not-yet-known phrases.
+## Voices
+Spanish: es-MX-DaliaNeural. English: en-US-AriaNeural. Change in `gen_audio.py`, then `python gen_audio.py --force` and bump `AV`.
+Mission characters: es-MX-JorgeNeural (male), es-US-PalomaNeural (female). Edit `missions_src.json`, run `python gen_missions.py`.
 
-## Files
-- `index.html`, `app.js` — the app (system fonts, no external dependencies)
-- `phrases.json` — the phrase list (single source of truth)
-- `audio/NNN.mp3` — one pre-generated clip per phrase (es-MX, edge-tts)
-- `sw.js` — service worker; precaches everything for offline use
-- `manifest.webmanifest`, `icon.svg`, `icon-180/192/512.png` — install metadata
-- `gen_audio.py` — regenerates the MP3s from `phrases.json`
+## Daily push reminders (ntfy)
+`.github/workflows/daily-nudge.yml` posts to ntfy.sh at 08:30 and 20:00 (UTC-5). Times are in UTC cron, edit as needed.
+The private topic is the repo secret `NTFY_TOPIC`. On the phone: install the ntfy app, subscribe to that topic
+(Me > Daily push reminders helps). Scheduled workflows pause after 60 days of no repo activity.
 
-## Run / host
-A service worker needs http(s), not `file://`.
-
-Locally:
-```
-python -m http.server 8080
-```
-then open http://localhost:8080 and Add to Home Screen.
-
-Hosting: drop the whole folder on any static host — GitHub Pages, Netlify drop, Cloudflare Pages, etc. Once opened online, it caches and then works with no network.
-
-## Add new phrases
-1. Add a line to `phrases.json`:
-   `["Nueva frase","New phrase","Work","MX"]` — the 4th item (note) is optional.
-2. Regenerate audio (needs internet, only for the new clips):
-   ```
-   pip install edge-tts
-   python gen_audio.py
-   ```
-   `--force` re-renders every clip. Removing a phrase deletes its orphaned MP3.
-3. Bump `CACHE` in `sw.js` (e.g. `frases-v7` -> `frases-v8`) so installed copies update.
-   Open apps auto-reload to the new version (checked on focus + hourly); no manual refresh.
-
-A phrase with no matching MP3 still works: it falls back to the device's built-in text-to-speech.
-
-## Change the voice
-Edit `VOICE` / `RATE` in `gen_audio.py` (e.g. `es-MX-DaliaNeural`), then `python gen_audio.py --force`.
-List voices: `edge-tts --list-voices`.
+## Offline
+The service worker caches the app and all normal audio on install, and the page downloads the slow and English audio
+in the background. Today shows "Fully offline" when everything is on the phone.

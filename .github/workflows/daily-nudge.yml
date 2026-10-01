@@ -1,0 +1,30 @@
+name: daily-nudge
+on:
+  schedule:
+    - cron: "30 13 * * *"
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+jobs:
+  nudge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send push
+        env:
+          TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          if [ -z "$TOPIC" ]; then echo "NTFY_TOPIC not set"; exit 0; fi
+          n=$(jq length phrases.json)
+          d=$(( ($(date -u +%s) - 18000) / 86400 ))
+          i=$(( (d * 7919) % n ))
+          es=$(jq -r ".[$i][0]" phrases.json)
+          en=$(jq -r ".[$i][1]" phrases.json)
+          h=$(date -u +%H)
+          if [ "$h" -ge 12 ] && [ "$h" -lt 18 ]; then
+            title="¡Buenos días! Your Spanish phrase"
+            msg="$es = $en. Do your 5-minute session and keep the streak."
+          else
+            title="🔥 Don't lose your streak"
+            msg="5 minutes is enough tonight. Today's phrase: $es = $en"
+          fi
+          jq -n --arg t "$TOPIC" --arg ti "$title" --arg m "$msg" '{topic:$t,title:$ti,message:$m,click:"https://solexecution.github.io/frases-pwa/",priority:4,tags:["fire"]}' | curl -fsS -H "Content-Type: application/json" -d @- https://ntfy.sh

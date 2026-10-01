@@ -1,53 +1,38 @@
-const CACHE="frases-v11";
-const CORE=["./","index.html","app.js","phrases.json","align.json","manifest.webmanifest","icon.svg","icon-180.png","icon-192.png","icon-512.png"];
+importScripts("ver.js");
+const CACHE="frases-"+VER+"-a"+AV;
+const fresh=u=>new Request(u,{cache:"reload"});
+
+async function fill(cache,urls,prev,download){
+ for(let i=0;i<urls.length;i+=24){
+  await Promise.all(urls.slice(i,i+24).map(async u=>{
+   if(await cache.match(u))return;
+   for(const c of prev){const hit=await c.match(u);if(hit){await cache.put(u,hit);return}}
+   if(download){try{await cache.add(fresh(u))}catch(e){}}
+  }));
+ }
+}
 
 self.addEventListener("install",e=>{
  e.waitUntil((async()=>{
   const cache=await caches.open(CACHE);
-  await cache.addAll(CORE);
-  try{
-   const phrases=await fetch("phrases.json").then(r=>r.json());
-   const audio=[];
-   phrases.forEach((_,i)=>{const n=String(i).padStart(3,"0")+".mp3";audio.push("audio/"+n,"audio/slow/"+n,"audio/en/"+n)});
-   for(let i=0;i<audio.length;i+=40){
-    await Promise.all(audio.slice(i,i+40).map(u=>cache.add(u).catch(()=>{})));
-   }
-  }catch(e){}
-  self.skipWaiting();
+  const old=(await caches.keys()).filter(k=>k!==CACHE&&k.endsWith("-a"+AV));
+  const prev=await Promise.all(old.map(k=>caches.open(k)));
+  await Promise.all(CORE.map(u=>cache.add(fresh(u))));
+  const ph=await (await cache.match("phrases.json")).json();
+  const ms=await (await cache.match("missions.json")).json();
+  const t=audioTiers(ph,ms);
+  await fill(cache,t.base,prev,true);
+  await fill(cache,t.extra,prev,false);
+  await self.skipWaiting();
  })());
 });
 
 self.addEventListener("activate",e=>{
  e.waitUntil((async()=>{
-  const keys=await caches.keys();
-  await Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)));
-  self.clients.claim();
+  for(const k of await caches.keys())if(k!==CACHE)await caches.delete(k);
+  await self.clients.claim();
  })());
 });
-
-async function dailyNotification(){
- let p={es:"¡Hora de practicar!",en:"Time to practice your Spanish"};
- try{const cache=await caches.open(CACHE);
-  const res=await cache.match("phrases.json")||await fetch("phrases.json");
-  const list=await res.json();const r=list[Math.floor(Math.random()*list.length)];
-  p={es:r[0],en:r[1]};
- }catch(e){}
- return self.registration.showNotification("¡Hora de practicar! 🌮",{
-  body:p.es+" — "+p.en,icon:"icon-192.png",badge:"icon-192.png",tag:"frases-daily",lang:"es",
-  data:{url:"./"}});}
-
-self.addEventListener("periodicsync",e=>{
- if(e.tag==="daily-phrase")e.waitUntil(dailyNotification());});
-
-self.addEventListener("notificationclick",e=>{
- e.notification.close();
- e.waitUntil((async()=>{
-  const all=await clients.matchAll({type:"window",includeUncontrolled:true});
-  for(const c of all){if("focus" in c)return c.focus()}
-  if(clients.openWindow)return clients.openWindow("./");
- })());});
-
-self.addEventListener("message",e=>{if(e.data==="test-notification")e.waitUntil(dailyNotification())});
 
 self.addEventListener("fetch",e=>{
  const req=e.request;
