@@ -3,10 +3,10 @@ from pathlib import Path
 import edge_tts
 
 VOICE = "es-MX-DaliaNeural"
-EN_VOICE = "en-US-AvaNeural"
-EN_PITCH = "-10Hz"
+EN_VOICE = "en-US-JennyNeural"
+EN_PITCH = "+0Hz"
 RATE = "-8%"
-EN_RATE = "-6%"
+EN_RATE = "-4%"
 SLOW_RATE = "-30%"
 ROOT = Path(__file__).parent
 AUDIO = ROOT / "audio"
