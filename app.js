@@ -200,19 +200,23 @@ const off={have:0,need:0};
 function offlineCard(){const c=$("offCard");
  if(off.need&&off.have>=off.need){c.className="card off ok";c.innerHTML='<span class="dot"></span><span>Fully offline ✓ everything is on this phone</span>';return}
  if(!("serviceWorker" in navigator)||!window.caches){c.className="card off";c.innerHTML='<span class="dot"></span><span>Offline needs a modern browser</span>';return}
- const pct=off.need?Math.round(off.have/off.need*100):0;
+ const pct=off.need?Math.floor(off.have/off.need*100):0;
  c.className="card off";c.innerHTML=`<span class="dot"></span><span>Getting offline pack… ${pct}%</span><div class="bar"><i style="width:${pct}%"></i></div>`}
 let filling=false;
 async function fillOffline(){if(filling||!window.caches||!P.length)return;filling=true;
  try{const c=await caches.open("frases-"+VER+"-a"+AV);
   const t=audioTiers(P,MISS);const urls=[...CORE,...t.base,...t.extra].map(u=>new URL(u,location.href).href);
-  const have=new Set((await c.keys()).map(k=>k.url));
-  const todo=urls.filter(u=>!have.has(u));
-  off.need=urls.length;off.have=urls.length-todo.length;if(st.tab==="today")offlineCard();
-  for(let i=0;i<todo.length;i+=12){
-   if(!navigator.onLine)break;
-   await Promise.all(todo.slice(i,i+12).map(u=>c.add(u).then(()=>{off.have++}).catch(()=>{})));
-   if(st.tab==="today")offlineCard();await wait(30)}
+  off.need=urls.length;
+  for(let pass=0;pass<4;pass++){
+   const have=new Set((await c.keys()).map(k=>k.url));
+   const todo=urls.filter(u=>!have.has(u));
+   off.have=urls.length-todo.length;if(st.tab==="today")offlineCard();
+   if(!todo.length||!navigator.onLine)break;
+   if(pass>0)await wait(1500);
+   for(let i=0;i<todo.length;i+=12){
+    if(!navigator.onLine)break;
+    await Promise.all(todo.slice(i,i+12).map(u=>c.add(u).then(()=>{off.have++}).catch(()=>{})));
+    if(st.tab==="today")offlineCard();await wait(30)}}
  }catch(e){}
  filling=false;if(st.tab==="today")offlineCard()}
 
