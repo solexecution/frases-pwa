@@ -2,6 +2,18 @@
 
 Installable, fully-offline Spanish phrase trainer with bundled audio.
 
+Voice: es-MX-DaliaNeural (female). Change it in `gen_audio.py`.
+
+## Install on Android
+Open the site in Chrome, tap **⬇ Install app** (or menu ⋮ → Install app). It lands on
+your home screen and runs full-screen, offline.
+
+## Daily reminders
+Tap **🔔 Daily reminder** and allow notifications. Uses the Periodic Background Sync API:
+once installed, Chrome on Android wakes the service worker roughly once a day and shows a
+"phrase of the day" notification — no server, fully offline. Timing is browser-controlled
+(best-effort daily, based on how much you use the app), not a fixed alarm. Tap again to turn off.
+
 ## Two modes
 - **Browse** — search, filter by group, tap a phrase to hear it, mark as known.
 - **Listen** — hands-free autoplay for car / walking. Plays the filtered group

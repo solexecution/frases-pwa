@@ -1,4 +1,4 @@
-const CACHE="frases-v2";
+const CACHE="frases-v3";
 const CORE=["./","index.html","app.js","phrases.json","manifest.webmanifest","icon.svg","icon-180.png"];
 
 self.addEventListener("install",e=>{
@@ -21,6 +21,30 @@ self.addEventListener("activate",e=>{
   self.clients.claim();
  })());
 });
+
+async function dailyNotification(){
+ let p={es:"¡Hora de practicar!",en:"Time to practice your Spanish"};
+ try{const cache=await caches.open(CACHE);
+  const res=await cache.match("phrases.json")||await fetch("phrases.json");
+  const list=await res.json();const r=list[Math.floor(Math.random()*list.length)];
+  p={es:r[0],en:r[1]};
+ }catch(e){}
+ return self.registration.showNotification("¡Hora de practicar! 🌮",{
+  body:p.es+" — "+p.en,icon:"icon-192.png",badge:"icon-192.png",tag:"frases-daily",lang:"es",
+  data:{url:"./"}});}
+
+self.addEventListener("periodicsync",e=>{
+ if(e.tag==="daily-phrase")e.waitUntil(dailyNotification());});
+
+self.addEventListener("notificationclick",e=>{
+ e.notification.close();
+ e.waitUntil((async()=>{
+  const all=await clients.matchAll({type:"window",includeUncontrolled:true});
+  for(const c of all){if("focus" in c)return c.focus()}
+  if(clients.openWindow)return clients.openWindow("./");
+ })());});
+
+self.addEventListener("message",e=>{if(e.data==="test-notification")e.waitUntil(dailyNotification())});
 
 self.addEventListener("fetch",e=>{
  const req=e.request;

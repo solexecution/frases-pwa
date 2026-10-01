@@ -13,6 +13,9 @@ const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(3,"0");
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+function toast(m){let t=$("toast");if(!t){t=document.createElement("div");t.id="toast";
+ t.style.cssText="position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0));z-index:20;max-width:648px;margin:0 auto;background:var(--ink);color:var(--bg);padding:13px 15px;border-radius:12px;font-size:.95rem;line-height:1.35;box-shadow:0 6px 24px rgba(0,0,0,.25)";
+ document.body.appendChild(t)}t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(()=>t.style.display="none",6500)}
 
 let P=[];
 let known=new Set(store.get("frases-known",[]));
@@ -118,8 +121,43 @@ function wire(){
   navigator.mediaSession.setActionHandler("pause",pause);
   navigator.mediaSession.setActionHandler("nexttrack",()=>seek(1));
   navigator.mediaSession.setActionHandler("previoustrack",()=>seek(-1));}
+ wireInstall();wireRemind();
  document.addEventListener("keydown",e=>{if(st.mode!=="listen")return;
   if(e.key===" "){e.preventDefault();toggle()}else if(e.key==="ArrowRight")seek(1);else if(e.key==="ArrowLeft")seek(-1)})}
+
+let deferredPrompt=null;
+function wireInstall(){const b=$("btnInstall");
+ const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+ window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;b.hidden=false});
+ window.addEventListener("appinstalled",()=>{deferredPrompt=null;b.hidden=true});
+ b.onclick=async()=>{if(!deferredPrompt){toast("To install: open the browser menu (⋮) and choose \"Install app\" / \"Add to Home screen\".");return}
+  deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;b.hidden=true};
+ if(standalone)b.hidden=true}
+
+async function registerReminder(){
+ try{const reg=await navigator.serviceWorker.ready;
+  if("periodicSync" in reg){
+   const status=await navigator.permissions.query({name:"periodic-background-sync"}).catch(()=>({state:"granted"}));
+   if(status.state!=="denied"){await reg.periodicSync.register("daily-phrase",{minInterval:22*60*60*1000}).catch(()=>{})}}
+ }catch(e){}}
+function wireRemind(){const b=$("btnRemind");
+ const on=store.get("frases-remind",false)&&("Notification" in window)&&Notification.permission==="granted";
+ b.classList.toggle("on",on);b.textContent=on?"🔔 Reminders on":"🔔 Daily reminder";
+ if(on)registerReminder();
+ b.onclick=async()=>{
+  if(!("Notification" in window)){toast("This browser can't show notifications. Install the app to your home screen first.");return}
+  if(store.get("frases-remind",false)&&Notification.permission==="granted"){
+   store.set("frases-remind",false);b.classList.remove("on");b.textContent="🔔 Daily reminder";
+   try{const reg=await navigator.serviceWorker.ready;reg.periodicSync&&reg.periodicSync.unregister("daily-phrase")}catch(e){}return}
+  let perm=Notification.permission;if(perm!=="granted")perm=await Notification.requestPermission();
+  if(perm!=="granted"){toast("Notifications are blocked. Enable them for this app in your browser/site settings, then tap again.");return}
+  store.set("frases-remind",true);b.classList.add("on");b.textContent="🔔 Reminders on";
+  await registerReminder();
+  const p=P[Math.floor(Math.random()*P.length)];
+  try{const reg=await navigator.serviceWorker.ready;
+   reg.showNotification("¡Hora de practicar! 🌮",{body:p.es+" — "+p.en,icon:"icon-192.png",badge:"icon-192.png",tag:"frases-daily",lang:"es"})}catch(e){}
+  if(!matchMedia("(display-mode: standalone)").matches&&!navigator.standalone)
+   toast("Reminders on. For reliable daily reminders on Android, install the app to your home screen (⬇ Install app) and keep notifications allowed.")}}
 
 async function boot(){
  P=(await fetch("phrases.json").then(r=>r.json())).map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||""}));

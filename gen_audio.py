@@ -2,7 +2,7 @@ import asyncio, json, sys, hashlib
 from pathlib import Path
 import edge_tts
 
-VOICE = "es-MX-JorgeNeural"
+VOICE = "es-MX-DaliaNeural"
 RATE = "-8%"
 ROOT = Path(__file__).parent
 AUDIO = ROOT / "audio"
