@@ -3,9 +3,10 @@
 Installable, fully-offline Spanish phrase trainer with bundled audio.
 
 Voice: es-MX-DaliaNeural (female). Change it in `gen_audio.py`.
-Each phrase is generated twice: normal (`audio/NNN.mp3`) and a **Slow** version
-(`audio/slow/NNN.mp3`, slower rate + a pause between each word) for the 🐢 Slow toggle.
-Tune `RATE` / `SLOW_RATE` in `gen_audio.py`.
+Each phrase is generated three times: Spanish normal (`audio/NNN.mp3`), Spanish **Slow**
+(`audio/slow/NNN.mp3`, slower + a pause between each word), and the **English** prompt
+(`audio/en/NNN.mp3`, en-GB-SoniaNeural — a human voice, used by the 🇬🇧 English toggle).
+Tune `RATE` / `SLOW_RATE` / `EN_RATE` and the voices in `gen_audio.py`.
 
 ## Install on Android
 Open the site in Chrome, tap **⬇ Install app** (or menu ⋮ → Install app). It lands on

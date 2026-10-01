@@ -3,17 +3,26 @@ from pathlib import Path
 import edge_tts
 
 VOICE = "es-MX-DaliaNeural"
+EN_VOICE = "en-GB-SoniaNeural"
 RATE = "-8%"
+EN_RATE = "-5%"
 SLOW_RATE = "-30%"
 ROOT = Path(__file__).parent
 AUDIO = ROOT / "audio"
 SLOW = AUDIO / "slow"
+EN = AUDIO / "en"
 MANIFEST = AUDIO / "index.json"
 
 def clean(s):
     for c in "…¿¡":
         s = s.replace(c, "")
     return s.strip()
+
+def en_clean(s):
+    import re
+    s = re.sub(r"\([^)]*\)", "", s)
+    s = s.replace("/", ", ").replace("…", " ")
+    return re.sub(r"\s+", " ", s).strip(" ,")
 
 def spaced(s):
     words = [w for w in clean(s).replace(",", " ").split() if w]
@@ -27,6 +36,7 @@ async def main():
     phrases = json.loads((ROOT / "phrases.json").read_text(encoding="utf-8"))
     AUDIO.mkdir(exist_ok=True)
     SLOW.mkdir(exist_ok=True)
+    EN.mkdir(exist_ok=True)
     done = json.loads(MANIFEST.read_text(encoding="utf-8")) if MANIFEST.exists() and not force else {}
     made = 0
     for i, row in enumerate(phrases):
@@ -40,12 +50,18 @@ async def main():
         if force or not (SLOW / f"{i:03d}.mp3").exists() or done.get(sname) != sk:
             await synth(spaced(row[0]), VOICE, SLOW_RATE, SLOW / f"{i:03d}.mp3")
             done[sname] = sk; made += 1; print(f"  {sname}")
-    for base in (AUDIO, SLOW):
+        ename = f"en/{i:03d}.mp3"
+        ek = hashlib.sha1((EN_VOICE + EN_RATE + row[1]).encode("utf-8")).hexdigest()[:12]
+        if force or not (EN / f"{i:03d}.mp3").exists() or done.get(ename) != ek:
+            await synth(en_clean(row[1]), EN_VOICE, EN_RATE, EN / f"{i:03d}.mp3")
+            done[ename] = ek; made += 1; print(f"  {ename}  {row[1]}")
+    prefix = {AUDIO: "", SLOW: "slow/", EN: "en/"}
+    for base in (AUDIO, SLOW, EN):
         for f in base.glob("*.mp3"):
             if int(f.stem) >= len(phrases):
-                key = ("slow/" if base is SLOW else "") + f.name
+                key = prefix[base] + f.name
                 f.unlink(); done.pop(key, None); print(f"  removed {key}")
     MANIFEST.write_text(json.dumps(done, ensure_ascii=False, indent=0), encoding="utf-8")
-    print(f"done. {made} files written, {len(phrases)} phrases x2 sets.")
+    print(f"done. {made} files written, {len(phrases)} phrases x3 sets.")
 
 asyncio.run(main())

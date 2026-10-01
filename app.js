@@ -41,6 +41,10 @@ function playAudio(i){return new Promise(res=>{
  audio.onerror=()=>{if(opt.slow&&!audio.src.endsWith("/"+pad(i)+".mp3")){audio.onerror=()=>speak(P[i].es,"es").then(res);audio.src="audio/"+pad(i)+".mp3";audio.play().catch(()=>speak(P[i].es,"es").then(res))}else speak(P[i].es,"es").then(res)};
  audio.src=srcFor(i);audio.currentTime=0;
  const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>speak(P[i].es,"es").then(res))})}
+function playEn(i){return new Promise(res=>{
+ audio.onended=res;audio.onerror=()=>speak(P[i].en,"en").then(res);
+ audio.src="audio/en/"+pad(i)+".mp3";audio.currentTime=0;
+ const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>speak(P[i].en,"en").then(res))})}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
 function filtered(){const q=norm(st.q.trim());
@@ -80,7 +84,7 @@ function setPlayIcon(){$("lPlay").innerHTML=playing?SVG.pause:SVG.play;$("lPlay"
 async function playLoop(){const my=++token;playing=true;setPlayIcon();
  while(playing&&token===my){const p=queue[qi];if(!p){playing=false;break}
   showCurrent();
-  if(opt.en){await speak(p.en,"en");if(token!==my)return;await wait(200);if(token!==my)return}
+  if(opt.en){await playEn(p.i);if(token!==my)return;await wait(200);if(token!==my)return}
   await playAudio(p.i);if(token!==my)return;
   if(opt.rep){await wait(300);if(token!==my)return;await playAudio(p.i);if(token!==my)return}
   await wait(GAPS[opt.gap]);if(token!==my)return;
