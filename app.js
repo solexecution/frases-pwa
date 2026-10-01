@@ -326,7 +326,7 @@ async function boot(){
  if("serviceWorker" in navigator){
   const had=!!navigator.serviceWorker.controller;let reloaded=false;
   navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||reloaded)return;reloaded=true;location.reload()});
-  navigator.serviceWorker.register("sw.js").then(reg=>{reg.update();setInterval(()=>reg.update(),36e5)}).catch(()=>{});
+  navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(reg=>{reg.update();setInterval(()=>reg.update(),36e5)}).catch(()=>{});
   document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")navigator.serviceWorker.getRegistration().then(r=>r&&r.update())})}
  setTimeout(fillOffline,1500)}
 document.addEventListener("DOMContentLoaded",boot);
