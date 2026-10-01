@@ -149,6 +149,7 @@ function rebuildQueue(keep){const before=queue[qi];queue=filtered(false);
 function showCurrent(){const p=queue[qi];
  if(!p){cur=null;$("lEs").textContent="¡Listo!";$("lEn").textContent="No phrases in this group.";$("lCat").textContent="";$("lPos").textContent="";$("lProg").style.width="0";$("lKnow").setAttribute("aria-pressed",false);return}
  const m=groupMaps(p);
+ document.querySelector("#s-listen .player").dataset.l=p.es.length<=18?"s":p.es.length<=30?"m":"l";
  $("lEs").innerHTML=wordsHTML(m.esT,m.esG);$("lEn").innerHTML=wordsHTML(m.enT,m.enG);
  cur={es:timeline(m.g,m.esT,"es"),en:timeline(m.g,m.enT,"en")};lastGi=null;hlGroup(null,$("s-listen"));
  $("lCat").textContent=p.cat+(p.note?" · "+p.note:"");
@@ -250,6 +251,7 @@ function go(tab){
  if(st.tab==="listen"&&tab!=="listen")pause();
  if(st.tab==="pocket"&&tab!=="pocket"){keepAwake(false);stopAudio()}
  st.tab=tab;
+ document.body.classList.toggle("fit",tab==="listen");
  document.querySelectorAll(".screen").forEach(s=>{s.hidden=s.id!=="s-"+tab});
  document.querySelectorAll("nav button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===tab));
  if(tab==="today")renderToday();

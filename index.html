@@ -75,23 +75,36 @@ li.known .es{color:var(--muted)}
 @keyframes pulse{50%{opacity:.35}}
 li.known .ib.ok{background:var(--turq);border-color:var(--turq);color:#fff}
 .empty{padding:40px 0;color:var(--muted);text-align:center}
-.player{margin-top:12px;border-radius:24px;padding:26px 20px;min-height:42vh;display:flex;flex-direction:column;justify-content:center;text-align:center;background:linear-gradient(160deg,var(--deep),var(--turq));color:#fff;position:relative}
-.pmeta{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:space-between;padding:0 18px;font-size:.85rem;opacity:.85}
-.pes{font-size:clamp(1.9rem,8.5vw,2.9rem);font-weight:800;letter-spacing:-.02em;line-height:1.12}
-.pen{margin-top:14px;color:#E3F8F4;font-size:1.2rem}
+body.fit{padding-bottom:0;height:100dvh;overflow:hidden}
+body.fit main{padding-bottom:0}
+#s-listen:not([hidden]){display:flex;flex-direction:column;height:calc(100dvh - 146px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+#s-listen .player{min-height:0;overflow-y:auto}
+#s-listen .opts{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;margin:10px -16px 0;padding:2px 16px;scrollbar-width:none}
+#s-listen .opts::-webkit-scrollbar{display:none}
+#s-listen .opt{flex:none}
+#s-listen .chips{flex:none}
+#s-listen .opts,#s-listen .controls{flex:none}
+.player[data-l="m"] .pes{font-size:clamp(2.1rem,10vw,3.2rem)}
+.player[data-l="m"] .pen{font-size:clamp(1.4rem,6.4vw,1.9rem)}
+.player[data-l="l"] .pes{font-size:clamp(1.7rem,8vw,2.5rem)}
+.player[data-l="l"] .pen{font-size:clamp(1.2rem,5.4vw,1.6rem)}
+.player{flex:1;margin-top:10px;border-radius:24px;padding:40px 18px 28px;min-height:300px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:linear-gradient(160deg,var(--deep),var(--turq));color:#fff;position:relative}
+.pmeta{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:space-between;padding:0 18px;font-size:1rem;font-weight:600;opacity:.9}
+.pes{font-size:clamp(2.6rem,13vw,4.2rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.pen{margin-top:18px;color:#E3F8F4;font-size:clamp(1.6rem,7.5vw,2.3rem);font-weight:600;line-height:1.2}
 .w{display:inline-block;padding:0 .12em;border-radius:7px;cursor:pointer;transition:background .12s,color .12s}
 .w.hl{background:var(--pink);color:#fff}
 .pen .w[data-g]{text-decoration:underline;text-decoration-color:rgba(255,255,255,.25);text-underline-offset:3px}
 .pbar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.2);border-radius:0 0 24px 24px;overflow:hidden}
 .pbar>i{display:block;height:100%;width:0;background:var(--shallow);transition:width .2s linear}
-.controls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px}
-.cbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:50%;width:64px;height:64px;display:grid;place-items:center;padding:0}
-.cbtn svg{width:28px;height:28px}
-.cbtn.big{width:90px;height:90px;background:var(--turq);border-color:var(--turq);color:#fff}
-.cbtn.big svg{width:40px;height:40px}
+.controls{display:flex;align-items:center;justify-content:center;gap:22px;margin:14px 0 4px}
+.cbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:50%;width:88px;height:88px;display:grid;place-items:center;padding:0}
+.cbtn svg{width:36px;height:36px}
+.cbtn.big{width:122px;height:122px;background:var(--turq);border-color:var(--turq);color:#fff}
+.cbtn.big svg{width:56px;height:56px}
 .cbtn:active{transform:scale(.94)}
-.opts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
-.opt{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:11px 16px;font-size:.95rem;font-weight:600}
+.opts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.opt{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:13px 18px;font-size:1.05rem;font-weight:700}
 .opt[aria-pressed="true"]{background:var(--deep);color:#fff;border-color:var(--deep)}
 .opt.know[aria-pressed="true"]{background:var(--turq);border-color:var(--turq)}
 .mcard{display:flex;align-items:center;gap:14px;padding:14px 16px;margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;width:100%;text-align:left}
@@ -116,7 +129,8 @@ li.known .ib.ok{background:var(--turq);border-color:var(--turq);color:#fff}
 .seg button[aria-pressed="true"]{background:var(--card)}
 .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .pbtn{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:14px 12px;min-height:84px;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:4px}
-.pbtn b{font-size:1.08rem;line-height:1.2}.pbtn small{color:var(--muted);font-size:.82rem}
+.pbtn{min-height:104px}
+.pbtn b{font-size:1.3rem;line-height:1.2}.pbtn small{color:var(--muted);font-size:.95rem}
 .pbtn.play{border-color:var(--pink);background:color-mix(in srgb,var(--pink) 10%,var(--card))}
 nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
 nav button{border:0;background:transparent;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.72rem;color:var(--muted);font-weight:600;border-radius:12px}
@@ -216,11 +230,6 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
       <div class="pen" id="lEn"></div>
       <div class="pbar"><i id="lProg"></i></div>
     </div>
-    <div class="controls">
-      <button id="lPrev" class="cbtn" aria-label="Previous"></button>
-      <button id="lPlay" class="cbtn big" aria-label="Play"></button>
-      <button id="lNext" class="cbtn" aria-label="Next"></button>
-    </div>
     <div class="opts">
       <button class="opt" id="oSlow" aria-pressed="false">🐢 Slow</button>
       <button class="opt" id="oEn" aria-pressed="false">🇬🇧 English</button>
@@ -229,6 +238,11 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
       <button class="opt" id="oLoop" aria-pressed="true">Loop</button>
       <button class="opt" id="oGap">Gap 0.7s</button>
       <button class="opt know" id="lKnow" aria-pressed="false">✓ Known</button>
+    </div>
+    <div class="controls">
+      <button id="lPrev" class="cbtn" aria-label="Previous"></button>
+      <button id="lPlay" class="cbtn big" aria-label="Play"></button>
+      <button id="lNext" class="cbtn" aria-label="Next"></button>
     </div>
   </section>
 
