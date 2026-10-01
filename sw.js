@@ -1,4 +1,4 @@
-const CACHE="frases-v3";
+const CACHE="frases-v4";
 const CORE=["./","index.html","app.js","phrases.json","manifest.webmanifest","icon.svg","icon-180.png"];
 
 self.addEventListener("install",e=>{
@@ -7,7 +7,8 @@ self.addEventListener("install",e=>{
   await cache.addAll(CORE);
   try{
    const phrases=await fetch("phrases.json").then(r=>r.json());
-   const audio=phrases.map((_,i)=>"audio/"+String(i).padStart(3,"0")+".mp3");
+   const audio=[];
+   phrases.forEach((_,i)=>{const n=String(i).padStart(3,"0")+".mp3";audio.push("audio/"+n,"audio/slow/"+n)});
    await Promise.all(audio.map(u=>cache.add(u).catch(()=>{})));
   }catch(e){}
   self.skipWaiting();

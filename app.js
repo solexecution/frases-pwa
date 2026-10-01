@@ -20,7 +20,8 @@ function toast(m){let t=$("toast");if(!t){t=document.createElement("div");t.id="
 let P=[];
 let known=new Set(store.get("frases-known",[]));
 let st={mode:store.get("frases-mode","list"),cat:store.get("frases-cat","All"),q:"",showEn:false};
-let opt=Object.assign({en:false,rep:false,loop:true,gap:1},store.get("frases-opt",{}));
+let opt=Object.assign({en:false,rep:false,loop:true,gap:1,slow:false},store.get("frases-opt",{}));
+const srcFor=i=>(opt.slow?"audio/slow/":"audio/")+pad(i)+".mp3";
 
 const audio=new Audio();audio.preload="auto";
 let esVoice=null,enVoice=null;
@@ -30,13 +31,15 @@ function pickVoices(){if(!("speechSynthesis" in window))return;const v=speechSyn
 if("speechSynthesis" in window){pickVoices();speechSynthesis.onvoiceschanged=pickVoices}
 function speak(text,lang){return new Promise(res=>{
  if(!("speechSynthesis" in window)){res();return}
- const u=new SpeechSynthesisUtterance(text.replace(/[…¿¡]/g,""));
- const v=lang==="en"?enVoice:esVoice;u.lang=v?v.lang:(lang==="en"?"en-US":"es-MX");if(v)u.voice=v;u.rate=.92;
+ const t=lang==="es"&&opt.slow?text.replace(/[…¿¡]/g,"").split(/\s+/).join(", "):text.replace(/[…¿¡]/g,"");
+ const u=new SpeechSynthesisUtterance(t);
+ const v=lang==="en"?enVoice:esVoice;u.lang=v?v.lang:(lang==="en"?"en-US":"es-MX");if(v)u.voice=v;u.rate=lang==="es"&&opt.slow?.6:.92;
  u.onend=res;u.onerror=res;try{speechSynthesis.cancel()}catch(e){}speechSynthesis.speak(u);
- setTimeout(res,6000)})}
+ setTimeout(res,12000)})}
 function playAudio(i){return new Promise(res=>{
- audio.onended=res;audio.onerror=()=>speak(P[i].es,"es").then(res);
- audio.src="audio/"+pad(i)+".mp3";audio.currentTime=0;
+ audio.onended=res;
+ audio.onerror=()=>{if(opt.slow&&!audio.src.endsWith("/"+pad(i)+".mp3")){audio.onerror=()=>speak(P[i].es,"es").then(res);audio.src="audio/"+pad(i)+".mp3";audio.play().catch(()=>speak(P[i].es,"es").then(res))}else speak(P[i].es,"es").then(res)};
+ audio.src=srcFor(i);audio.currentTime=0;
  const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>speak(P[i].es,"es").then(res))})}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
@@ -58,7 +61,7 @@ function tapSay(i,btn){try{speechSynthesis&&speechSynthesis.cancel()}catch(e){}
  audio.pause();document.querySelectorAll(".play").forEach(b=>b.classList.remove("play"));
  if(btn)btn.classList.add("play");const clr=()=>btn&&btn.classList.remove("play");
  audio.onended=clr;audio.onerror=()=>{clr();speak(P[i].es,"es")};
- audio.src="audio/"+pad(i)+".mp3";audio.currentTime=0;const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>{clr();speak(P[i].es,"es")})}
+ audio.src=srcFor(i);audio.currentTime=0;const pr=audio.play();if(pr&&pr.catch)pr.catch(()=>{clr();speak(P[i].es,"es")})}
 
 let queue=[],qi=0,playing=false,token=0;
 function rebuildQueue(keep){const before=queue[qi];queue=filtered();
@@ -112,7 +115,7 @@ function wire(){
  $("lPrev").innerHTML=SVG.prev;$("lNext").innerHTML=SVG.next;setPlayIcon();
  const flag=(id,key)=>{$(id).onclick=e=>{opt[key]=!opt[key];e.currentTarget.setAttribute("aria-pressed",opt[key]);saveOpt()};
   $(id).setAttribute("aria-pressed",opt[key])};
- flag("oEn","en");flag("oRep","rep");flag("oLoop","loop");
+ flag("oSlow","slow");flag("oEn","en");flag("oRep","rep");flag("oLoop","loop");
  $("oGap").onclick=()=>{opt.gap=(opt.gap+1)%GAPS.length;$("oGap").textContent="Gap "+(GAPS[opt.gap]/1000)+"s";saveOpt()};
  $("oGap").textContent="Gap "+(GAPS[opt.gap]/1000)+"s";
  $("lKnow").onclick=()=>{const p=queue[qi];if(!p)return;known.has(p.i)?known.delete(p.i):known.add(p.i);saveKnown();showCurrent()};
