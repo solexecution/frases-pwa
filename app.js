@@ -34,12 +34,12 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.
 const today=()=>{const d=new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)};
 const dayStr=n=>new Date(n*864e5).toISOString().slice(0,10);
 
-let P=[],ALIGN=[],MISS=[];
+let P=[],ALIGN=[],MISS=[],PAIRS=[];
 let known=new Set(store.get("frases-known",[]));
 let srs=store.get("frases-srs",{});
 let prof=Object.assign({xp:0,streak:0,best:0,last:-1,freeze:0,days:{},sessions:0,missions:{},badges:[],perfect:0},store.get("frases-prof",{}));
 let set=Object.assign({newPerDay:5,sound:true,focus:"All"},store.get("frases-set",{}));
-let opt=Object.assign({en:false,rep:false,loop:true,gap:1,slow:false,echo:false,rate:.85},store.get("frases-opt",{}));
+let opt=Object.assign({en:false,rep:false,loop:true,gap:1,slow:false,echo:false,pairs:false,rate:.85},store.get("frases-opt",{}));
 function applyRate(){audio.defaultPlaybackRate=opt.rate;audio.playbackRate=opt.rate;audio.preservesPitch=true}
 let st={tab:"today",cat:store.get("frases-cat","All"),q:"",showEn:false};
 const saveProf=()=>store.set("frases-prof",prof);
@@ -122,9 +122,10 @@ function filtered(useQ){const q=useQ?norm(st.q.trim()):"";
 const chipsHTML=(list,cur)=>list.map(c=>`<button class="chip" aria-pressed="${c===cur}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
 function renderChips(){$("chipsB").innerHTML=chipsHTML(CATS,st.cat);$("catBtn").innerHTML=`<span>Group: ${esc(st.cat)}</span><span class="sl">Change</span>`}
 
+const pairsHTML=(i,max)=>(PAIRS[i]||[]).slice(0,max).map(x=>`<div class="pr" data-j="${x[0]}"><span class="pl">${esc(x[1])}</span>${esc(P[x[0]].es)}<span class="pe"> ${esc(P[x[0]].en)}</span></div>`).join("");
 function renderList(){const f=filtered(true);
  $("ul").innerHTML=f.length?f.map(p=>`<li class="p ${st.showEn?"":"hide"} ${known.has(p.i)?"known":""}" data-i="${p.i}">
-  <div class="txt" tabindex="0"><div class="es">${esc(p.es)}${p.note?`<span class="note">${esc(p.note)}</span>`:""}</div><div class="en">${esc(p.en)}</div></div>
+  <div class="txt" tabindex="0"><div class="es">${esc(p.es)}${p.note?`<span class="note">${esc(p.note)}</span>`:""}</div><div class="en">${esc(p.en)}</div>${pairsHTML(p.i,2)}</div>
   <button class="ib say" aria-label="Listen">${SVG.say}</button>
   <button class="ib ok" aria-label="Mark as known">${SVG.ok}</button></li>`).join("")
   :`<li class="empty">No phrases match. Clear the search or pick another group.</li>`}
@@ -151,11 +152,16 @@ async function keepAwake(on){try{
 function rebuildQueue(keep){const before=queue[qi];queue=filtered(false);
  if(keep&&before){const j=queue.findIndex(p=>p.i===before.i);qi=j<0?0:j}else qi=0;
  if(qi>=queue.length)qi=Math.max(0,queue.length-1);showCurrent()}
+function fitPlayer(p){const pl=document.querySelector("#s-listen .player");if(!pl.clientHeight)return;
+ const lv=["s","m","l","x"];let k=p.es.length<=16?0:p.es.length<=30?1:2;pl.dataset.l=lv[k];
+ while(pl.scrollHeight>pl.clientHeight+1&&k<3){k++;pl.dataset.l=lv[k]}}
+function showPair(p){const q=(PAIRS[p.i]||[])[0],el=$("lPair");el.classList.remove("on");
+ if(!q){el.innerHTML="";delete el.dataset.j;return}
+ const t=P[q[0]];el.dataset.j=q[0];el.innerHTML=`<span class="pl">${esc(q[1])}</span>${esc(t.es)}<span class="pe"> ${esc(t.en)}</span>`}
 function showCurrent(){const p=queue[qi];
- if(!p){cur=null;$("lEs").textContent="¡Listo!";$("lEn").textContent="No phrases in this group.";$("lCat").textContent="";$("lPos").textContent="";$("lProg").style.width="0";$("lKnow").setAttribute("aria-pressed",false);return}
+ if(!p){cur=null;$("lPair").innerHTML="";$("lEs").textContent="¡Listo!";$("lEn").textContent="No phrases in this group.";$("lCat").textContent="";$("lPos").textContent="";$("lProg").style.width="0";$("lKnow").setAttribute("aria-pressed",false);return}
  const m=groupMaps(p);
- document.querySelector("#s-listen .player").dataset.l=p.es.length<=18?"s":p.es.length<=30?"m":"l";
- $("lEs").innerHTML=wordsHTML(m.esT,m.esG);$("lEn").innerHTML=wordsHTML(m.enT,m.enG);
+ $("lEs").innerHTML=wordsHTML(m.esT,m.esG);$("lEn").innerHTML=wordsHTML(m.enT,m.enG);showPair(p);fitPlayer(p);
  cur={es:timeline(m.g,m.esT,"es"),en:timeline(m.g,m.enT,"en")};lastGi=null;hlGroup(null,$("s-listen"));
  $("lCat").textContent=p.cat+(p.note?" · "+p.note:"");
  $("lPos").textContent=(qi+1)+" / "+queue.length;$("lProg").style.width=((qi+1)/queue.length*100)+"%";
@@ -171,6 +177,10 @@ async function playLoop(){const my=++token;playing=true;setPlayIcon();keepAwake(
   hlMode="es";lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return;
   if(opt.echo){const d=(audio.duration||2)*1000/opt.rate;$("lCat").textContent="Your turn…";await wait(d*1.5+600);if(token!==my)return;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
   if(opt.rep){await wait(300);if(token!==my)return;lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return}
+  const q=opt.pairs?(PAIRS[p.i]||[])[0]:null;
+  if(q){await wait(400);if(token!==my)return;$("lPair").classList.add("on");hlMode="none";
+   if(opt.en){await sayEn(q[0]);if(token!==my)return;await wait(200);if(token!==my)return}
+   await sayPhrase(q[0],opt.slow);if(token!==my)return;$("lPair").classList.remove("on")}
   await wait(GAPS[opt.gap]);if(token!==my)return;
   let nx=qi+1;
   if(nx>=queue.length){if(opt.loop)nx=0;else{playing=false;break}}
@@ -283,7 +293,7 @@ function wire(){
   $("mdPanel").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.c;store.set("frases-cat",st.cat);closeModal();renderChips();pause();rebuildQueue(false)}};
  $("q").oninput=e=>{st.q=e.target.value;renderList()};
  $("showEn").onclick=e=>{st.showEn=!st.showEn;e.currentTarget.setAttribute("aria-pressed",st.showEn);e.currentTarget.textContent=st.showEn?"Hide English":"Show English";renderList()};
- $("ul").onclick=e=>{const li=e.target.closest("li.p");if(!li)return;const p=P[+li.dataset.i];
+ $("ul").onclick=e=>{const li=e.target.closest("li.p");if(!li)return;const pr=e.target.closest(".pr");if(pr){tapSay(+pr.dataset.j,null);return}const p=P[+li.dataset.i];
   if(e.target.closest(".say"))tapSay(p.i,e.target.closest(".say"));
   else if(e.target.closest(".ok")){known.has(p.i)?known.delete(p.i):known.add(p.i);saveKnown();renderList()}
   else if(e.target.closest(".txt")&&!st.showEn)li.classList.toggle("hide")};
@@ -291,7 +301,7 @@ function wire(){
  $("lPlay").onclick=toggle;$("lPrev").onclick=()=>seek(-1);$("lNext").onclick=()=>seek(1);
  $("lPrev").innerHTML=SVG.prev;$("lNext").innerHTML=SVG.next;setPlayIcon();
  const flag=(id,key)=>{$(id).onclick=e=>{opt[key]=!opt[key];e.currentTarget.setAttribute("aria-pressed",opt[key]);saveOpt()};$(id).setAttribute("aria-pressed",opt[key])};
- flag("oSlow","slow");flag("oEn","en");flag("oEcho","echo");flag("oRep","rep");flag("oLoop","loop");
+ flag("oSlow","slow");flag("oEn","en");flag("oEcho","echo");flag("oPairs","pairs");flag("oRep","rep");flag("oLoop","loop");
  const rateUi=()=>{$("rate").value=opt.rate;$("rateTxt").textContent=(+opt.rate).toFixed(2).replace(/0$/,"")+"×"};
  rateUi();applyRate();
  $("rate").oninput=e=>{opt.rate=+e.target.value;rateUi();applyRate()};
@@ -301,9 +311,10 @@ function wire(){
  $("lKnow").onclick=()=>{const p=queue[qi];if(!p)return;known.has(p.i)?known.delete(p.i):known.add(p.i);saveKnown();showCurrent()};
  const tap=e=>{const w=e.target.closest(".w");if(!w||w.dataset.g==null)return;hlGroup(+w.dataset.g,$("s-listen"))};
  $("lEs").addEventListener("click",tap);$("lEn").addEventListener("click",tap);
+ $("lPair").onclick=()=>{if(playing||$("lPair").dataset.j==null)return;stopAudio();sayPhrase(+$("lPair").dataset.j,opt.slow)};
  audio.addEventListener("timeupdate",()=>{
   if(st.tab!=="listen"||!playing||!cur||!audio.duration)return;
-  const seq=hlMode==="en"?cur.en:cur.es;if(!seq.length)return;
+  if(hlMode==="none")return;const seq=hlMode==="en"?cur.en:cur.es;if(!seq.length)return;
   const f=audio.currentTime/audio.duration;let gi=seq[seq.length-1].gi;
   for(const s of seq){if(f<s.c1){gi=s.gi;break}}
   if(gi!==lastGi){lastGi=gi;hlGroup(gi,$("s-listen"))}});
@@ -335,8 +346,8 @@ function wire(){
 
 async function boot(){
  const j=u=>fetch(u).then(r=>r.json());
- const [raw,al,ms]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[])]);
- P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||""}));ALIGN=al;MISS=ms;
+ const [raw,al,ms,pr]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[])]);
+ P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||""}));ALIGN=al;MISS=ms;PAIRS=pr;
  known=new Set([...known].filter(i=>i<P.length));
  wire();renderChips();hud();go("today");
  if("serviceWorker" in navigator){

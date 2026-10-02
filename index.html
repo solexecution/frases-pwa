@@ -91,13 +91,27 @@ body.fit main{padding-bottom:0}
 .player[data-l="m"] .pen{font-size:clamp(1.4rem,6.4vw,1.9rem)}
 .player[data-l="l"] .pes{font-size:clamp(1.7rem,8vw,2.5rem)}
 .player[data-l="l"] .pen{font-size:clamp(1.2rem,5.4vw,1.6rem)}
-.player{flex:1;margin-top:10px;border-radius:24px;padding:40px 18px 28px;min-height:300px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:linear-gradient(160deg,var(--deep),var(--turq));color:#fff;position:relative}
+.player[data-l="l"] .ppair{font-size:.9rem}
+.player[data-l="x"] .pes{font-size:clamp(1.5rem,7vw,2.1rem)}
+.player[data-l="x"] .pen{font-size:clamp(1.1rem,4.8vw,1.4rem)}
+.player[data-l="x"] .ppair{font-size:.85rem;margin-top:8px}
+.player{flex:1;margin-top:10px;border-radius:24px;padding:34px 18px 18px;min-height:300px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:linear-gradient(160deg,var(--deep),var(--turq));color:#fff;position:relative}
 .pmeta{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:space-between;padding:0 18px;font-size:1rem;font-weight:600;opacity:.9}
 .pes{font-size:clamp(2.6rem,13vw,4.2rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .pen{margin-top:18px;color:#E3F8F4;font-size:clamp(1.6rem,7.5vw,2.3rem);font-weight:600;line-height:1.2}
 .w{display:inline-block;padding:0 .12em;border-radius:7px;cursor:pointer;transition:background .12s,color .12s}
 .w.hl{background:var(--pink);color:#fff}
 .pen .w[data-g]{text-decoration:underline;text-decoration-color:rgba(255,255,255,.25);text-underline-offset:3px}
+.pl{display:inline-block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--pink);margin-right:6px}
+.pe{color:var(--muted)}
+.hide .pe{display:none}
+.pr{margin-top:7px;font-size:.95rem;cursor:pointer;line-height:1.3}
+.ppair{margin-top:16px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.14);font-size:1rem;font-weight:600;line-height:1.3;cursor:pointer;transition:background .15s}
+.ppair:empty{display:none}
+.ppair.on{background:var(--pink)}
+.ppair .pl{color:#fff;opacity:.85}
+.ppair .pe{color:#E3F8F4;font-weight:500}
+.prs{margin-top:6px}
 .pbar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.2);border-radius:0 0 24px 24px;overflow:hidden}
 .pbar>i{display:block;height:100%;width:0;background:var(--shallow);transition:width .2s linear}
 .controls{display:flex;align-items:center;justify-content:center;gap:22px;margin:14px 0 4px}
@@ -242,6 +256,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
       <div class="pmeta"><span id="lCat"></span><span id="lPos"></span></div>
       <div class="pes" id="lEs">—</div>
       <div class="pen" id="lEn"></div>
+      <div class="ppair" id="lPair"></div>
       <div class="pbar"><i id="lProg"></i></div>
     </div>
     <div class="speed"><span class="sl">Slow</span><input type="range" id="rate" min="0.5" max="1.25" step="0.05" value="0.85" aria-label="Speed"><span class="sl">Fast</span><b id="rateTxt">0.85×</b></div>
@@ -249,6 +264,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
       <button class="opt" id="oSlow" aria-pressed="false">Word gaps</button>
       <button class="opt" id="oEn" aria-pressed="false">English</button>
       <button class="opt" id="oEcho" aria-pressed="false">Echo</button>
+      <button class="opt" id="oPairs" aria-pressed="false">Pairs</button>
       <button class="opt" id="oRep" aria-pressed="false">Repeat ×2</button>
       <button class="opt" id="oLoop" aria-pressed="true">Loop</button>
       <button class="opt" id="oGap">Gap 0.7s</button>

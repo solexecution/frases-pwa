@@ -56,6 +56,7 @@ function qType(p){
  if(box>=1&&n>=2)o.push("fill");
  if(box>=1&&n>=2&&n<=8)o.push("build");
  if(box>=3&&n>=2){o.push("fill");if(n<=8)o.push("build")}
+ if(box>=1&&(PAIRS[p.i]||[]).length){o.push("pair");if(box>=3)o.push("pair")}
  return o[Math.random()*o.length|0]}
 function queueRetry(p){
  const n=p.es.split(/\s+/).length;
@@ -91,12 +92,13 @@ function nextStep(){
  $("ovBar").style.width=(S.i/S.steps.length*100)+"%";
  $("ovCombo").textContent=S.combo>=2?"×"+S.combo:"";
  $("ovFoot").innerHTML="";
- ({intro:rIntro,listen:rListen,pickEs:rPickEs,fill:rFill,build:rBuild,say:rSay})[s.k](s.p)}
+ S.extra=null;S.extraJ=null;
+ ({intro:rIntro,pair:rPair,listen:rListen,pickEs:rPickEs,fill:rFill,build:rBuild,say:rSay})[s.k](s.p)}
 const praise=()=>["¡Perfecto!","¡Muy bien!","¡Excelente!","¡Así se hace!","¡Eso es!"][Math.random()*5|0];
 function feedback(ok,p){
- $("ovFoot").innerHTML=`<div class="fb ${ok?"ok":"bad"}">${ok?praise():"Not quite"}<small>${esc(p.es)} = ${esc(p.en)}</small></div><button class="btn block" id="ovNext">Continue</button>`;
+ $("ovFoot").innerHTML=`<div class="fb ${ok?"ok":"bad"}">${ok?praise():"Not quite"}<small>${esc(p.es)} = ${esc(p.en)}${S.extra?"<br>"+S.extra:""}</small></div><button class="btn block" id="ovNext">Continue</button>`;
  $("ovNext").onclick=()=>{S.i++;nextStep()};
- sayPhrase(p.i,false)}
+ sayPhrase(p.i,false).then(()=>{if(S&&S.extraJ!=null)sayPhrase(S.extraJ,false)})}
 function grade(ok,p){
  if(ok){
   S.combo++;S.best=Math.max(S.best,S.combo);S.right++;
@@ -109,10 +111,23 @@ function grade(ok,p){
  $("ovCombo").textContent=S.combo>=2?"×"+S.combo:"";
  feedback(ok,p)}
 
+const introPairs=p=>(PAIRS[p.i]||[]).length?`<div class="prs"><div class="q" style="margin:18px 0 2px">Pairs with</div>${pairsHTML(p.i,3)}</div>`:"";
+const PAIR_ASK={"Opposite":"Pick the opposite","Alternative":"Pick another way to say it","Goes with":"Pick the phrase that goes with it","Answer":"Pick a good answer","Question":"Pick the question it answers","Next":"Pick the next one","Previous":"Pick the one before"};
+function rPair(p){
+ const q=shuffle(PAIRS[p.i])[0],t=P[q[0]];
+ const bad=new Set([p.i,...PAIRS[p.i].map(x=>x[0])]);
+ const pool=shuffle(P.filter(x=>!bad.has(x.i)&&norm(x.en)!==norm(t.en)&&norm(x.es)!==norm(t.es)));
+ const d=[...pool.filter(x=>x.cat===t.cat),...pool.filter(x=>x.cat!==t.cat)].slice(0,3);
+ const opts=shuffle([t,...d]);
+ setBody(`<div class="q">${esc(PAIR_ASK[q[1]]||"Pick its partner")}</div><div class="big">${esc(p.es)}</div><div class="bigen">${esc(p.en)}</div><div class="hear" style="margin:14px 0"><button class="hearb sm" id="qPlay" aria-label="Hear">${SVG.say}</button></div><div class="ch" id="chs"></div>`);
+ $("qPlay").onclick=()=>sayPhrase(p.i,false);
+ S.extra=`<b>${esc(q[1])}:</b> ${esc(t.es)} = ${esc(t.en)}`;S.extraJ=t.i;
+ renderChoices(opts.map(x=>x.es),opts.indexOf(t),ok=>grade(ok,p));
+ sayPhrase(p.i,false)}
 function rIntro(p){
  const m=groupMaps(p);
- setBody(`<div class="q">New phrase</div><div class="big">${wordsHTML(m.esT,m.esG)}</div><div class="bigen">${wordsHTML(m.enT,m.enG)}</div>${p.note?`<div class="tag">${esc(p.note)}</div>`:""}<div class="hear" style="margin-top:22px"><button class="hearb" id="iPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="iSlow" aria-label="Slow">Slow</button></div><div class="sub center">Tap any word to see its match.</div>`);
- $("ovBody").onclick=e=>{const w=e.target.closest(".w");if(w&&w.dataset.g!=null)hlGroup(+w.dataset.g,$("ovBody"))};
+ setBody(`<div class="q">New phrase</div><div class="big">${wordsHTML(m.esT,m.esG)}</div><div class="bigen">${wordsHTML(m.enT,m.enG)}</div>${p.note?`<div class="tag">${esc(p.note)}</div>`:""}${introPairs(p)}<div class="hear" style="margin-top:22px"><button class="hearb" id="iPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="iSlow" aria-label="Slow">Slow</button></div><div class="sub center">Tap any word to see its match.</div>`);
+ $("ovBody").onclick=e=>{const r=e.target.closest(".pr");if(r){sayPhrase(+r.dataset.j,false);return}const w=e.target.closest(".w");if(w&&w.dataset.g!=null)hlGroup(+w.dataset.g,$("ovBody"))};
  $("iPlay").onclick=()=>sayPhrase(p.i,false);$("iSlow").onclick=()=>sayPhrase(p.i,true);
  $("ovFoot").innerHTML='<button class="btn block" id="ovNext">Got it</button>';
  $("ovNext").onclick=()=>{S.xp+=2;addXp(2);fx.tap();S.i++;nextStep()};

@@ -12,6 +12,10 @@ Live at https://solexecution.github.io/frases-pwa/
 | Browse | Search, groups, tap to hear, mark as known |
 | Me | XP, level, streak, 7-day chart, badges, settings |
 
+Phrase pairs: every phrase is linked to its opposite, alternative, answer or "goes with" partner (for example
+Para llevar and Para comer aquí). Partners show in Browse, in the intro screen, in Listen (turn on Pairs to hear them
+after each phrase) and as a quiz question.
+
 Learning loop: new phrases are introduced, then quizzed (listen, pick, fill the blank, build the sentence),
 then a say-it round. Misses come back sooner (boxes at 1, 2, 4, 8, 16, 32 days). XP, combos and a daily streak
 (with a streak freeze earned every 7 days) keep it fun.
@@ -24,11 +28,12 @@ then a say-it round. Misses come back sooner (boxes at 1, 2, 4, 8, 16, 32 days).
 Install is small because `AV` unchanged means already-downloaded audio is reused.
 
 ## Add phrases
-1. Add lines to `phrases.json`: `["Nueva frase","New phrase","Work","MX"]`. The 4th item is optional.
+1. Add lines to `phrases.json` (or to `new` in `pairs_src.json`, then link them in `pairs`): `["Nueva frase","New phrase","Work","MX"]`. The 4th item is optional.
    Category must be one in `CATS` in `app.js` (add a new one there to create a group).
 2. `python gen_audio.py` renders normal, slow and English clips and trims silence (needs ffmpeg and `pip install edge-tts`).
-3. `python build_align.py` rebuilds word pairing (hand-authored pairs live in `SRC`).
-4. Bump `VER`, commit, push.
+3. `python build_pairs.py` appends the `new` phrases and rebuilds `pairs.json` (it stops if a phrase has no partner or a name is misspelled).
+4. `python build_align.py` rebuilds word pairing (hand-authored pairs live in `SRC`).
+5. Bump `VER`, commit, push.
 
 ## Voices
 Spanish: es-MX-DaliaNeural. English: en-US-AriaNeural. Change in `gen_audio.py`, then `python gen_audio.py --force` and bump `AV`.
