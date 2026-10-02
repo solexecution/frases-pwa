@@ -35,7 +35,8 @@ let known=new Set(store.get("frases-known",[]));
 let srs=store.get("frases-srs",{});
 let prof=Object.assign({xp:0,streak:0,best:0,last:-1,freeze:0,days:{},sessions:0,missions:{},badges:[],perfect:0},store.get("frases-prof",{}));
 let set=Object.assign({newPerDay:5,sound:true,focus:"All"},store.get("frases-set",{}));
-let opt=Object.assign({en:false,rep:false,loop:true,gap:1,slow:false,echo:false},store.get("frases-opt",{}));
+let opt=Object.assign({en:false,rep:false,loop:true,gap:1,slow:false,echo:false,rate:.85},store.get("frases-opt",{}));
+function applyRate(){audio.defaultPlaybackRate=opt.rate;audio.playbackRate=opt.rate;audio.preservesPitch=true}
 let st={tab:"today",cat:store.get("frases-cat","All"),q:"",showEn:false};
 const saveProf=()=>store.set("frases-prof",prof);
 const saveSrs=()=>store.set("frases-srs",srs);
@@ -76,7 +77,7 @@ function speak(text,lang){return new Promise(res=>{
 function playSrc(src,fb,lang){return new Promise(res=>{
  const bail=()=>{if(fb)speak(fb,lang||"es").then(res);else res()};
  audio.onended=()=>res();audio.onerror=bail;
- audio.src=src;audio.currentTime=0;
+ audio.src=src;applyRate();audio.currentTime=0;
  const pr=audio.play();if(pr&&pr.catch)pr.catch(bail)})}
 const srcFor=(i,slow)=>(slow?"audio/slow/":"audio/")+pad(i)+".mp3";
 const sayPhrase=(i,slow)=>playSrc(srcFor(i,slow),P[i].es);
@@ -164,7 +165,7 @@ async function playLoop(){const my=++token;playing=true;setPlayIcon();keepAwake(
   showCurrent();
   if(opt.en){hlMode="en";lastGi=null;await sayEn(p.i);if(token!==my)return;await wait(200);if(token!==my)return}
   hlMode="es";lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return;
-  if(opt.echo){const d=(audio.duration||2)*1000;$("lCat").textContent="🎤 Your turn…";await wait(d*1.5+600);if(token!==my)return;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
+  if(opt.echo){const d=(audio.duration||2)*1000/opt.rate;$("lCat").textContent="🎤 Your turn…";await wait(d*1.5+600);if(token!==my)return;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
   if(opt.rep){await wait(300);if(token!==my)return;lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return}
   await wait(GAPS[opt.gap]);if(token!==my)return;
   let nx=qi+1;
@@ -285,6 +286,10 @@ function wire(){
  $("lPrev").innerHTML=SVG.prev;$("lNext").innerHTML=SVG.next;setPlayIcon();
  const flag=(id,key)=>{$(id).onclick=e=>{opt[key]=!opt[key];e.currentTarget.setAttribute("aria-pressed",opt[key]);saveOpt()};$(id).setAttribute("aria-pressed",opt[key])};
  flag("oSlow","slow");flag("oEn","en");flag("oEcho","echo");flag("oRep","rep");flag("oLoop","loop");
+ const rateUi=()=>{$("rate").value=opt.rate;$("rateTxt").textContent=(+opt.rate).toFixed(2).replace(/0$/,"")+"×"};
+ rateUi();applyRate();
+ $("rate").oninput=e=>{opt.rate=+e.target.value;rateUi();applyRate()};
+ $("rate").onchange=saveOpt;
  $("oGap").onclick=()=>{opt.gap=(opt.gap+1)%GAPS.length;$("oGap").textContent="Gap "+(GAPS[opt.gap]/1000)+"s";saveOpt()};
  $("oGap").textContent="Gap "+(GAPS[opt.gap]/1000)+"s";
  $("lKnow").onclick=()=>{const p=queue[qi];if(!p)return;known.has(p.i)?known.delete(p.i):known.add(p.i);saveKnown();showCurrent()};
