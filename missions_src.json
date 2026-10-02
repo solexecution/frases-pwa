@@ -1,113 +1,786 @@
 [
-{"id":"expo","title":"The solar expo booth","emoji":"🌞","cat":"Networking","voice":"m","who":"Carlos","intro":"You walk up to a booth at a solar expo. Carlos works there. Start a conversation.","steps":[
- {"npc":{"es":"Hola, bienvenido. ¿Es tu primera vez en este evento?","en":"Hello, welcome. Is this your first time at this event?"},
-  "opts":[{"es":"Sí, es mi primera vez aquí","en":"Yes, it's my first time here","ok":1},{"es":"Estoy bien, gracias","en":"I'm well, thanks"},{"es":"Cuesta mil pesos","en":"It costs a thousand pesos"}],
-  "why":"He asked about the event, not how you are."},
- {"npc":{"es":"Mucho gusto. Me llamo Carlos. ¿Y tú?","en":"Nice to meet you. My name is Carlos. And you?"},
-  "opts":[{"es":"Mucho gusto, Carlos. Me llamo Max","en":"Nice to meet you, Carlos. My name is Max","ok":1},{"es":"Hasta luego, Carlos","en":"See you later, Carlos"},{"es":"Gracias por la cuenta","en":"Thanks for the bill"}],
-  "why":"He gave his name and asked yours: greet him back and say your name."},
- {"npc":{"es":"¿A qué te dedicas?","en":"What do you do for work?"},
-  "opts":[{"es":"Trabajo en energía solar","en":"I work in solar energy","ok":1},{"es":"Vivo aquí cerca","en":"I live nearby"},{"es":"Tengo mucha sed","en":"I'm very thirsty"}],
-  "why":"\"¿A qué te dedicas?\" asks about your job, not where you live."},
- {"npc":{"es":"¡Qué interesante! ¿Tienes una tarjeta de presentación?","en":"How interesting! Do you have a business card?"},
-  "opts":[{"es":"Sí, aquí tienes mi tarjeta","en":"Yes, here's my card","ok":1},{"es":"No entiendo","en":"I don't understand"},{"es":"Sí, un café, por favor","en":"Yes, a coffee, please"}],
-  "why":"Hand over the card: \"aquí tienes mi tarjeta\"."}]},
-
-{"id":"contacts","title":"Swap contacts","emoji":"🤝","cat":"Networking","voice":"f","who":"Laura","intro":"The conversation with Laura went well. Time to stay in touch.","steps":[
- {"npc":{"es":"Fue un gusto hablar contigo. ¿Nos conectamos en LinkedIn?","en":"It was a pleasure talking to you. Shall we connect on LinkedIn?"},
-  "opts":[{"es":"Claro, con gusto","en":"Of course, with pleasure","ok":1},{"es":"Lo siento, no hablo inglés","en":"Sorry, I don't speak English"},{"es":"Para llevar, por favor","en":"To go, please"}],
-  "why":"\"Con gusto\" is the friendly yes."},
- {"npc":{"es":"¿Me pasas tu número?","en":"Can you give me your number?"},
-  "opts":[{"es":"Sí, claro. Aquí está mi número","en":"Yes, sure. Here's my number","ok":1},{"es":"No funciona","en":"It doesn't work"},{"es":"¿Está lejos?","en":"Is it far?"}],
-  "why":"She asked for your number, so you give it."},
- {"npc":{"es":"Te escribo esta semana. ¿Cuándo te viene bien?","en":"I'll write to you this week. When works for you?"},
-  "opts":[{"es":"El jueves me queda bien","en":"Thursday works for me","ok":1},{"es":"Ayer, por favor","en":"Yesterday, please"},{"es":"Un segundo, tengo frío","en":"One second, I'm cold"}],
-  "why":"She asked about timing, so name a day."},
- {"npc":{"es":"Perfecto. Mantengamos el contacto.","en":"Perfect. Let's keep in touch."},
-  "opts":[{"es":"Claro. Gracias por tu tiempo","en":"Of course. Thanks for your time","ok":1},{"es":"Más despacio, por favor","en":"Slower, please"},{"es":"¿Dónde está el baño?","en":"Where is the bathroom?"}],
-  "why":"A warm close: thank her for her time."}]},
-
-{"id":"pitch","title":"Pitch a homeowner","emoji":"🏠","cat":"Solar","voice":"m","who":"Sr. Ramírez","intro":"You knock on a door. Sr. Ramírez opens it. Use polite, formal Spanish.","steps":[
- {"npc":{"es":"Buenas tardes. ¿En qué puedo ayudarle?","en":"Good afternoon. How can I help you?"},
-  "opts":[{"es":"Buenas tardes. Trabajo en energía solar. ¿Tiene un minuto?","en":"Good afternoon. I work in solar energy. Do you have a minute?","ok":1},{"es":"¿Dónde está el baño?","en":"Where is the bathroom?"},{"es":"Quiero una cerveza, por favor","en":"I want a beer, please"}],
-  "why":"Introduce yourself and ask for a minute, politely."},
- {"npc":{"es":"Mi recibo de luz es muy caro.","en":"My electricity bill is very expensive."},
-  "opts":[{"es":"Podemos reducir su recibo de luz con paneles solares","en":"We can lower your electricity bill with solar panels","ok":1},{"es":"Hace mucho calor","en":"It's very hot"},{"es":"El techo está lejos","en":"The roof is far"}],
-  "why":"Connect his problem to your solution."},
- {"npc":{"es":"¿Cuánto cuesta la instalación?","en":"How much does the installation cost?"},
-  "opts":[{"es":"Hacemos una cotización gratis. ¿Me muestra su recibo?","en":"We do a free quote. Can you show me your bill?","ok":1},{"es":"Son las dos","en":"It's two o'clock"},{"es":"Tenemos garantía de veinticinco minutos","en":"We have a twenty-five-minute warranty"}],
-  "why":"Offer the free quote and ask for the bill. (The warranty is 25 años, not minutos!)"},
- {"npc":{"es":"Suena bien. ¿Cuándo pueden empezar?","en":"Sounds good. When can you start?"},
-  "opts":[{"es":"Podemos agendar una visita esta semana","en":"We can schedule a visit this week","ok":1},{"es":"No entiendo","en":"I don't understand"},{"es":"Estoy perdido","en":"I'm lost"}],
-  "why":"Move to the next step: book a visit."}]},
-
-{"id":"price","title":"\"It's too expensive\"","emoji":"💸","cat":"Solar","voice":"f","who":"Doña Elena","intro":"Doña Elena likes solar but worries about the price. Stay formal.","steps":[
- {"npc":{"es":"No sé... suena muy caro.","en":"I don't know... it sounds very expensive."},
-  "opts":[{"es":"Se paga solo en pocos años","en":"It pays for itself in a few years","ok":1},{"es":"Qué lástima, adiós","en":"What a shame, goodbye"},{"es":"Hace frío","en":"It's cold"}],
-  "why":"Answer the objection with the payoff."},
- {"npc":{"es":"¿Y si no tengo dinero ahorita?","en":"And if I don't have money right now?"},
-  "opts":[{"es":"Ofrecemos financiamiento","en":"We offer financing","ok":1},{"es":"Sin hielo, por favor","en":"No ice, please"},{"es":"Tengo mucha sed","en":"I'm very thirsty"}],
-  "why":"Financing solves the cash problem."},
- {"npc":{"es":"¿Cuánto tiempo dura la instalación?","en":"How long does the installation take?"},
-  "opts":[{"es":"Dura dos días","en":"It takes two days","ok":1},{"es":"Son las dos","en":"It's two o'clock"},{"es":"Dos cervezas, por favor","en":"Two beers, please"}],
-  "why":"\"Dos días\" (two days) is not \"las dos\" (two o'clock)."},
- {"npc":{"es":"Está bien. ¿Me manda la cotización?","en":"Alright. Will you send me the quote?"},
-  "opts":[{"es":"Se la mando hoy. Gracias por su tiempo","en":"I'll send it to you today. Thanks for your time","ok":1},{"es":"Sale, al rato te marco","en":"Cool, I'll call you later"},{"es":"No hay descuento","en":"There's no discount"}],
-  "why":"With a señora, stay formal: \"su\", not casual \"sale\" and \"te\"."}]},
-
-{"id":"coffee","title":"First coffee date","emoji":"☕","cat":"Dating","voice":"f","who":"Ana","intro":"A first coffee with Ana. Relax and be yourself.","steps":[
- {"npc":{"es":"Hola, ¿cómo estás?","en":"Hi, how are you?"},
-  "opts":[{"es":"Muy bien, gracias. ¿Y tú?","en":"Very well, thanks. And you?","ok":1},{"es":"Quiero la cuenta, por favor","en":"I want the bill, please"},{"es":"Son las dos","en":"It's two o'clock"}],
-  "why":"Answer and ask back: \"¿Y tú?\""},
- {"npc":{"es":"¿Qué te gusta hacer?","en":"What do you like to do?"},
-  "opts":[{"es":"Me gusta viajar y bailar","en":"I like to travel and dance","ok":1},{"es":"Estoy cansado","en":"I'm tired"},{"es":"Es muy caro","en":"It's very expensive"}],
-  "why":"\"Me gusta…\" talks about what you enjoy."},
- {"npc":{"es":"Cuéntame de ti. ¿De dónde eres?","en":"Tell me about yourself. Where are you from?"},
-  "opts":[{"es":"Soy de Eslovaquia","en":"I'm from Slovakia","ok":1},{"es":"Vivo aquí cerca","en":"I live nearby"},{"es":"Tengo hambre","en":"I'm hungry"}],
-  "why":"\"¿De dónde eres?\" asks where you're from. \"Vivo aquí\" says where you live."},
- {"npc":{"es":"Me la estoy pasando muy bien contigo.","en":"I'm having a really good time with you."},
-  "opts":[{"es":"Yo también. Me encanta tu forma de ser","en":"Me too. I love the way you are","ok":1},{"es":"La cuenta, por favor","en":"The bill, please"},{"es":"No funciona","en":"It doesn't work"}],
-  "why":"Return the warmth."}]},
-
-{"id":"serious","title":"The serious talk","emoji":"💬","cat":"Dating","voice":"f","who":"Ana","intro":"Second date. Ana wants to know what you're really looking for.","steps":[
- {"npc":{"es":"¿Qué buscas en una pareja?","en":"What do you look for in a partner?"},
-  "opts":[{"es":"Busco algo serio","en":"I'm looking for something serious","ok":1},{"es":"Busco un taxi","en":"I'm looking for a taxi"},{"es":"Busco clientes","en":"I'm looking for clients"}],
-  "why":"Same verb \"busco\", very different meaning!"},
- {"npc":{"es":"¿Y qué es importante para ti?","en":"And what is important to you?"},
-  "opts":[{"es":"La familia es muy importante para mí","en":"Family is very important to me","ok":1},{"es":"Cien mil pesos","en":"A hundred thousand pesos"},{"es":"Hace mucho calor","en":"It's very hot"}],
-  "why":"Share a real value."},
- {"npc":{"es":"Me gusta que seas honesto.","en":"I like that you're honest."},
-  "opts":[{"es":"Gracias, me gusta pasar tiempo contigo","en":"Thanks, I like spending time with you","ok":1},{"es":"De nada, buen provecho","en":"You're welcome, enjoy your meal"},{"es":"Lo siento, no entiendo","en":"Sorry, I don't understand"}],
-  "why":"Thank her and add something warm."},
- {"npc":{"es":"¿Nos vemos otra vez la próxima semana?","en":"Shall we see each other again next week?"},
-  "opts":[{"es":"Claro. Me encantaría","en":"Of course. I'd love to","ok":1},{"es":"Ayer no pude","en":"Yesterday I couldn't"},{"es":"Estoy perdido","en":"I'm lost"}],
-  "why":"\"Me encantaría\" is a lovely yes."}]},
-
-{"id":"dinner","title":"Dinner for two","emoji":"🍽️","cat":"Out & about","voice":"m","who":"Mesero","intro":"You and your date arrive at a restaurant. The waiter greets you.","steps":[
- {"npc":{"es":"Buenas noches. ¿Mesa para cuántas personas?","en":"Good evening. Table for how many people?"},
-  "opts":[{"es":"Mesa para dos, por favor","en":"Table for two, please","ok":1},{"es":"Son las dos","en":"It's two o'clock"},{"es":"Muchas gracias, adiós","en":"Thank you very much, goodbye"}],
-  "why":"\"Para dos\" = for two people."},
- {"npc":{"es":"¿Qué desean tomar?","en":"What would you like to drink?"},
-  "opts":[{"es":"Una cerveza y un agua, por favor","en":"A beer and a water, please","ok":1},{"es":"Estoy lleno","en":"I'm full"},{"es":"A la derecha","en":"To the right"}],
-  "why":"He asks about drinks: order them."},
- {"npc":{"es":"¿Algo más?","en":"Anything else?"},
-  "opts":[{"es":"No, gracias. La cuenta, por favor","en":"No, thanks. The bill, please","ok":1},{"es":"Sí, estoy perdido","en":"Yes, I'm lost"},{"es":"Todo recto","en":"Straight ahead"}],
-  "why":"Wrap up and ask for the bill."},
- {"npc":{"es":"Son quinientos pesos. ¿Efectivo o tarjeta?","en":"That's five hundred pesos. Cash or card?"},
-  "opts":[{"es":"Con tarjeta, por favor","en":"By card, please","ok":1},{"es":"Sin hielo, por favor","en":"No ice, please"},{"es":"Hace frío","en":"It's cold"}],
-  "why":"He offered two choices: pick one."}]},
-
-{"id":"lost","title":"Lost in the city","emoji":"🧭","cat":"Out & about","voice":"f","who":"Paloma","intro":"You can't find your hotel. A friendly stranger stops.","steps":[
- {"npc":{"es":"¿Necesitas ayuda?","en":"Do you need help?"},
-  "opts":[{"es":"Sí, estoy perdido. ¿Me puedes ayudar?","en":"Yes, I'm lost. Can you help me?","ok":1},{"es":"Sí, tengo sed","en":"Yes, I'm thirsty"},{"es":"No, gracias, estoy lleno","en":"No thanks, I'm full"}],
-  "why":"Say what the problem is: \"estoy perdido\"."},
- {"npc":{"es":"¿A dónde vas?","en":"Where are you going?"},
-  "opts":[{"es":"Estoy buscando la plaza","en":"I'm looking for the plaza","ok":1},{"es":"Estoy cansado","en":"I'm tired"},{"es":"Dos cervezas","en":"Two beers"}],
-  "why":"\"Estoy buscando…\" names what you want to find."},
- {"npc":{"es":"Está cerca. Todo recto y a la derecha.","en":"It's close. Straight ahead and to the right."},
-  "opts":[{"es":"Gracias. ¿Está lejos?","en":"Thanks. Is it far?","ok":1},{"es":"¿Cuánto cuesta?","en":"How much is it?"},{"es":"Un café, por favor","en":"A coffee, please"}],
-  "why":"A natural follow-up about distance."},
- {"npc":{"es":"Cinco minutos caminando.","en":"Five minutes walking."},
-  "opts":[{"es":"Muchas gracias. Que te vaya bien","en":"Thank you very much. All the best","ok":1},{"es":"Lo siento, no hay descuento","en":"Sorry, there's no discount"},{"es":"Estoy lleno","en":"I'm full"}],
-  "why":"Thank her and say goodbye."}]}
+ {
+  "id": "expo",
+  "title": "The solar expo booth",
+  "cat": "Networking",
+  "voice": "m",
+  "who": "Carlos",
+  "intro": "You walk up to a booth at a solar expo. Carlos works there. Start a conversation.",
+  "steps": [
+   {
+    "npc": {
+     "es": "Hola, bienvenido. ¿Es tu primera vez en este evento?",
+     "en": "Hello, welcome. Is this your first time at this event?"
+    },
+    "opts": [
+     {
+      "es": "Sí, es mi primera vez aquí",
+      "en": "Yes, it's my first time here",
+      "ok": 1
+     },
+     {
+      "es": "Estoy bien, gracias",
+      "en": "I'm well, thanks"
+     },
+     {
+      "es": "Cuesta mil pesos",
+      "en": "It costs a thousand pesos"
+     }
+    ],
+    "why": "He asked about the event, not how you are."
+   },
+   {
+    "npc": {
+     "es": "Mucho gusto. Me llamo Carlos. ¿Y tú?",
+     "en": "Nice to meet you. My name is Carlos. And you?"
+    },
+    "opts": [
+     {
+      "es": "Mucho gusto, Carlos. Me llamo Max",
+      "en": "Nice to meet you, Carlos. My name is Max",
+      "ok": 1
+     },
+     {
+      "es": "Hasta luego, Carlos",
+      "en": "See you later, Carlos"
+     },
+     {
+      "es": "Gracias por la cuenta",
+      "en": "Thanks for the bill"
+     }
+    ],
+    "why": "He gave his name and asked yours: greet him back and say your name."
+   },
+   {
+    "npc": {
+     "es": "¿A qué te dedicas?",
+     "en": "What do you do for work?"
+    },
+    "opts": [
+     {
+      "es": "Trabajo en energía solar",
+      "en": "I work in solar energy",
+      "ok": 1
+     },
+     {
+      "es": "Vivo aquí cerca",
+      "en": "I live nearby"
+     },
+     {
+      "es": "Tengo mucha sed",
+      "en": "I'm very thirsty"
+     }
+    ],
+    "why": "\"¿A qué te dedicas?\" asks about your job, not where you live."
+   },
+   {
+    "npc": {
+     "es": "¡Qué interesante! ¿Tienes una tarjeta de presentación?",
+     "en": "How interesting! Do you have a business card?"
+    },
+    "opts": [
+     {
+      "es": "Sí, aquí tienes mi tarjeta",
+      "en": "Yes, here's my card",
+      "ok": 1
+     },
+     {
+      "es": "No entiendo",
+      "en": "I don't understand"
+     },
+     {
+      "es": "Sí, un café, por favor",
+      "en": "Yes, a coffee, please"
+     }
+    ],
+    "why": "Hand over the card: \"aquí tienes mi tarjeta\"."
+   }
+  ]
+ },
+ {
+  "id": "contacts",
+  "title": "Swap contacts",
+  "cat": "Networking",
+  "voice": "f",
+  "who": "Laura",
+  "intro": "The conversation with Laura went well. Time to stay in touch.",
+  "steps": [
+   {
+    "npc": {
+     "es": "Fue un gusto hablar contigo. ¿Nos conectamos en LinkedIn?",
+     "en": "It was a pleasure talking to you. Shall we connect on LinkedIn?"
+    },
+    "opts": [
+     {
+      "es": "Claro, con gusto",
+      "en": "Of course, with pleasure",
+      "ok": 1
+     },
+     {
+      "es": "Lo siento, no hablo inglés",
+      "en": "Sorry, I don't speak English"
+     },
+     {
+      "es": "Para llevar, por favor",
+      "en": "To go, please"
+     }
+    ],
+    "why": "\"Con gusto\" is the friendly yes."
+   },
+   {
+    "npc": {
+     "es": "¿Me pasas tu número?",
+     "en": "Can you give me your number?"
+    },
+    "opts": [
+     {
+      "es": "Sí, claro. Aquí está mi número",
+      "en": "Yes, sure. Here's my number",
+      "ok": 1
+     },
+     {
+      "es": "No funciona",
+      "en": "It doesn't work"
+     },
+     {
+      "es": "¿Está lejos?",
+      "en": "Is it far?"
+     }
+    ],
+    "why": "She asked for your number, so you give it."
+   },
+   {
+    "npc": {
+     "es": "Te escribo esta semana. ¿Cuándo te viene bien?",
+     "en": "I'll write to you this week. When works for you?"
+    },
+    "opts": [
+     {
+      "es": "El jueves me queda bien",
+      "en": "Thursday works for me",
+      "ok": 1
+     },
+     {
+      "es": "Ayer, por favor",
+      "en": "Yesterday, please"
+     },
+     {
+      "es": "Un segundo, tengo frío",
+      "en": "One second, I'm cold"
+     }
+    ],
+    "why": "She asked about timing, so name a day."
+   },
+   {
+    "npc": {
+     "es": "Perfecto. Mantengamos el contacto.",
+     "en": "Perfect. Let's keep in touch."
+    },
+    "opts": [
+     {
+      "es": "Claro. Gracias por tu tiempo",
+      "en": "Of course. Thanks for your time",
+      "ok": 1
+     },
+     {
+      "es": "Más despacio, por favor",
+      "en": "Slower, please"
+     },
+     {
+      "es": "¿Dónde está el baño?",
+      "en": "Where is the bathroom?"
+     }
+    ],
+    "why": "A warm close: thank her for her time."
+   }
+  ]
+ },
+ {
+  "id": "pitch",
+  "title": "Pitch a homeowner",
+  "cat": "Solar",
+  "voice": "m",
+  "who": "Sr. Ramírez",
+  "intro": "You knock on a door. Sr. Ramírez opens it. Use polite, formal Spanish.",
+  "steps": [
+   {
+    "npc": {
+     "es": "Buenas tardes. ¿En qué puedo ayudarle?",
+     "en": "Good afternoon. How can I help you?"
+    },
+    "opts": [
+     {
+      "es": "Buenas tardes. Trabajo en energía solar. ¿Tiene un minuto?",
+      "en": "Good afternoon. I work in solar energy. Do you have a minute?",
+      "ok": 1
+     },
+     {
+      "es": "¿Dónde está el baño?",
+      "en": "Where is the bathroom?"
+     },
+     {
+      "es": "Quiero una cerveza, por favor",
+      "en": "I want a beer, please"
+     }
+    ],
+    "why": "Introduce yourself and ask for a minute, politely."
+   },
+   {
+    "npc": {
+     "es": "Mi recibo de luz es muy caro.",
+     "en": "My electricity bill is very expensive."
+    },
+    "opts": [
+     {
+      "es": "Podemos reducir su recibo de luz con paneles solares",
+      "en": "We can lower your electricity bill with solar panels",
+      "ok": 1
+     },
+     {
+      "es": "Hace mucho calor",
+      "en": "It's very hot"
+     },
+     {
+      "es": "El techo está lejos",
+      "en": "The roof is far"
+     }
+    ],
+    "why": "Connect his problem to your solution."
+   },
+   {
+    "npc": {
+     "es": "¿Cuánto cuesta la instalación?",
+     "en": "How much does the installation cost?"
+    },
+    "opts": [
+     {
+      "es": "Hacemos una cotización gratis. ¿Me muestra su recibo?",
+      "en": "We do a free quote. Can you show me your bill?",
+      "ok": 1
+     },
+     {
+      "es": "Son las dos",
+      "en": "It's two o'clock"
+     },
+     {
+      "es": "Tenemos garantía de veinticinco minutos",
+      "en": "We have a twenty-five-minute warranty"
+     }
+    ],
+    "why": "Offer the free quote and ask for the bill. (The warranty is 25 años, not minutos!)"
+   },
+   {
+    "npc": {
+     "es": "Suena bien. ¿Cuándo pueden empezar?",
+     "en": "Sounds good. When can you start?"
+    },
+    "opts": [
+     {
+      "es": "Podemos agendar una visita esta semana",
+      "en": "We can schedule a visit this week",
+      "ok": 1
+     },
+     {
+      "es": "No entiendo",
+      "en": "I don't understand"
+     },
+     {
+      "es": "Estoy perdido",
+      "en": "I'm lost"
+     }
+    ],
+    "why": "Move to the next step: book a visit."
+   }
+  ]
+ },
+ {
+  "id": "price",
+  "title": "\"It's too expensive\"",
+  "cat": "Solar",
+  "voice": "f",
+  "who": "Doña Elena",
+  "intro": "Doña Elena likes solar but worries about the price. Stay formal.",
+  "steps": [
+   {
+    "npc": {
+     "es": "No sé... suena muy caro.",
+     "en": "I don't know... it sounds very expensive."
+    },
+    "opts": [
+     {
+      "es": "Se paga solo en pocos años",
+      "en": "It pays for itself in a few years",
+      "ok": 1
+     },
+     {
+      "es": "Qué lástima, adiós",
+      "en": "What a shame, goodbye"
+     },
+     {
+      "es": "Hace frío",
+      "en": "It's cold"
+     }
+    ],
+    "why": "Answer the objection with the payoff."
+   },
+   {
+    "npc": {
+     "es": "¿Y si no tengo dinero ahorita?",
+     "en": "And if I don't have money right now?"
+    },
+    "opts": [
+     {
+      "es": "Ofrecemos financiamiento",
+      "en": "We offer financing",
+      "ok": 1
+     },
+     {
+      "es": "Sin hielo, por favor",
+      "en": "No ice, please"
+     },
+     {
+      "es": "Tengo mucha sed",
+      "en": "I'm very thirsty"
+     }
+    ],
+    "why": "Financing solves the cash problem."
+   },
+   {
+    "npc": {
+     "es": "¿Cuánto tiempo dura la instalación?",
+     "en": "How long does the installation take?"
+    },
+    "opts": [
+     {
+      "es": "Dura dos días",
+      "en": "It takes two days",
+      "ok": 1
+     },
+     {
+      "es": "Son las dos",
+      "en": "It's two o'clock"
+     },
+     {
+      "es": "Dos cervezas, por favor",
+      "en": "Two beers, please"
+     }
+    ],
+    "why": "\"Dos días\" (two days) is not \"las dos\" (two o'clock)."
+   },
+   {
+    "npc": {
+     "es": "Está bien. ¿Me manda la cotización?",
+     "en": "Alright. Will you send me the quote?"
+    },
+    "opts": [
+     {
+      "es": "Se la mando hoy. Gracias por su tiempo",
+      "en": "I'll send it to you today. Thanks for your time",
+      "ok": 1
+     },
+     {
+      "es": "Sale, al rato te marco",
+      "en": "Cool, I'll call you later"
+     },
+     {
+      "es": "No hay descuento",
+      "en": "There's no discount"
+     }
+    ],
+    "why": "With a señora, stay formal: \"su\", not casual \"sale\" and \"te\"."
+   }
+  ]
+ },
+ {
+  "id": "coffee",
+  "title": "First coffee date",
+  "cat": "Dating",
+  "voice": "f",
+  "who": "Ana",
+  "intro": "A first coffee with Ana. Relax and be yourself.",
+  "steps": [
+   {
+    "npc": {
+     "es": "Hola, ¿cómo estás?",
+     "en": "Hi, how are you?"
+    },
+    "opts": [
+     {
+      "es": "Muy bien, gracias. ¿Y tú?",
+      "en": "Very well, thanks. And you?",
+      "ok": 1
+     },
+     {
+      "es": "Quiero la cuenta, por favor",
+      "en": "I want the bill, please"
+     },
+     {
+      "es": "Son las dos",
+      "en": "It's two o'clock"
+     }
+    ],
+    "why": "Answer and ask back: \"¿Y tú?\""
+   },
+   {
+    "npc": {
+     "es": "¿Qué te gusta hacer?",
+     "en": "What do you like to do?"
+    },
+    "opts": [
+     {
+      "es": "Me gusta viajar y bailar",
+      "en": "I like to travel and dance",
+      "ok": 1
+     },
+     {
+      "es": "Estoy cansado",
+      "en": "I'm tired"
+     },
+     {
+      "es": "Es muy caro",
+      "en": "It's very expensive"
+     }
+    ],
+    "why": "\"Me gusta…\" talks about what you enjoy."
+   },
+   {
+    "npc": {
+     "es": "Cuéntame de ti. ¿De dónde eres?",
+     "en": "Tell me about yourself. Where are you from?"
+    },
+    "opts": [
+     {
+      "es": "Soy de Eslovaquia",
+      "en": "I'm from Slovakia",
+      "ok": 1
+     },
+     {
+      "es": "Vivo aquí cerca",
+      "en": "I live nearby"
+     },
+     {
+      "es": "Tengo hambre",
+      "en": "I'm hungry"
+     }
+    ],
+    "why": "\"¿De dónde eres?\" asks where you're from. \"Vivo aquí\" says where you live."
+   },
+   {
+    "npc": {
+     "es": "Me la estoy pasando muy bien contigo.",
+     "en": "I'm having a really good time with you."
+    },
+    "opts": [
+     {
+      "es": "Yo también. Me encanta tu forma de ser",
+      "en": "Me too. I love the way you are",
+      "ok": 1
+     },
+     {
+      "es": "La cuenta, por favor",
+      "en": "The bill, please"
+     },
+     {
+      "es": "No funciona",
+      "en": "It doesn't work"
+     }
+    ],
+    "why": "Return the warmth."
+   }
+  ]
+ },
+ {
+  "id": "serious",
+  "title": "The serious talk",
+  "cat": "Dating",
+  "voice": "f",
+  "who": "Ana",
+  "intro": "Second date. Ana wants to know what you're really looking for.",
+  "steps": [
+   {
+    "npc": {
+     "es": "¿Qué buscas en una pareja?",
+     "en": "What do you look for in a partner?"
+    },
+    "opts": [
+     {
+      "es": "Busco algo serio",
+      "en": "I'm looking for something serious",
+      "ok": 1
+     },
+     {
+      "es": "Busco un taxi",
+      "en": "I'm looking for a taxi"
+     },
+     {
+      "es": "Busco clientes",
+      "en": "I'm looking for clients"
+     }
+    ],
+    "why": "Same verb \"busco\", very different meaning!"
+   },
+   {
+    "npc": {
+     "es": "¿Y qué es importante para ti?",
+     "en": "And what is important to you?"
+    },
+    "opts": [
+     {
+      "es": "La familia es muy importante para mí",
+      "en": "Family is very important to me",
+      "ok": 1
+     },
+     {
+      "es": "Cien mil pesos",
+      "en": "A hundred thousand pesos"
+     },
+     {
+      "es": "Hace mucho calor",
+      "en": "It's very hot"
+     }
+    ],
+    "why": "Share a real value."
+   },
+   {
+    "npc": {
+     "es": "Me gusta que seas honesto.",
+     "en": "I like that you're honest."
+    },
+    "opts": [
+     {
+      "es": "Gracias, me gusta pasar tiempo contigo",
+      "en": "Thanks, I like spending time with you",
+      "ok": 1
+     },
+     {
+      "es": "De nada, buen provecho",
+      "en": "You're welcome, enjoy your meal"
+     },
+     {
+      "es": "Lo siento, no entiendo",
+      "en": "Sorry, I don't understand"
+     }
+    ],
+    "why": "Thank her and add something warm."
+   },
+   {
+    "npc": {
+     "es": "¿Nos vemos otra vez la próxima semana?",
+     "en": "Shall we see each other again next week?"
+    },
+    "opts": [
+     {
+      "es": "Claro. Me encantaría",
+      "en": "Of course. I'd love to",
+      "ok": 1
+     },
+     {
+      "es": "Ayer no pude",
+      "en": "Yesterday I couldn't"
+     },
+     {
+      "es": "Estoy perdido",
+      "en": "I'm lost"
+     }
+    ],
+    "why": "\"Me encantaría\" is a lovely yes."
+   }
+  ]
+ },
+ {
+  "id": "dinner",
+  "title": "Dinner for two",
+  "cat": "Out & about",
+  "voice": "m",
+  "who": "Mesero",
+  "intro": "You and your date arrive at a restaurant. The waiter greets you.",
+  "steps": [
+   {
+    "npc": {
+     "es": "Buenas noches. ¿Mesa para cuántas personas?",
+     "en": "Good evening. Table for how many people?"
+    },
+    "opts": [
+     {
+      "es": "Mesa para dos, por favor",
+      "en": "Table for two, please",
+      "ok": 1
+     },
+     {
+      "es": "Son las dos",
+      "en": "It's two o'clock"
+     },
+     {
+      "es": "Muchas gracias, adiós",
+      "en": "Thank you very much, goodbye"
+     }
+    ],
+    "why": "\"Para dos\" = for two people."
+   },
+   {
+    "npc": {
+     "es": "¿Qué desean tomar?",
+     "en": "What would you like to drink?"
+    },
+    "opts": [
+     {
+      "es": "Una cerveza y un agua, por favor",
+      "en": "A beer and a water, please",
+      "ok": 1
+     },
+     {
+      "es": "Estoy lleno",
+      "en": "I'm full"
+     },
+     {
+      "es": "A la derecha",
+      "en": "To the right"
+     }
+    ],
+    "why": "He asks about drinks: order them."
+   },
+   {
+    "npc": {
+     "es": "¿Algo más?",
+     "en": "Anything else?"
+    },
+    "opts": [
+     {
+      "es": "No, gracias. La cuenta, por favor",
+      "en": "No, thanks. The bill, please",
+      "ok": 1
+     },
+     {
+      "es": "Sí, estoy perdido",
+      "en": "Yes, I'm lost"
+     },
+     {
+      "es": "Todo recto",
+      "en": "Straight ahead"
+     }
+    ],
+    "why": "Wrap up and ask for the bill."
+   },
+   {
+    "npc": {
+     "es": "Son quinientos pesos. ¿Efectivo o tarjeta?",
+     "en": "That's five hundred pesos. Cash or card?"
+    },
+    "opts": [
+     {
+      "es": "Con tarjeta, por favor",
+      "en": "By card, please",
+      "ok": 1
+     },
+     {
+      "es": "Sin hielo, por favor",
+      "en": "No ice, please"
+     },
+     {
+      "es": "Hace frío",
+      "en": "It's cold"
+     }
+    ],
+    "why": "He offered two choices: pick one."
+   }
+  ]
+ },
+ {
+  "id": "lost",
+  "title": "Lost in the city",
+  "cat": "Out & about",
+  "voice": "f",
+  "who": "Paloma",
+  "intro": "You can't find your hotel. A friendly stranger stops.",
+  "steps": [
+   {
+    "npc": {
+     "es": "¿Necesitas ayuda?",
+     "en": "Do you need help?"
+    },
+    "opts": [
+     {
+      "es": "Sí, estoy perdido. ¿Me puedes ayudar?",
+      "en": "Yes, I'm lost. Can you help me?",
+      "ok": 1
+     },
+     {
+      "es": "Sí, tengo sed",
+      "en": "Yes, I'm thirsty"
+     },
+     {
+      "es": "No, gracias, estoy lleno",
+      "en": "No thanks, I'm full"
+     }
+    ],
+    "why": "Say what the problem is: \"estoy perdido\"."
+   },
+   {
+    "npc": {
+     "es": "¿A dónde vas?",
+     "en": "Where are you going?"
+    },
+    "opts": [
+     {
+      "es": "Estoy buscando la plaza",
+      "en": "I'm looking for the plaza",
+      "ok": 1
+     },
+     {
+      "es": "Estoy cansado",
+      "en": "I'm tired"
+     },
+     {
+      "es": "Dos cervezas",
+      "en": "Two beers"
+     }
+    ],
+    "why": "\"Estoy buscando…\" names what you want to find."
+   },
+   {
+    "npc": {
+     "es": "Está cerca. Todo recto y a la derecha.",
+     "en": "It's close. Straight ahead and to the right."
+    },
+    "opts": [
+     {
+      "es": "Gracias. ¿Está lejos?",
+      "en": "Thanks. Is it far?",
+      "ok": 1
+     },
+     {
+      "es": "¿Cuánto cuesta?",
+      "en": "How much is it?"
+     },
+     {
+      "es": "Un café, por favor",
+      "en": "A coffee, please"
+     }
+    ],
+    "why": "A natural follow-up about distance."
+   },
+   {
+    "npc": {
+     "es": "Cinco minutos caminando.",
+     "en": "Five minutes walking."
+    },
+    "opts": [
+     {
+      "es": "Muchas gracias. Que te vaya bien",
+      "en": "Thank you very much. All the best",
+      "ok": 1
+     },
+     {
+      "es": "Lo siento, no hay descuento",
+      "en": "Sorry, there's no discount"
+     },
+     {
+      "es": "Estoy lleno",
+      "en": "I'm full"
+     }
+    ],
+    "why": "Thank her and say goodbye."
+   }
+  ]
+ }
 ]

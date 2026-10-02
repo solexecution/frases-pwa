@@ -1,26 +1,28 @@
 const RR=["Basics","Networking","Dating","Solar","Social","Out & about","Conversation","Understanding","Plans","Opinions","Work"];
 const BADGES=[
- {id:"first",e:"🌱",n:"First step",d:"Finish a session",t:()=>prof.sessions>=1},
- {id:"s3",e:"🔥",n:"3-day streak",d:"3 days in a row",t:()=>prof.best>=3},
- {id:"s7",e:"🚀",n:"7-day streak",d:"A full week",t:()=>prof.best>=7},
- {id:"s30",e:"👑",n:"30-day streak",d:"A whole month",t:()=>prof.best>=30},
- {id:"x500",e:"⭐",n:"500 XP",d:"Earn 500 XP",t:()=>prof.xp>=500},
- {id:"x2000",e:"🌟",n:"2000 XP",d:"Earn 2000 XP",t:()=>prof.xp>=2000},
- {id:"c50",e:"📚",n:"50 phrases",d:"Meet 50 phrases",t:()=>seenCount()>=50},
- {id:"c150",e:"🎓",n:"150 phrases",d:"Meet 150 phrases",t:()=>seenCount()>=150},
- {id:"perfect",e:"💎",n:"Flawless",d:"A perfect session",t:()=>prof.perfect>=1},
- {id:"solar",e:"☀️",n:"Solar pro",d:"Master 12 solar phrases",t:()=>mastered("Solar")>=12},
- {id:"dating",e:"💘",n:"Smooth talker",d:"Master 12 dating phrases",t:()=>mastered("Dating")>=12},
- {id:"net",e:"🤝",n:"Networker",d:"Master 12 networking phrases",t:()=>mastered("Networking")>=12},
- {id:"m1",e:"🎬",n:"Role player",d:"Finish a mission",t:()=>Object.keys(prof.missions).length>=1},
- {id:"m8",e:"🏆",n:"Mission master",d:"3 stars on every mission",t:()=>MISS.length>0&&MISS.every(m=>(prof.missions[m.id]||0)>=3)}
+ {id:"first",n:"First step",d:"Finish a session",t:()=>prof.sessions>=1},
+ {id:"s3",n:"3-day streak",d:"3 days in a row",t:()=>prof.best>=3},
+ {id:"s7",n:"7-day streak",d:"A full week",t:()=>prof.best>=7},
+ {id:"s30",n:"30-day streak",d:"A whole month",t:()=>prof.best>=30},
+ {id:"x500",n:"500 XP",d:"Earn 500 XP",t:()=>prof.xp>=500},
+ {id:"x2000",n:"2000 XP",d:"Earn 2000 XP",t:()=>prof.xp>=2000},
+ {id:"c50",n:"50 phrases",d:"Meet 50 phrases",t:()=>seenCount()>=50},
+ {id:"c150",n:"150 phrases",d:"Meet 150 phrases",t:()=>seenCount()>=150},
+ {id:"perfect",n:"Flawless",d:"A perfect session",t:()=>prof.perfect>=1},
+ {id:"solar",n:"Solar pro",d:"Master 12 solar phrases",t:()=>mastered("Solar")>=12},
+ {id:"dating",n:"Smooth talker",d:"Master 12 dating phrases",t:()=>mastered("Dating")>=12},
+ {id:"net",n:"Networker",d:"Master 12 networking phrases",t:()=>mastered("Networking")>=12},
+ {id:"m1",n:"Role player",d:"Finish a mission",t:()=>Object.keys(prof.missions).length>=1},
+ {id:"m8",n:"Mission master",d:"3 stars on every mission",t:()=>MISS.length>0&&MISS.every(m=>(prof.missions[m.id]||0)>=3)}
 ];
 let S=null,M=null;
+const starsHtml=n=>[0,1,2].map(i=>SVG.star.replace("<svg",`<svg class="${i<n?"on":"off"}"`)).join("");
+const avatar=m=>`<span class="avatar">${esc(m.who.replace(/^(Sr\.|Doña)\s*/,"").charAt(0))}</span>`;
 
 function checkBadges(){const out=[];
  BADGES.forEach(b=>{if(!prof.badges.includes(b.id)&&b.t()){prof.badges.push(b.id);out.push(b)}});
  if(out.length)saveProf();return out}
-const badgeHtml=nb=>nb.length?`<div class="card"><div class="lab">New badge${nb.length>1?"s":""}</div>${nb.map(b=>`<div style="padding:4px 0"><span style="font-size:1.6rem">${b.e}</span> <b>${esc(b.n)}</b> <span class="sub">${esc(b.d)}</span></div>`).join("")}</div>`:"";
+const badgeHtml=nb=>nb.length?`<div class="card"><div class="lab">New badge${nb.length>1?"s":""}</div>${nb.map(b=>`<div style="padding:4px 0"><span class="mini">${SVG.star}</span> <b>${esc(b.n)}</b> <span class="sub">${esc(b.d)}</span></div>`).join("")}</div>`:"";
 
 function pickNew(pool,n){
  const g={};pool.filter(p=>!srs[p.i]).forEach(p=>(g[p.cat]=g[p.cat]||[]).push(p));
@@ -87,7 +89,7 @@ function nextStep(){
  if(S.i>=S.steps.length){finishSession();return}
  const s=S.steps[S.i];
  $("ovBar").style.width=(S.i/S.steps.length*100)+"%";
- $("ovCombo").textContent=S.combo>=2?"×"+S.combo+" 🔥":"";
+ $("ovCombo").textContent=S.combo>=2?"×"+S.combo:"";
  $("ovFoot").innerHTML="";
  ({intro:rIntro,listen:rListen,pickEs:rPickEs,fill:rFill,build:rBuild,say:rSay})[s.k](s.p)}
 const praise=()=>["¡Perfecto!","¡Muy bien!","¡Excelente!","¡Así se hace!","¡Eso es!"][Math.random()*5|0];
@@ -104,12 +106,12 @@ function grade(ok,p){
  else{
   S.combo=0;S.wrong++;S.failed.add(p.i);srsWrong(p.i);fx.bad();buzz([60,40,60]);
   if(!S.retried.has(p.i)){S.retried.add(p.i);queueRetry(p)}}
- $("ovCombo").textContent=S.combo>=2?"×"+S.combo+" 🔥":"";
+ $("ovCombo").textContent=S.combo>=2?"×"+S.combo:"";
  feedback(ok,p)}
 
 function rIntro(p){
  const m=groupMaps(p);
- setBody(`<div class="q">New phrase</div><div class="big">${wordsHTML(m.esT,m.esG)}</div><div class="bigen">${wordsHTML(m.enT,m.enG)}</div>${p.note?`<div class="tag">${esc(p.note)}</div>`:""}<div class="hear" style="margin-top:22px"><button class="hearb" id="iPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="iSlow" aria-label="Slow">🐢</button></div><div class="sub center">Tap any word to see its match.</div>`);
+ setBody(`<div class="q">New phrase</div><div class="big">${wordsHTML(m.esT,m.esG)}</div><div class="bigen">${wordsHTML(m.enT,m.enG)}</div>${p.note?`<div class="tag">${esc(p.note)}</div>`:""}<div class="hear" style="margin-top:22px"><button class="hearb" id="iPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="iSlow" aria-label="Slow">Slow</button></div><div class="sub center">Tap any word to see its match.</div>`);
  $("ovBody").onclick=e=>{const w=e.target.closest(".w");if(w&&w.dataset.g!=null)hlGroup(+w.dataset.g,$("ovBody"))};
  $("iPlay").onclick=()=>sayPhrase(p.i,false);$("iSlow").onclick=()=>sayPhrase(p.i,true);
  $("ovFoot").innerHTML='<button class="btn block" id="ovNext">Got it</button>';
@@ -117,7 +119,7 @@ function rIntro(p){
  sayPhrase(p.i,false)}
 function rListen(p){
  const opts=shuffle([p,...distract(p,"en",3)]);
- setBody(`<div class="q">Listen. What does it mean?</div><div class="hear"><button class="hearb" id="qPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="qSlow" aria-label="Slow">🐢</button></div><div class="ch" id="chs"></div>`);
+ setBody(`<div class="q">Listen. What does it mean?</div><div class="hear"><button class="hearb" id="qPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="qSlow" aria-label="Slow">Slow</button></div><div class="ch" id="chs"></div>`);
  $("qPlay").onclick=()=>sayPhrase(p.i,false);$("qSlow").onclick=()=>sayPhrase(p.i,true);
  renderChoices(opts.map(x=>x.en),opts.indexOf(p),ok=>grade(ok,p));
  sayPhrase(p.i,false)}
@@ -154,11 +156,11 @@ function rBuild(p){
   else if(k&&!order.includes(+k.dataset.k)){order.push(+k.dataset.k);fx.tap();draw()}};
  draw()}
 function rSay(p){
- setBody(`<div class="q">Say it out loud</div><div class="big center">${esc(p.en)}</div><div class="center say"><div class="mic">🎤</div><div class="sub">Say it in Spanish. Then reveal the answer.</div></div><div id="sayAns" class="center" style="margin-top:14px"></div>`);
+ setBody(`<div class="q">Say it out loud</div><div class="big center">${esc(p.en)}</div><div class="center say"><div class="mic">${SVG.mic}</div><div class="sub">Say it in Spanish. Then reveal the answer.</div></div><div id="sayAns" class="center" style="margin-top:14px"></div>`);
  $("ovFoot").innerHTML='<button class="btn block" id="sReveal">Reveal</button>';
  $("sReveal").onclick=()=>{
   $("sayAns").innerHTML=`<div class="big">${esc(p.es)}</div>`;sayPhrase(p.i,false);
-  $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sNo">Not yet</button><button class="btn" id="sYes">Nailed it ✓</button></div>';
+  $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sNo">Not yet</button><button class="btn" id="sYes">Nailed it</button></div>';
   $("sYes").onclick=()=>{S.xp+=8;addXp(8);fx.good();buzz(25);S.i++;nextStep()};
   $("sNo").onclick=()=>{srsWrong(p.i);fx.tap();S.i++;nextStep()}}}
 
@@ -172,21 +174,21 @@ function finishSession(){
  const nb=checkBadges(),L1=lvl(prof.xp);
  const tot=S.right+S.wrong,acc=tot?Math.round(S.right/tot*100):100;
  $("ovBar").style.width="100%";$("ovCombo").textContent="";
- setBody(`<div class="sum"><div class="em">${perfect?"💎":"🎉"}</div><h2>${perfect?"Perfect session!":"Session complete!"}</h2><div class="sub">${first?"🔥 "+prof.streak+"-day streak!":"Bonus round, nice."}</div><div class="sg"><div><b>+${S.xp}</b><small>XP</small></div><div><b>${acc}%</b><small>Accuracy</small></div><div><b>${S.fresh}</b><small>New phrases</small></div></div>${L1>S.lvl0?`<div class="card"><b>⬆ Level ${L1} reached!</b></div>`:""}${badgeHtml(nb)}</div>`);
+ setBody(`<div class="sum"><div class="em">${SVG.star}</div><h2>${perfect?"Perfect session!":"Session complete!"}</h2><div class="sub">${first?prof.streak+"-day streak!":"Bonus round, nice."}</div><div class="sg"><div><b>+${S.xp}</b><small>XP</small></div><div><b>${acc}%</b><small>Accuracy</small></div><div><b>${S.fresh}</b><small>New phrases</small></div></div>${L1>S.lvl0?`<div class="card"><b>Level ${L1} reached!</b></div>`:""}${badgeHtml(nb)}</div>`);
  $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sDone">Done</button><button class="btn" id="sMore">One more round</button></div>';
  $("sDone").onclick=closeOv;$("sMore").onclick=()=>startSession("more");
  fx.win();confetti();buzz([40,40,80])}
 
 function renderMissions(){
  $("mList").innerHTML=MISS.map(m=>{const s=prof.missions[m.id]||0;
-  return `<button class="mcard" data-id="${m.id}"><span class="em">${m.emoji}</span><span class="mt"><b>${esc(m.title)}</b><span class="sub">${esc(m.who)} · ${m.steps.length} replies</span><br><span class="tag">${esc(m.cat)}</span></span><span class="stars ${s?"on":""}">${"★".repeat(s)}${"☆".repeat(3-s)}</span></button>`}).join("")}
+  return `<button class="mcard" data-id="${m.id}">${avatar(m)}<span class="mt"><b>${esc(m.title)}</b><span class="sub">${esc(m.who)} · ${m.steps.length} replies</span><br><span class="tag">${esc(m.cat)}</span></span><span class="stars">${starsHtml(s)}</span></button>`}).join("")}
 $("mList").onclick=e=>{const b=e.target.closest(".mcard");if(b)startMission(b.dataset.id)};
 
 function startMission(id){
  const m=MISS.find(x=>x.id===id);if(!m)return;
  S=null;M={m,i:0,wrong:0,right:0,xp:0};
  openOv();
- setBody(`<div class="sum"><div class="em">${m.emoji}</div><h2>${esc(m.title)}</h2><p class="sub">${esc(m.intro)}</p><p class="sub">You are talking to <b>${esc(m.who)}</b>. Listen first, then pick your reply.</p></div>`);
+ setBody(`<div class="sum"><div class="em">${avatar(m)}</div><h2>${esc(m.title)}</h2><p class="sub">${esc(m.intro)}</p><p class="sub">You are talking to <b>${esc(m.who)}</b>. Listen first, then pick your reply.</p></div>`);
  $("ovFoot").innerHTML='<button class="btn block" id="mGo">Start</button>';
  $("mGo").onclick=mStep}
 function mStep(){
@@ -195,7 +197,7 @@ function mStep(){
  if(M.i>=m.steps.length){mFinish();return}
  const s=m.steps[M.i],opts=shuffle(s.opts);
  $("ovBar").style.width=(M.i/m.steps.length*100)+"%";$("ovFoot").innerHTML="";
- setBody(`<div class="who"><span class="em">${m.emoji}</span>${esc(m.who)}</div><div class="bub"><div class="big" style="font-size:1.5rem">${esc(s.npc.es)}</div><div class="bigen" id="mEn" style="visibility:hidden">${esc(s.npc.en)}</div></div><div class="hear" style="margin:0 0 10px"><button class="hearb sm" id="mReplay" aria-label="Replay">🔊</button><button class="hearb sm" id="mHint" aria-label="Show English">👁</button></div><div class="ch" id="chs"></div>`);
+ setBody(`<div class="who">${avatar(m)}${esc(m.who)}</div><div class="bub"><div class="big" style="font-size:1.5rem">${esc(s.npc.es)}</div><div class="bigen" id="mEn" style="visibility:hidden">${esc(s.npc.en)}</div></div><div class="hear" style="margin:0 0 10px"><button class="hearb sm" id="mReplay" aria-label="Replay">${SVG.say}</button><button class="hearb sm" id="mHint" aria-label="Show English">${SVG.eye}</button></div><div class="ch" id="chs"></div>`);
  const ch=$("chs");
  opts.forEach(o=>{const b=document.createElement("button");b.innerHTML=`${esc(o.es)}<span class="tr">${esc(o.en)}</span>`;
   b.onclick=()=>{
@@ -218,7 +220,7 @@ function mFinish(){
  const first=markActive();saveProf();
  const nb=checkBadges();
  $("ovBar").style.width="100%";
- setBody(`<div class="sum"><div class="em">${m.emoji}</div><h2>Mission complete!</h2><div class="stars on" style="font-size:2.2rem">${"★".repeat(stars)}${"☆".repeat(3-stars)}</div><div class="sub">${first?"🔥 "+prof.streak+"-day streak!":esc(m.title)}</div><div class="sg"><div><b>+${M.xp}</b><small>XP</small></div><div><b>${M.right}/${m.steps.length}</b><small>Right first try</small></div><div><b>${stars}</b><small>Stars</small></div></div>${badgeHtml(nb)}</div>`);
+ setBody(`<div class="sum"><div class="em">${avatar(m)}</div><h2>Mission complete!</h2><div class="stars big">${starsHtml(stars)}</div><div class="sub">${first?prof.streak+"-day streak!":esc(m.title)}</div><div class="sg"><div><b>+${M.xp}</b><small>XP</small></div><div><b>${M.right}/${m.steps.length}</b><small>Right first try</small></div><div><b>${stars}</b><small>Stars</small></div></div>${badgeHtml(nb)}</div>`);
  $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="mDone">Done</button><button class="btn" id="mAgain">Play again</button></div>';
  $("mDone").onclick=closeOv;$("mAgain").onclick=()=>startMission(m.id);
  fx.win();if(stars===3)confetti()}

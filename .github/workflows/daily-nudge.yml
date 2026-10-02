@@ -24,7 +24,7 @@ jobs:
             title="¡Buenos días! Your Spanish phrase"
             msg="$es = $en. Do your 5-minute session and keep the streak."
           else
-            title="🔥 Don't lose your streak"
+            title="Do not lose your streak"
             msg="5 minutes is enough tonight. Today's phrase: $es = $en"
           fi
-          jq -n --arg t "$TOPIC" --arg ti "$title" --arg m "$msg" '{topic:$t,title:$ti,message:$m,click:"https://solexecution.github.io/frases-pwa/",priority:4,tags:["fire"]}' | curl -fsS -H "Content-Type: application/json" -d @- https://ntfy.sh
+          jq -n --arg t "$TOPIC" --arg ti "$title" --arg m "$msg" '{topic:$t,title:$ti,message:$m,click:"https://solexecution.github.io/frases-pwa/",priority:4}' | curl -fsS -H "Content-Type: application/json" -d @- https://ntfy.sh

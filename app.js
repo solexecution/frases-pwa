@@ -17,7 +17,11 @@ const SVG={
  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>',
  pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
  prev:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>',
- next:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>'};
+ next:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>',
+ flame:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-4-1-6 1-10z"/></svg>',
+ mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+ eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+ star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.8 1.5 7L12 17.5 5.7 21l1.5-7L2 9.3l7-.8z"/></svg>'};
 
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(3,"0");
@@ -60,7 +64,7 @@ function srsWrong(i){const e=srs[i]||[0,0,0,0];srs[i]=[0,today()+1,e[2]+1,e[3]+1
 const seenCount=()=>P.filter(p=>srs[p.i]||known.has(p.i)).length;
 const learnedCount=()=>P.filter(p=>known.has(p.i)||(srs[p.i]&&srs[p.i][0]>=3)).length;
 const mastered=cat=>P.filter(p=>p.cat===cat&&(known.has(p.i)||(srs[p.i]&&srs[p.i][0]>=3))).length;
-function hud(){$("hStreak").textContent="🔥 "+liveStreak();$("hLvl").textContent="Lv "+lvl(prof.xp)}
+function hud(){$("hStreak").innerHTML=SVG.flame+liveStreak();$("hLvl").textContent="Lv "+lvl(prof.xp)}
 
 const audio=new Audio();audio.preload="auto";
 let esVoice=null,enVoice=null;
@@ -165,7 +169,7 @@ async function playLoop(){const my=++token;playing=true;setPlayIcon();keepAwake(
   showCurrent();
   if(opt.en){hlMode="en";lastGi=null;await sayEn(p.i);if(token!==my)return;await wait(200);if(token!==my)return}
   hlMode="es";lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return;
-  if(opt.echo){const d=(audio.duration||2)*1000/opt.rate;$("lCat").textContent="🎤 Your turn…";await wait(d*1.5+600);if(token!==my)return;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
+  if(opt.echo){const d=(audio.duration||2)*1000/opt.rate;$("lCat").textContent="Your turn…";await wait(d*1.5+600);if(token!==my)return;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
   if(opt.rep){await wait(300);if(token!==my)return;lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return}
   await wait(GAPS[opt.gap]);if(token!==my)return;
   let nx=qi+1;
@@ -192,15 +196,15 @@ function renderToday(){const h=new Date().getHours();
  const L=lvl(prof.xp),a=lvlStart(L),b=lvlStart(L+1);
  $("lvlTxt").textContent="Level "+L;$("xpTxt").textContent=(prof.xp-a)+" / "+(b-a)+" XP";$("xpBar").style.width=((prof.xp-a)/(b-a)*100)+"%";
  const done=prof.last===today();
- $("doneTxt").textContent=done?"✓ Today's goal done. Bonus rounds still earn XP.":"Today's goal: finish one session or one mission.";
+ $("doneTxt").textContent=done?"Today's goal done. Bonus rounds still earn XP.":"Today's goal: finish one session or one mission.";
  const pl=plan("daily");
- $("ctaMain").textContent=done?"▶ Another round":"▶ Start today's session";
+ $("ctaMain").textContent=done?"Another round":"Start today's session";
  $("ctaSub").textContent=`${pl.due.length} to review · ${pl.fresh.length} new · about 5 min`;
  renderPotd();$("chipsF").innerHTML=chipsHTML(FOCUS,set.focus);hud();offlineCard()}
 
 const off={have:0,need:0};
 function offlineCard(){const c=$("offCard");
- if(off.need&&off.have>=off.need){c.className="card off ok";c.innerHTML='<span class="dot"></span><span>Fully offline ✓ everything is on this phone</span>';return}
+ if(off.need&&off.have>=off.need){c.className="card off ok";c.innerHTML='<span class="dot"></span><span>Fully offline. Everything is on this phone</span>';return}
  if(!("serviceWorker" in navigator)||!window.caches){c.className="card off";c.innerHTML='<span class="dot"></span><span>Offline needs a modern browser</span>';return}
  const pct=off.need?Math.floor(off.have/off.need*100):0;
  c.className="card off";c.innerHTML=`<span class="dot"></span><span>Getting offline pack… ${pct}%</span><div class="bar"><i style="width:${pct}%"></i></div>`}
@@ -229,22 +233,22 @@ let deferredPrompt=null;
 const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone;
 function renderMe(){
  const stars=Object.values(prof.missions).reduce((a,b)=>a+b,0);
- $("stats").innerHTML=[[prof.xp,"Total XP"],["Lv "+lvl(prof.xp),"Level"],[liveStreak()+" 🔥","Streak (best "+prof.best+")"],[learnedCount()+"/"+P.length,"Learned"],[prof.sessions,"Sessions"],[stars+" ⭐","Mission stars"]].map(x=>`<div class="stat"><b>${x[0]}</b><small>${x[1]}</small></div>`).join("");
+ $("stats").innerHTML=[[prof.xp,"Total XP"],["Lv "+lvl(prof.xp),"Level"],[liveStreak(),"Streak (best "+prof.best+")"],[learnedCount()+"/"+P.length,"Learned"],[prof.sessions,"Sessions"],[stars,"Mission stars"]].map(x=>`<div class="stat"><b>${x[0]}</b><small>${x[1]}</small></div>`).join("");
  const t=today(),days=[];for(let k=6;k>=0;k--){const n=t-k;days.push({l:"SMTWTFS"[new Date(n*864e5).getUTCDay()],v:prof.days[dayStr(n)]||0})}
  const mx=Math.max(20,...days.map(d=>d.v));
  $("week").innerHTML=days.map(d=>`<div><i style="height:${d.v/mx*100}%"></i>${d.l}</div>`).join("");
- $("badges").innerHTML=BADGES.map(b=>`<div class="bd ${prof.badges.includes(b.id)?"":"lock"}"><span class="e">${b.e}</span><b>${esc(b.n)}</b><br>${esc(b.d)}</div>`).join("");
+ $("badges").innerHTML=BADGES.map(b=>`<div class="bd ${prof.badges.includes(b.id)?"":"lock"}"><span class="e">${SVG.star}</span><b>${esc(b.n)}</b><br>${esc(b.d)}</div>`).join("");
  $("settings").innerHTML=`<div class="lab">Settings</div>
  <div class="set"><span>New phrases per session</span><div class="seg" id="segNew">${[3,5,8].map(n=>`<button data-n="${n}" aria-pressed="${set.newPerDay===n}">${n}</button>`).join("")}</div></div>
  <div class="set"><span>Sound effects</span><button class="tog" id="togSnd" style="padding:10px 16px">${set.sound?"On":"Off"}</button></div>
  <div class="set"><span>Daily push reminders</span><button class="btn sec" id="btnPush">Set up</button></div>
- <div class="set"><span>Install on this phone</span><button class="btn" id="btnInstall" ${standalone()?"disabled":""}>${standalone()?"Installed ✓":"Install"}</button></div>
+ <div class="set"><span>Install on this phone</span><button class="btn" id="btnInstall" ${standalone()?"disabled":""}>${standalone()?"Installed":"Install"}</button></div>
  <div class="set"><span>Version ${VER}</span><button class="btn sec" id="btnReset">Reset progress</button></div>`}
 function pushModal(){const t=store.get("frases-topic","");
  modal(`<h3>Daily push reminders</h3><p>Reliable reminders, even when the app is closed, come from the free <b>ntfy</b> app. Install ntfy from Google Play or F-Droid, paste your private topic below, then tap Subscribe.</p><input type="text" id="topicIn" placeholder="your-private-topic" value="${esc(t)}" autocapitalize="off" autocomplete="off" spellcheck="false">`,
  [{t:"Close",cls:"sec"},{t:"Subscribe",fn:()=>{const v=$("topicIn").value.trim();if(!v){toast("Paste your topic first.");return}
   store.set("frases-topic",v);toast("If ntfy did not open, subscribe to the topic inside the ntfy app.");location.href="ntfy://ntfy.sh/"+encodeURIComponent(v)}}])}
-async function doInstall(){if(!deferredPrompt){toast("Open the browser menu (⋮) and choose Install app or Add to Home screen.");return}
+async function doInstall(){if(!deferredPrompt){toast("Open the browser menu (three dots) and choose Install app or Add to Home screen.");return}
  deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}
 function resetAll(){["frases-srs","frases-prof","frases-known"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});location.reload()}
 

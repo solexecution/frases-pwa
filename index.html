@@ -22,6 +22,7 @@ button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 header{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 h1{margin:0;font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1;background:linear-gradient(90deg,var(--deep),var(--turq) 55%,var(--shallow));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hud{display:flex;gap:8px}
+.hud svg{width:14px;height:14px;color:var(--gold);vertical-align:-2px;margin-right:4px}
 .hud span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:.88rem;font-weight:700}
 main{padding:12px 16px 24px;max-width:680px;margin:0 auto}
 .screen[hidden]{display:none}
@@ -79,12 +80,12 @@ body.fit{padding-bottom:0;height:100dvh;overflow:hidden}
 body.fit main{padding-bottom:0}
 #s-listen:not([hidden]){display:flex;flex-direction:column;height:calc(100dvh - 146px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
 #s-listen .player{min-height:0;overflow-y:auto}
-#s-listen .opts{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;margin:10px -16px 0;padding:2px 16px;scrollbar-width:none}
-#s-listen .opts::-webkit-scrollbar{display:none}
-#s-listen .opt{flex:none}
+#s-listen .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 0}
+#s-listen .opt{padding:10px 2px;font-size:.92rem;text-align:center;white-space:nowrap}
 #s-listen .chips{flex:none}
 #s-listen .opts,#s-listen .controls,#s-listen .speed{flex:none}
-.speed{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:1.4rem}
+.speed{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:.95rem}
+.sl{color:var(--muted);font-weight:700}
 .speed b{min-width:3.4em;text-align:right;font-size:1.05rem}
 .speed input{flex:1;min-width:0;height:44px;accent-color:var(--turq)}
 .player[data-l="m"] .pes{font-size:clamp(2.1rem,10vw,3.2rem)}
@@ -111,10 +112,13 @@ body.fit main{padding-bottom:0}
 .opt[aria-pressed="true"]{background:var(--deep);color:#fff;border-color:var(--deep)}
 .opt.know[aria-pressed="true"]{background:var(--turq);border-color:var(--turq)}
 .mcard{display:flex;align-items:center;gap:14px;padding:14px 16px;margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;width:100%;text-align:left}
-.mcard .em{font-size:2rem;width:48px;text-align:center}
+.mcard .avatar{margin-right:2px}
 .mcard .mt{flex:1}.mcard b{display:block;font-size:1.05rem}
-.stars{letter-spacing:2px;color:var(--line);font-size:1.1rem}
-.stars.on{color:var(--gold)}
+.stars{display:inline-flex;gap:2px;justify-content:center}
+.stars svg{width:20px;height:20px}
+.stars .on{color:var(--gold)}
+.stars .off{color:var(--line)}
+.stars.big svg{width:40px;height:40px}
 .tag{display:inline-block;font-size:.72rem;font-weight:700;color:var(--pink);margin-top:3px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center}
@@ -124,7 +128,8 @@ body.fit main{padding-bottom:0}
 .week i{display:block;width:100%;background:var(--turq);border-radius:6px 6px 0 0;min-height:3px}
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
 .bd{text-align:center;padding:10px 6px;border:1px solid var(--line);border-radius:14px;font-size:.78rem;line-height:1.25}
-.bd .e{font-size:1.8rem;display:block}.bd.lock{opacity:.35;filter:grayscale(1)}
+.bd .e{display:block}
+.bd .e svg{width:30px;height:30px;color:var(--gold)}.bd.lock{opacity:.35;filter:grayscale(1)}
 .set{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
 .set:first-of-type{border-top:0}
 .seg{display:flex;background:var(--line);border-radius:10px;padding:3px;gap:3px}
@@ -137,12 +142,14 @@ body.fit main{padding-bottom:0}
 .pbtn.play{border-color:var(--pink);background:color-mix(in srgb,var(--pink) 10%,var(--card))}
 nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
 nav button{border:0;background:transparent;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.72rem;color:var(--muted);font-weight:600;border-radius:12px}
-nav button span{font-size:1.4rem;line-height:1}
+nav button span{line-height:1}
+nav button span svg{width:26px;height:26px;display:block}
 nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,var(--turq) 12%,transparent)}
 #ov{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column}
 #ov[hidden]{display:none}
 .ovTop{display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 8px}
-.ovTop button{border:0;background:transparent;font-size:1.4rem;padding:4px 8px;color:var(--muted)}
+.ovTop button{border:0;background:transparent;padding:4px 8px;color:var(--muted)}
+.ovTop button svg{width:24px;height:24px;display:block}
 .pb2{flex:1;height:12px;background:var(--line);border-radius:99px;overflow:hidden}
 .pb2 i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--turq),var(--gold));border-radius:99px;transition:width .3s}
 #ovCombo{min-width:56px;text-align:right;font-weight:800;color:var(--gold)}
@@ -158,7 +165,8 @@ nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,v
 .hear{display:flex;gap:10px;justify-content:center;margin:8px 0 18px}
 .hearb{width:92px;height:92px;border-radius:50%;border:0;background:var(--pink);color:#fff;display:grid;place-items:center}
 .hearb svg{width:42px;height:42px}
-.hearb.sm{width:54px;height:54px;background:var(--card);color:var(--pink);border:1px solid var(--line);font-size:1.4rem}
+.hearb.sm{width:54px;height:54px;background:var(--card);color:var(--pink);border:1px solid var(--line);font-size:.8rem;font-weight:800}
+.hearb.sm svg{width:24px;height:24px}
 .ch{display:flex;flex-direction:column;gap:10px;margin-top:auto}
 .ch button{border:2px solid var(--line);background:var(--card);border-radius:16px;padding:15px 14px;text-align:left;font-size:1.05rem;font-weight:600;line-height:1.25}
 .ch button.good{border-color:var(--good);background:color-mix(in srgb,var(--good) 16%,var(--card))}
@@ -172,12 +180,16 @@ nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,v
 .tk{border:2px solid var(--line);background:var(--card);border-radius:12px;padding:11px 14px;font-size:1.1rem;font-weight:700}
 .tk.used{opacity:.25;pointer-events:none}
 .center{text-align:center}
-.say .mic{font-size:3.4rem;margin:10px 0}
+.say .mic{margin:10px 0}
+.say .mic svg{width:64px;height:64px;color:var(--pink)}
 .bub{background:var(--card);border:1px solid var(--line);border-radius:20px 20px 20px 6px;padding:16px;margin:8px 0 16px}
 .who{display:flex;align-items:center;gap:10px;font-weight:700;margin-bottom:8px}
-.who .em{font-size:1.8rem}
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--turq);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.3rem;flex:none}
+.sum .avatar{width:84px;height:84px;font-size:2.4rem;margin:0 auto}
+.sum .em svg{width:72px;height:72px;color:var(--gold)}
+.mini svg{width:20px;height:20px;color:var(--gold);vertical-align:middle}
 .sum{text-align:center;padding-top:10px}
-.sum .em{font-size:4rem}
+.sum .em{margin-bottom:6px}
 .sum h2{margin:6px 0;font-size:1.7rem}
 .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
 .sg div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 4px}
@@ -198,7 +210,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
 <body>
 <header>
   <h1>Frases</h1>
-  <div class="hud"><span id="hStreak">🔥 0</span><span id="hLvl">Lv 1</span></div>
+  <div class="hud"><span id="hStreak">0</span><span id="hLvl">Lv 1</span></div>
 </header>
 <main>
   <section id="s-today" class="screen">
@@ -209,10 +221,10 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
       <div class="bar"><i id="xpBar"></i></div>
       <div class="sub" id="doneTxt"></div>
     </div>
-    <button class="cta" id="btnSession"><span id="ctaMain">▶ Start today's session</span><small id="ctaSub"></small></button>
+    <button class="cta" id="btnSession"><span id="ctaMain">Start today's session</span><small id="ctaSub"></small></button>
     <div class="two">
-      <button class="tile" id="btnPrep"><b>⚡ Event prep</b><small>3-minute mixer drill</small></button>
-      <button class="tile" id="btnPocket"><b>🗣️ Pocket mode</b><small>tap-to-speak cheat sheet</small></button>
+      <button class="tile" id="btnPrep"><b>Event prep</b><small>3-minute mixer drill</small></button>
+      <button class="tile" id="btnPocket"><b>Pocket mode</b><small>tap-to-speak cheat sheet</small></button>
     </div>
     <div class="card potd" id="potd"></div>
     <div class="card"><div class="lab">What do you want to learn?</div><div class="chips" id="chipsF"></div></div>
@@ -233,15 +245,15 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
       <div class="pen" id="lEn"></div>
       <div class="pbar"><i id="lProg"></i></div>
     </div>
-    <div class="speed"><span>🐢</span><input type="range" id="rate" min="0.5" max="1.25" step="0.05" value="0.85" aria-label="Speed"><span>🐇</span><b id="rateTxt">0.85×</b></div>
+    <div class="speed"><span class="sl">Slow</span><input type="range" id="rate" min="0.5" max="1.25" step="0.05" value="0.85" aria-label="Speed"><span class="sl">Fast</span><b id="rateTxt">0.85×</b></div>
     <div class="opts">
-      <button class="opt" id="oSlow" aria-pressed="false">⏸ Word gaps</button>
-      <button class="opt" id="oEn" aria-pressed="false">🇬🇧 English</button>
-      <button class="opt" id="oEcho" aria-pressed="false">🎤 Echo</button>
+      <button class="opt" id="oSlow" aria-pressed="false">Word gaps</button>
+      <button class="opt" id="oEn" aria-pressed="false">English</button>
+      <button class="opt" id="oEcho" aria-pressed="false">Echo</button>
       <button class="opt" id="oRep" aria-pressed="false">Repeat ×2</button>
       <button class="opt" id="oLoop" aria-pressed="true">Loop</button>
       <button class="opt" id="oGap">Gap 0.7s</button>
-      <button class="opt know" id="lKnow" aria-pressed="false">✓ Known</button>
+      <button class="opt know" id="lKnow" aria-pressed="false">Known</button>
     </div>
     <div class="controls">
       <button id="lPrev" class="cbtn" aria-label="Previous"></button>
@@ -262,7 +274,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
   <section id="s-pocket" class="screen" hidden>
     <div class="row"><button class="btn sec" id="pBack" style="flex:0 0 auto">← Back</button><div class="hi" style="flex:1;text-align:right">Pocket</div></div>
     <div class="sub" style="margin-top:6px">Tap a phrase to say it out loud. Screen stays on.</div>
-    <div class="row" style="margin-top:10px"><button class="tog" id="pSlow" aria-pressed="false" style="padding:12px 14px">🐢 Slow</button></div>
+    <div class="row" style="margin-top:10px"><button class="tog" id="pSlow" aria-pressed="false" style="padding:12px 14px">Slow</button></div>
     <div class="chips" id="pTabs" style="margin-top:10px"></div>
     <div class="pgrid" id="pGrid"></div>
   </section>
@@ -276,15 +288,15 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
 </main>
 
 <nav>
-  <button data-s="today" aria-pressed="true"><span>🏠</span>Today</button>
-  <button data-s="missions" aria-pressed="false"><span>🎬</span>Missions</button>
-  <button data-s="listen" aria-pressed="false"><span>🎧</span>Listen</button>
-  <button data-s="browse" aria-pressed="false"><span>📖</span>Browse</button>
-  <button data-s="me" aria-pressed="false"><span>👤</span>Me</button>
+  <button data-s="today" aria-pressed="true"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg></span>Today</button>
+  <button data-s="missions" aria-pressed="false"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg></span>Missions</button>
+  <button data-s="listen" aria-pressed="false"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg></span>Listen</button>
+  <button data-s="browse" aria-pressed="false"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2z"/><path d="M12 6v14"/></svg></span>Browse</button>
+  <button data-s="me" aria-pressed="false"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span>Me</button>
 </nav>
 
 <div id="ov" hidden>
-  <div class="ovTop"><button id="ovX" aria-label="Close">✕</button><div class="pb2"><i id="ovBar"></i></div><span id="ovCombo"></span></div>
+  <div class="ovTop"><button id="ovX" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div class="pb2"><i id="ovBar"></i></div><span id="ovCombo"></span></div>
   <div id="ovBody"></div>
   <div id="ovFoot"></div>
 </div>
