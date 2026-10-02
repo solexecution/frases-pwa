@@ -48,9 +48,8 @@ main{padding:12px 16px 24px;max-width:680px;margin:0 auto}
 .row>*{flex:1}
 .potd .es{font-size:1.45rem;font-weight:700;line-height:1.2}
 .potd .en{color:var(--muted);margin-top:4px}
-.chips{display:flex;gap:6px;overflow-x:auto;margin:0 -16px;padding:2px 16px 4px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.card .chips{margin:0 -16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:2px 0 4px}
+.pick{width:100%;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:13px 16px;font-size:1.05rem;font-weight:700;text-align:left}
 .chip{flex:none;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:8px 14px;font-size:.92rem}
 .chip[aria-pressed="true"]{background:var(--turq);border-color:var(--turq);color:#fff}
 .off{display:flex;align-items:center;gap:10px;font-size:.92rem}
@@ -82,7 +81,7 @@ body.fit main{padding-bottom:0}
 #s-listen .player{min-height:0;overflow-y:auto}
 #s-listen .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 0}
 #s-listen .opt{padding:10px 2px;font-size:.92rem;text-align:center;white-space:nowrap}
-#s-listen .chips{flex:none}
+#s-listen .pick{flex:none}
 #s-listen .opts,#s-listen .controls,#s-listen .speed{flex:none}
 .speed{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:.95rem}
 .sl{color:var(--muted);font-weight:700}
@@ -238,7 +237,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
   </section>
 
   <section id="s-listen" class="screen" hidden>
-    <div class="chips" id="chipsL"></div>
+    <button class="pick" id="catBtn"></button>
     <div class="player">
       <div class="pmeta"><span id="lCat"></span><span id="lPos"></span></div>
       <div class="pes" id="lEs">—</div>

@@ -120,7 +120,7 @@ function filtered(useQ){const q=useQ?norm(st.q.trim()):"";
   if(st.cat!=="All"&&st.cat!=="To learn"&&p.cat!==st.cat)return false;
   return !q||norm(p.es+" "+p.en).includes(q)})}
 const chipsHTML=(list,cur)=>list.map(c=>`<button class="chip" aria-pressed="${c===cur}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
-function renderChips(){const h=chipsHTML(CATS,st.cat);$("chipsB").innerHTML=h;$("chipsL").innerHTML=h}
+function renderChips(){$("chipsB").innerHTML=chipsHTML(CATS,st.cat);$("catBtn").innerHTML=`<span>Group: ${esc(st.cat)}</span><span class="sl">Change</span>`}
 
 function renderList(){const f=filtered(true);
  $("ul").innerHTML=f.length?f.map(p=>`<li class="p ${st.showEn?"":"hide"} ${known.has(p.i)?"known":""}" data-i="${p.i}">
@@ -278,7 +278,9 @@ function wire(){
  $("offCard").onclick=()=>{if(!(off.need&&off.have>=off.need))fillOffline()};
  const catClick=e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.c;store.set("frases-cat",st.cat);renderChips();
   if(st.tab==="listen"){pause();rebuildQueue(false)}else renderList()};
- $("chipsB").onclick=catClick;$("chipsL").onclick=catClick;
+ $("chipsB").onclick=catClick;
+ $("catBtn").onclick=()=>{modal(`<h3>Choose a group</h3><div class="chips">${chipsHTML(CATS,st.cat)}</div>`,[{t:"Close",cls:"sec"}]);
+  $("mdPanel").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.c;store.set("frases-cat",st.cat);closeModal();renderChips();pause();rebuildQueue(false)}};
  $("q").oninput=e=>{st.q=e.target.value;renderList()};
  $("showEn").onclick=e=>{st.showEn=!st.showEn;e.currentTarget.setAttribute("aria-pressed",st.showEn);e.currentTarget.textContent=st.showEn?"Hide English":"Show English";renderList()};
  $("ul").onclick=e=>{const li=e.target.closest("li.p");if(!li)return;const p=P[+li.dataset.i];
