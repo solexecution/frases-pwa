@@ -143,4 +143,38 @@ t("simulation: old behaviour piles up while the new one does not",()=>{
  console.log("  old rules due on day 30: "+old[29]+" (cap of 8 per session); new rules due on day 30: "+nw.lastDue);
  assert.ok(old[29]>nw.lastDue)});
 
+t("credited miss clears the unverified flag",()=>{
+ const srs={5:[3,D,0,0,-1,-1,-1,1]};
+ S.answer(srs,5,false,"build",D,ctx());assert.equal(srs[5][7],0)});
+t("a credited miss on a phrase more than 14 days late demotes one box only",()=>{
+ const srs={5:[3,D-20,4,0,-1,-1,-1,0]};
+ S.answer(srs,5,false,"build",D,ctx());assert.equal(srs[5][0],2);assert.equal(srs[5][1],D+1)});
+t("a credited miss within 14 days late goes to box 0",()=>{
+ const srs={5:[3,D-5,4,0,-1,-1,-1,0]};
+ S.answer(srs,5,false,"build",D,ctx());assert.equal(srs[5][0],0)});
+t("plan: a long gap with nothing due is not catch-up",()=>{
+ const p=S.plan({srs:{},ids,t:D,budgetMin:10,sec:15,kind:"daily",newToday:0,gap:9,unseen:50});
+ assert.equal(p.catchup,false);assert.equal(p.newAllowed,5)});
+t("plan: new phrases never exceed the unseen pool",()=>{
+ const p=S.plan({srs:mk(3),ids,t:D,budgetMin:10,sec:15,kind:"daily",newToday:0,unseen:1});
+ assert.equal(p.newAllowed,1);
+ assert.equal(S.plan({srs:mk(3),ids,t:D,budgetMin:10,sec:15,kind:"daily",newToday:0,unseen:0}).newAllowed,0)});
+[6,10,15].forEach(b=>{
+ t("catch-up session at a "+b+" minute budget is never rescheduled by its own spread",()=>{
+  const srs=mk(120);
+  const p=S.plan({srs,ids,t:D,budgetMin:b,sec:15,kind:"daily",newToday:0});
+  assert.equal(p.catchup,true);assert.ok(p.due.length<=p.keep);
+  const taken=p.due.slice();
+  S.spread(srs,ids,D,p.capacity);
+  taken.forEach(i=>assert.ok(srs[i][1]<=D,"phrase "+i+" was pushed to "+srs[i][1]))})});
+t("simulation following the app flow keeps every session phrase due today",()=>{
+ const r=rng(11),srs={};let t0=0,bad=0;
+ for(let day=0;day<150;day++){t0++;
+  let p=S.plan({srs,ids,t:t0,budgetMin:6,sec:15,kind:"daily",newToday:0,unseen:336-Object.keys(srs).length});
+  const taken=p.due.slice();
+  if(p.catchup){S.spread(srs,ids,t0,p.capacity);taken.forEach(i=>{if(srs[i][1]>t0)bad++})}
+  taken.forEach(i=>{const e=S.get(srs,i);S.answer(srs,i,r()<.75,S.formatsFor(e.box,3,false)[0],t0,{n:3,must:false})});
+  let k=0;for(let i=0;i<336&&k<p.newAllowed;i++){if(!srs[i]){S.answer(srs,i,r()<.75,"listen",t0,{n:3,must:false});k++}}}
+ assert.equal(bad,0)});
+
 console.log(passed+" checks passed"+(process.exitCode?" (with failures)":""));

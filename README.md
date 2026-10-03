@@ -23,10 +23,10 @@ on later days, first-try accuracy, minutes, and days practised.
   phrase that is due, once per day, in an eligible format with no Not sure. Early reviews and extra practice never move a
   phrase up; a miss sends it back to tomorrow, once a day. Box 0 and 1 accept listen or pick; box 2 and above need a build
   (unless the phrase has one word). Carried-over phrases show as unverified until they pass a harder format.
-- **Quiz hygiene.** Lures never include a phrase's partners, near-duplicates or equal translations and match its
-  sentence type; the build bank is lowercase with decoys; every choice has a Not sure button; the right answer is
+- **Quiz hygiene.** Lures avoid a phrase's partners, near-duplicates and equal translations and match its
+  sentence type and punctuation; the build bank is lowercase with decoys; every choice has a Not sure button; the right answer is
   always shown and played after you answer.
-- **New phrases** get an intro with audio, then their first cold test at least 5 steps later.
+- **New phrases** get an intro with audio, then their first cold test a few steps later (about 5 in a full session).
 - **Say-it round** sits mid-session: say it aloud, tap I said it, then Got it or Missed it. It can only hold or demote.
 - **Review log** (`frases-log`, last 5000 answers) stores time, format, result, response time and box before and after.
   Export it from Me > Backup; your progress lives only on the phone.

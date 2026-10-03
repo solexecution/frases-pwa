@@ -17,19 +17,19 @@ jobs:
           n=$(echo "$pool" | jq length)
           d=$(( ($(date -u +%s) - 18000) / 86400 ))
           i=$(( (d * 7919) % n ))
-          en=$(echo "$pool" | jq -r ".[$i][1]")
+          en=$(echo "$pool" | jq -r ".[$i][1]" | sed 's/[?!.]*$//')
           case $(( d % 12 )) in
             0) msg="Time for your Spanish. How do you say: $en?" ;;
             1) msg="How do you say: $en? Open Today when you have a few minutes." ;;
-            2) msg="A short session is ready. Can you say: $en?" ;;
+            2) msg="A quick question: can you say $en?" ;;
             3) msg="Today's cue: $en. Open the app to check yourself." ;;
-            4) msg="Your reviews are ready. Try this first: $en." ;;
+            4) msg="Try this one first: $en." ;;
             5) msg="Quick one: how would you say $en?" ;;
             6) msg="Spanish check-in. How do you say: $en?" ;;
             7) msg="Whenever suits you. First cue: $en." ;;
             8) msg="Ready when you are. Cue: $en." ;;
             9) msg="What is the Spanish for: $en?" ;;
-            10) msg="Your next review is open. Can you say: $en?" ;;
-            *) msg="Today's cue: $en. Open Today to see how you did." ;;
+            10) msg="Can you say $en?" ;;
+            *) msg="Today's cue: $en. Open Today when you are ready." ;;
           esac
           jq -n --arg t "$TOPIC" --arg m "$msg" '{topic:$t,title:"Frases",message:$m,click:"https://solexecution.github.io/frases-pwa/",priority:3}' | curl -fsS -H "Content-Type: application/json" -d @- https://ntfy.sh

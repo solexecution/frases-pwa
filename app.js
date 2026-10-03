@@ -27,7 +27,7 @@ const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
- set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+ set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){if(!store.warned&&typeof toast==="function"){store.warned=true;toast("Could not save. Storage may be full or blocked. Export a backup from Me.")}}}};
 const today=()=>SRS.dayNum(Date.now(),new Date().getTimezoneOffset());
 const dayStr=n=>new Date(n*864e5).toISOString().slice(0,10);
 
@@ -43,7 +43,7 @@ const saveProf=()=>store.set("frases-prof",prof);
 const saveSrs=()=>store.set("frases-srs",srs);
 const saveSet=()=>store.set("frases-set",set);
 const saveOpt=()=>store.set("frases-opt",opt);
-let logT=null;
+let logT=null,resetting=false,reloadWanted=false,modalOpener=null;
 function logRow(r){LOG.push(r);if(LOG.length>6000)LOG=LOG.slice(-5000);clearTimeout(logT);logT=setTimeout(()=>store.set("frases-log",LOG),400)}
 function flushLog(){clearTimeout(logT);store.set("frases-log",LOG)}
 function applyRate(){audio.defaultPlaybackRate=opt.rate;audio.playbackRate=opt.rate;audio.preservesPitch=true}
@@ -55,19 +55,21 @@ function secPerTrial(){
  const r=LOG.filter(x=>x[4]>800&&x[4]<120000&&(x[2]==="listen"||x[2]==="pickEs"||x[2]==="build")&&!(x[7]&32)).slice(-60).map(x=>x[4]).sort((a,b)=>a-b);
  if(r.length<30)return 15;
  return Math.min(30,Math.max(8,r[r.length>>1]/1000+4))}
-function todayPlan(kind){return SRS.plan({srs,ids:ids(),t:today(),budgetMin:set.budget,sec:secPerTrial(),kind,newToday:newToday(),gap:gapDays()})}
+function todayPlan(kind){return SRS.plan({srs,ids:ids(),t:today(),budgetMin:set.budget,sec:secPerTrial(),kind,newToday:newToday(),gap:gapDays(),unseen:unseenPool().length})}
 function markReview(){prof.rev[today()]=1;saveProf()}
 function practisedDays(){const t=today();let n=0;for(let k=0;k<14;k++)if(prof.rev[t-k])n++;return n}
 function hud(){$("hDue").textContent=SRS.dueList(srs,ids(),today()).length+" due"}
 
 function migrate(){
  if(store.get("frases-schema",1)>=2)return;
+ const oldLast=typeof prof.last==="number"?prof.last:-1;
  const kn=store.get("frases-known",[]);
  store.set("frases-backup-v1",{srs,prof,known:kn,set,opt});
  let k=0;
  kn.forEach(i=>{if(i<P.length&&!srs[i])srs[i]=[2,today()+1+(k++%7),0,0,-1,-1,-1,1]});
  Object.keys(srs).forEach(i=>{const e=srs[i];if(e.length<8&&e[0]>=3)e[7]=1});
  ["xp","streak","best","last","freeze","days","badges","perfect"].forEach(x=>{delete prof[x]});
+ if(oldLast>=0){prof.lastSess=Math.max(prof.lastSess,oldLast);prof.rev[oldLast]=1}
  delete set.newPerDay;
  saveSrs();saveProf();saveSet();store.set("frases-schema",2);
  try{localStorage.removeItem("frases-known")}catch(e){}}
@@ -88,7 +90,7 @@ function playSrc(src,fb,lang){return new Promise(res=>{
  const bail=()=>{if(fb)speak(fb,lang||"es").then(res);else res()};
  audio.onended=()=>res();audio.onerror=bail;
  audio.src=src;applyRate();audio.currentTime=0;
- const pr=audio.play();if(pr&&pr.catch)pr.catch(bail)})}
+ const pr=audio.play();if(pr&&pr.catch)pr.catch(e=>{if(e&&e.name==="AbortError")return;bail()})})}
 const srcFor=(i,slow)=>(slow?"audio/slow/":"audio/")+pad(i)+".mp3";
 const sayPhrase=(i,slow)=>playSrc(srcFor(i,slow),P[i].es);
 const sayEn=i=>playSrc("audio/en/"+pad(i)+".mp3",P[i].en,"en");
@@ -100,11 +102,11 @@ function tick(){if(!set.sound)return;try{ac=ac||new (window.AudioContext||window
  const s=ac.currentTime;g.gain.setValueAtTime(.05,s);g.gain.exponentialRampToValueAtTime(.0001,s+.06);o.start(s);o.stop(s+.06)}catch(e){}}
 
 function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(()=>t.style.display="none",5500)}
-function closeModal(){$("md").hidden=true;$("mdPanel").onclick=null}
+function closeModal(){$("md").hidden=true;$("mdPanel").onclick=null;if(modalOpener&&modalOpener.focus)modalOpener.focus();modalOpener=null}
 function modal(html,buttons){const p=$("mdPanel");p.onclick=null;p.innerHTML=html+'<div class="acts"></div>';
  const a=p.querySelector(".acts");
  buttons.forEach(b=>{const e=document.createElement("button");e.className="btn "+(b.cls||"");e.textContent=b.t;e.onclick=()=>{closeModal();if(b.fn)b.fn()};a.appendChild(e)});
- $("md").hidden=false}
+ modalOpener=document.activeElement;$("md").hidden=false;const f=p.querySelector("input")||a.lastElementChild;if(f)f.focus()}
 function ask(title,msg,yes,fn,cls){modal(`<h3>${esc(title)}</h3><p>${esc(msg)}</p>`,[{t:"Cancel",cls:"sec"},{t:yes,cls:cls||"",fn}])}
 
 function filtered(useQ){const q=useQ?norm(st.q.trim()):"";
@@ -117,7 +119,7 @@ function renderChips(){$("chipsB").innerHTML=chipsHTML(CATS,st.cat);$("catBtn").
 const pairsHTML=(i,max)=>(PAIRS[i]||[]).slice(0,max).map(x=>`<div class="pr" data-j="${x[0]}"><span class="pl">${esc(x[1])}</span>${esc(P[x[0]].es)}<span class="pe"> ${esc(P[x[0]].en)}</span></div>`).join("");
 function renderList(){const f=filtered(true);
  $("ul").innerHTML=f.length?f.map(p=>`<li class="p ${st.showEn?"":"hide"}" data-i="${p.i}">
-  <div class="txt" tabindex="0"><div class="es">${esc(p.es)}${p.note?`<span class="note">${esc(p.note)}</span>`:""}</div><div class="en">${esc(p.en)}</div>${pairsHTML(p.i,2)}</div>
+  <div class="txt" tabindex="0"><div class="es" lang="es">${esc(p.es)}${p.note?`<span class="note">${esc(p.note)}</span>`:""}</div><div class="en">${esc(p.en)}</div>${pairsHTML(p.i,2)}</div>
   <button class="ib say" aria-label="Listen">${SVG.say}</button></li>`).join("")
   :`<li class="empty">No phrases match. Clear the search or pick another group.</li>`}
 function tapSay(i,btn){stopAudio();document.querySelectorAll(".play").forEach(b=>b.classList.remove("play"));
@@ -138,7 +140,7 @@ function hlGroup(gi,root){root=root||document;root.querySelectorAll(".w.hl").for
 
 let queue=[],qi=0,playing=false,token=0,hlMode="es",lastGi=null,cur=null,warm=null,lock=null,lisT0=0;
 function lisStop(){if(!lisT0)return;const m=(Date.now()-lisT0)/6e4;lisT0=0;
- if(m>0&&m<180){const d=today();prof.lis[d]=(prof.lis[d]||0)+m;saveProf()}}
+ if(m>0){const d=today();prof.lis[d]=(prof.lis[d]||0)+Math.min(m,180);saveProf()}}
 async function keepAwake(on){try{
  if(on){if(!lock&&navigator.wakeLock){lock=await navigator.wakeLock.request("screen");lock.onrelease=()=>{lock=null}}}
  else if(lock){await lock.release();lock=null}}catch(e){}}
@@ -146,8 +148,8 @@ function rebuildQueue(keep){const before=queue[qi];queue=filtered(false);
  if(keep&&before){const j=queue.findIndex(p=>p.i===before.i);qi=j<0?0:j}else qi=0;
  if(qi>=queue.length)qi=Math.max(0,queue.length-1);showCurrent()}
 function fitPlayer(p){const pl=document.querySelector("#s-listen .player");if(!pl.clientHeight)return;
- const lv=["s","m","l","x"];let k=p.es.length<=16?0:p.es.length<=30?1:2;pl.dataset.l=lv[k];
- while(pl.scrollHeight>pl.clientHeight+1&&k<3){k++;pl.dataset.l=lv[k]}}
+ const lv=["s","m","l","x","y"];let k=p.es.length<=16?0:p.es.length<=30?1:2;pl.dataset.l=lv[k];
+ while(pl.scrollHeight>pl.clientHeight+1&&k<4){k++;pl.dataset.l=lv[k]}}
 function showPair(p){const q=(PAIRS[p.i]||[])[0],el=$("lPair");el.classList.remove("on");
  if(!q){el.innerHTML="";delete el.dataset.j;return}
  const t=P[q[0]];el.dataset.j=q[0];el.innerHTML=`<span class="pl">${esc(q[1])}</span>${esc(t.es)}<span class="pe"> ${esc(t.en)}</span>`}
@@ -180,9 +182,9 @@ async function playLoop(){const my=++token;playing=true;lisT0=Date.now();setPlay
   qi=nx;warm=new Audio();warm.preload="auto";warm.src=srcFor(queue[qi].i,opt.slow)}
  if(token===my){playing=false;lisStop();setPlayIcon();keepAwake(false)}}
 function play(){if(!queue.length||playing)return;playLoop()}
-function pause(){playing=false;token++;lisStop();stopAudio();setPlayIcon();keepAwake(false)}
+function pause(){playing=false;token++;lisStop();stopAudio();setPlayIcon();keepAwake(false);$("lPair").classList.remove("on");hlGroup(null,$("s-listen"));const p=queue[qi];if(p)$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
 const toggle=()=>playing?pause():play();
-function seek(d){const was=playing;pause();if(!queue.length)return;qi=(qi+d+queue.length)%queue.length;showCurrent();if(was)play()}
+function seek(d){const was=playing;playing=false;token++;lisStop();stopAudio();if(!queue.length){setPlayIcon();return}qi=(qi+d+queue.length)%queue.length;showCurrent();if(was)playLoop();else{setPlayIcon();keepAwake(false)}}
 
 const byEs=()=>{const m=new Map();P.forEach(p=>m.set(p.es,p));return m};
 let pocketTab=0,pocketSlow=false;
@@ -191,9 +193,9 @@ function renderPocket(){const m=byEs();
  $("pGrid").innerHTML=POCKET[pocketTab].l.map(es=>m.get(es)).filter(Boolean).map(p=>`<button class="pbtn" data-i="${p.i}"><b>${esc(p.es)}</b><small>${esc(p.en)}</small></button>`).join("")}
 
 function renderPotd(){const pool=P.filter(x=>!/[\/(…]/.test(x.en)),p=pool[(today()*7919)%pool.length];
- $("potd").innerHTML=`<div class="lab">Phrase of the day</div><div class="potdq">How do you say: ${esc(p.en)}?</div><div id="potdAns" class="es" style="margin-top:8px"></div><div style="margin-top:10px"><button class="btn sec" data-i="${p.i}">Show and play</button></div>`}
+ $("potd").innerHTML=`<div class="lab">Phrase of the day</div><div class="potdq">How do you say: ${esc(p.en.replace(/[?!.]+$/,""))}?</div><div id="potdAns" class="es" lang="es" style="margin-top:8px"></div><div style="margin-top:10px"><button class="btn sec" data-i="${p.i}">Show and play</button></div>`}
 function rowsHTML(){const t=today();
- const row=(label,fn)=>{let h="";for(let k=13;k>=0;k--)h+=`<i class="${fn(t-k)?"on":""}"></i>`;return `<div class="rowlab"><span>${label}</span></div><div class="dots">${h}</div>`};
+ const row=(label,fn)=>{let h="",n=0;for(let k=13;k>=0;k--){const on=fn(t-k);if(on)n++;h+=`<i class="${on?"on":""}"></i>`}return `<div class="rowlab"><span>${label}</span></div><div class="dots" role="img" aria-label="${label}: ${n} of the last 14 days">${h}</div>`};
  return row("Reviews done",d=>prof.rev[d])+row("Listened 5+ minutes",d=>(prof.lis[d]||0)>=5)}
 function renderToday(){const h=new Date().getHours();
  $("greet").textContent=h<12?"¡Buenos días!":h<19?"¡Buenas tardes!":"¡Buenas noches!";
@@ -201,14 +203,14 @@ function renderToday(){const h=new Date().getHours();
  const unseen=P.filter(p=>!srs[p.i]).length;
  const back=gapDays()>=2&&gapDays()<7&&pl.dueTotal>0&&!pl.catchup;
  let main,sub,kind="daily";
- if(pl.catchup){main="Catch-up session";sub=`${pl.dueTotal} waiting, about ${SRS.CATCHUP_MIN} min, no new phrases`}
+ if(pl.catchup){main="Catch-up session";sub=`${pl.dueTotal} waiting, about ${SRS.estMinutes(pl.due.length,0,sec)} min today, no new phrases`}
  else if(back){kind="back";main="Welcome back";const n=Math.min(8,pl.dueTotal);sub=`${n} due, about ${SRS.estMinutes(n,0,sec)} min`}
  else if(pl.due.length||pl.newAllowed){const nf=Math.min(pl.newAllowed,unseen);main="Start session";sub=`${pl.due.length} due, ${nf} new, about ${SRS.estMinutes(pl.due.length,nf,sec)} min`}
  else{kind="extra";main="Extra practice";sub="Nothing due. Weak phrases only, no new ones"}
  $("ctaMain").textContent=main;$("ctaSub").textContent=sub;$("btnSession").dataset.kind=kind;
  const clear=pl.dueTotal?Math.ceil(pl.dueTotal/pl.capacity):0;
  $("greetSub").textContent=pl.waiting>0?`${pl.waiting} waiting after this session, about ${clear} days to clear.`:`${pl.dueTotal} due today.`;
- const days=Object.keys(prof.newLog).filter(d=>+d>t-14),perDay=days.length>=3?Math.max(1,days.reduce((a,d)=>a+prof.newLog[d],0)/14):3;
+ const days=Object.keys(prof.newLog).filter(d=>+d>t-14),span=days.length?Math.min(14,t-Math.min(...days.map(Number))+1):0,perDay=days.length>=3?Math.max(1,days.reduce((a,d)=>a+prof.newLog[d],0)/span):3;
  $("paceLine").textContent=unseen?`At this pace the ${unseen} phrases you have not met are introduced in about ${Math.max(1,Math.ceil(unseen/perDay/7))} weeks.`:"All phrases have been introduced.";
  $("btnTwo").hidden=!pl.dueTotal;$("btnExtra").hidden=kind==="extra";
  $("rows14").innerHTML=rowsHTML()+`<div class="sub" style="margin-top:8px">Practised ${practisedDays()} of the last 14 days.</div>`;
@@ -250,14 +252,14 @@ function renderMe(){
  const acc=rows.length>=12?Math.round(right/rows.length*100)+"% ("+right+" of "+rows.length+")":rows.length?right+" of "+rows.length:"not enough yet";
  const retMin=Math.round(prof.sess.filter(s=>s[0]>since).reduce((a,s)=>a+s[2],0)/6e4);
  const lisMin=Math.round(Object.keys(prof.lis).filter(d=>+d>t-14).reduce((a,d)=>a+prof.lis[d],0));
- const stars=Object.values(prof.missions).reduce((a,b)=>a+b,0);
+ const stars=Object.values(prof.missions).reduce((a,b)=>a+(+b||0),0);
  $("progress").innerHTML=`<div class="lab">Progress</div>
  <div class="mx"><span>Not met yet</span><b>${c.unseen}</b></div>
  <div class="mx"><span>Learning</span><b>${c.learning}</b></div>
- <div class="mx"><span>Kept (recalled on later days, 8+ day gap)</span><b>${c.kept}</b></div>
+ <div class="mx"><span>Kept (recalled after a gap of 4+ days)</span><b>${c.kept}</b></div>
  <div class="mx"><span>Unverified (carried over, not yet re-tested)</span><b>${c.unverified}</b></div>
  <div class="mx"><span>Due now</span><b>${c.due}</b></div>
- <div class="mx"><span>First-try accuracy on due phrases, 14 days</span><b>${acc}</b></div>
+ <div class="mx"><span>First-try accuracy on scored answers, 14 days</span><b>${acc}</b></div>
  <div class="mx"><span>Review minutes / listening minutes, 14 days</span><b>${retMin} / ${lisMin}</b></div>
  <div class="mx"><span>Mission stars</span><b>${stars}</b></div>
  <div class="sub" style="margin-top:8px">Accuracy on older phrases is lower than on fresh ones. That is expected: it is the number that predicts what you will still know in a month.</div>
@@ -267,7 +269,7 @@ function renderMe(){
  <div class="row" style="margin-top:10px"><button class="btn sec" id="btnExport">Export</button><button class="btn sec" id="btnImport">Import</button></div>`;
  $("settings").innerHTML=`<div class="lab">Settings</div>
  <div class="set"><span>Session length</span><div class="seg" id="segBud">${[6,10,15].map(n=>`<button data-n="${n}" aria-pressed="${set.budget===n}">${n} min</button>`).join("")}</div></div>
- <div class="set"><span>Soft tick on correct answers</span><button class="tog" id="togSnd" style="padding:10px 16px">${set.sound?"On":"Off"}</button></div>
+ <div class="set"><span>Soft tick sounds</span><button class="tog" id="togSnd" aria-pressed="${set.sound}" style="padding:10px 16px">${set.sound?"On":"Off"}</button></div>
  <div class="set"><span>Daily push reminder</span><button class="btn sec" id="btnPush">Set up</button></div>
  <div class="set"><span>Install on this phone</span><button class="btn" id="btnInstall" ${standalone()?"disabled":""}>${standalone()?"Installed":"Install"}</button></div>
  <div class="set"><span>Version ${VER}</span><button class="btn sec" id="btnReset">Reset progress</button></div>`}
@@ -277,25 +279,45 @@ function pushModal(){const t=store.get("frases-topic","");
   store.set("frases-topic",v);toast("If ntfy did not open, subscribe to the topic inside the ntfy app.");location.href="ntfy://ntfy.sh/"+encodeURIComponent(v)}}])}
 async function doInstall(){if(!deferredPrompt){toast("Open the browser menu (three dots) and choose Install app or Add to Home screen.");return}
  deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}
-function resetAll(){["frases-srs","frases-prof","frases-known","frases-log"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});store.set("frases-schema",2);location.reload()}
+function resetAll(){resetting=true;clearTimeout(logT);LOG=[];["frases-srs","frases-prof","frases-known","frases-log"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});store.set("frases-schema",2);location.reload()}
 function exportData(){flushLog();prof.lastBackup=Date.now();saveProf();
  const blob=new Blob([JSON.stringify({v:2,date:new Date().toISOString(),srs,prof,set,opt,log:LOG})],{type:"application/json"});
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="frases-backup-"+dayStr(today())+".json";
  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
  toast("Backup saved to your downloads.");renderMe()}
+const isObj=x=>x&&typeof x==="object"&&!Array.isArray(x);
+function validBackup(d){
+ if(!isObj(d)||d.v!==2||!isObj(d.srs))return "That is not a Frases backup.";
+ for(const k of Object.keys(d.srs)){const e=d.srs[k];
+  if(!/^\d+$/.test(k)||+k>=P.length||!Array.isArray(e)||e.length<4||e.length>8||!e.every(x=>x===null||Number.isFinite(x)))return "The backup has damaged schedule data."}
+ if(d.prof!=null&&!isObj(d.prof))return "The backup has damaged progress data.";
+ if(d.set!=null&&!isObj(d.set))return "The backup has damaged settings.";
+ if(d.opt!=null&&!isObj(d.opt))return "The backup has damaged options.";
+ if(d.log!=null&&(!Array.isArray(d.log)||d.log.length>20000||!d.log.every(r=>Array.isArray(r)&&r.length===8)))return "The backup has a damaged review log.";
+ return ""}
+function cleanProf(p){
+ const o=Object.assign({sessions:0,missions:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},isObj(p)?p:{});
+ ["missions","rev","lis","newLog"].forEach(k=>{if(!isObj(o[k]))o[k]={}});
+ Object.keys(o.missions).forEach(k=>{const v=Number(o.missions[k]);o.missions[k]=v>=1&&v<=3?Math.floor(v):0});
+ o.sess=Array.isArray(o.sess)?o.sess.filter(Array.isArray).slice(-40):[];
+ ["sessions","lastSess","lastBackup"].forEach(k=>{if(!Number.isFinite(o[k]))o[k]=k==="lastSess"?-1:0});
+ return o}
 function importModal(){
  modal(`<h3>Import a backup</h3><p>Choose a frases-backup file. Your current progress on this phone will be replaced.</p><input type="file" id="impFile" accept="application/json,.json">`,[{t:"Cancel",cls:"sec"}]);
  $("impFile").onchange=e=>{const f=e.target.files[0];if(!f)return;
   const r=new FileReader();
+  r.onerror=()=>toast("That file could not be read.");
   r.onload=()=>{let d;try{d=JSON.parse(r.result)}catch(x){toast("That file could not be read.");return}
-   if(!d||d.v!==2||typeof d.srs!=="object"){toast("That is not a Frases backup.");return}
+   const bad=validBackup(d);if(bad){toast(bad);return}
    closeModal();
-   ask("Replace progress?",`Backup from ${String(d.date||"").slice(0,10)} with ${Object.keys(d.srs).length} phrases tracked will replace what is on this phone.`,"Replace",()=>{
-    srs=d.srs;prof=Object.assign(prof,d.prof||{});set=Object.assign(set,d.set||{});LOG=d.log||[];
-    saveSrs();saveProf();saveSet();flushLog();store.set("frases-schema",2);location.reload()},"bad")};
+   ask("Replace progress?",`Backup from ${String(d.date||"").slice(0,10)} with ${Object.keys(d.srs).length} phrases tracked will replace what is on this phone. A copy of the current progress is kept first.`,"Replace",()=>{
+    store.set("frases-backup-pre-import",{srs,prof,set,opt,log:LOG.slice(-2000)});
+    srs=d.srs;prof=cleanProf(d.prof);set=Object.assign(set,d.set||{});if(d.opt)opt=Object.assign(opt,d.opt);LOG=d.log||[];
+    saveSrs();saveProf();saveSet();saveOpt();flushLog();store.set("frases-schema",2);location.reload()},"bad")};
   r.readAsText(f)}}
 
 function go(tab){
+ const same=st.tab===tab;
  if(st.tab==="listen"&&tab!=="listen")pause();
  if(st.tab==="pocket"&&tab!=="pocket"){keepAwake(false);stopAudio()}
  st.tab=tab;
@@ -304,7 +326,7 @@ function go(tab){
  document.querySelectorAll("nav button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===tab));
  if(tab==="today")renderToday();
  else if(tab==="missions")renderMissions();
- else if(tab==="listen"){renderChips();rebuildQueue(false)}
+ else if(tab==="listen"){renderChips();if(!same)rebuildQueue(false)}
  else if(tab==="browse"){renderChips();renderList()}
  else if(tab==="me")renderMe();
  else if(tab==="pocket"){renderPocket();keepAwake(true)}
@@ -336,7 +358,7 @@ function wire(){
  $("lPrev").innerHTML=SVG.prev;$("lNext").innerHTML=SVG.next;setPlayIcon();
  const flag=(id,key)=>{$(id).onclick=e=>{opt[key]=!opt[key];e.currentTarget.setAttribute("aria-pressed",opt[key]);saveOpt()};$(id).setAttribute("aria-pressed",opt[key])};
  flag("oSlow","slow");flag("oEn","en");flag("oEcho","echo");flag("oPairs","pairs");flag("oRep","rep");flag("oLoop","loop");
- const rateUi=()=>{$("rate").value=opt.rate;$("rateTxt").textContent=(+opt.rate).toFixed(2).replace(/0$/,"")+"×"};
+ const rateUi=()=>{$("rate").setAttribute("aria-valuetext",(+opt.rate).toFixed(2)+" times speed");$("rate").value=opt.rate;$("rateTxt").textContent=(+opt.rate).toFixed(2).replace(/0$/,"")+"×"};
  rateUi();applyRate();
  $("rate").oninput=e=>{opt.rate=+e.target.value;rateUi();applyRate()};
  $("rate").onchange=saveOpt;
@@ -352,12 +374,14 @@ function wire(){
   for(const s of seq){if(f<s.c1){gi=s.gi;break}}
   if(gi!==lastGi){lastGi=gi;hlGroup(gi,$("s-listen"))}});
  if("mediaSession" in navigator){
-  navigator.mediaSession.setActionHandler("play",play);
+  navigator.mediaSession.setActionHandler("play",()=>{if(st.tab==="listen")play()});
   navigator.mediaSession.setActionHandler("pause",pause);
-  navigator.mediaSession.setActionHandler("nexttrack",()=>seek(1));
-  navigator.mediaSession.setActionHandler("previoustrack",()=>seek(-1))}
+  navigator.mediaSession.setActionHandler("nexttrack",()=>{if(st.tab==="listen")seek(1)});
+  navigator.mediaSession.setActionHandler("previoustrack",()=>{if(st.tab==="listen")seek(-1)})}
+ audio.addEventListener("pause",()=>{setTimeout(()=>{if(playing&&st.tab==="listen"&&audio.paused&&!audio.ended&&audio.currentTime>0)pause()},400)});
  document.addEventListener("keydown",e=>{
   if(e.key==="Escape"&&!$("md").hidden){closeModal();return}
+  if(e.key==="Enter"&&!$("md").hidden&&e.target.tagName!=="BUTTON"){const b=$("mdPanel").querySelector(".acts button:last-child");if(b){e.preventDefault();b.click()}return}
   if(st.tab!=="listen")return;
   if(e.key===" "){e.preventDefault();toggle()}else if(e.key==="ArrowRight")seek(1);else if(e.key==="ArrowLeft")seek(-1)});
  $("pTabs").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;pocketTab=+b.dataset.t;renderPocket()};
@@ -377,8 +401,10 @@ function wire(){
  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
  window.addEventListener("appinstalled",()=>{deferredPrompt=null;if(st.tab==="me")renderMe()});
  window.addEventListener("online",fillOffline);
- window.addEventListener("pagehide",()=>{lisStop();flushLog()});
- document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")flushLog()})}
+ window.addEventListener("pagehide",()=>{if(resetting)return;lisStop();flushLog()});
+ document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState==="hidden"){if(!resetting)flushLog()}
+  else if(playing||st.tab==="pocket")keepAwake(true)})}
 
 async function boot(){
  const j=u=>fetch(u).then(r=>r.json());
@@ -389,7 +415,7 @@ async function boot(){
  wire();renderChips();hud();go("today");
  if("serviceWorker" in navigator){
   const had=!!navigator.serviceWorker.controller;let reloaded=false;
-  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||reloaded)return;reloaded=true;location.reload()});
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||reloaded)return;if(!$("ov").hidden){reloadWanted=true;return}reloaded=true;location.reload()});
   navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(reg=>{reg.update();setInterval(()=>reg.update(),36e5)}).catch(()=>{});
   document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")navigator.serviceWorker.getRegistration().then(r=>r&&r.update())})}
  setTimeout(fillOffline,1500)}

@@ -19,9 +19,9 @@
   const good=ok&&!ctx.notSure;
   const res={credited:false,promoted:false,demoted:false,box0:e.box,box1:e.box,due:due};
   if(due&&!ctx.practice&&e.scored!==t&&eligible(e.box,ctx.n,ctx.must,fmt)){
-   e.scored=t;e.rev++;res.credited=true;
-   if(good){e.box=Math.min(6,e.box+1);e.due=t+INTERVALS[e.box];e.promoted=t;e.u=0;res.promoted=true}
-   else{e.lap++;e.box=0;e.due=t+1;e.demoted=t;res.demoted=true}
+   e.scored=t;e.rev++;res.credited=true;e.u=0;
+   if(good){e.box=Math.min(6,e.box+1);e.due=t+INTERVALS[e.box];e.promoted=t;res.promoted=true}
+   else{const late=had?t-e.due:0;e.lap++;e.box=late>14?Math.max(0,e.box-1):0;e.due=t+1;e.demoted=t;res.demoted=true}
    put(srs,i,e)}
   else if(!good&&e.demoted!==t){
    e.lap++;e.box=0;e.due=t+1;e.demoted=t;res.demoted=true;put(srs,i,e)}
@@ -33,16 +33,17 @@
   const due=dueList(o.srs,o.ids,o.t);
   const capacity=Math.max(1,Math.floor((bt-COST.say)/COST.due));
   const overload=due.length*COST.due>BACKLOG_X*bt;
-  const catchup=o.kind==="daily"&&(overload||(o.gap||0)>=7);
+  const catchup=o.kind==="daily"&&(overload||((o.gap||0)>=7&&due.length>0));
+  const keep=Math.floor(BACKLOG_X*capacity);
   let take,newAllowed=0;
   if(o.kind==="back"){take=Math.min(BACK_N,due.length)}
   else if(o.kind==="two"){take=Math.min(TWO_N,due.length)}
-  else if(catchup){take=Math.min(Math.floor((CATCHUP_MIN*60/sec-COST.say)/COST.due),due.length)}
+  else if(catchup){take=Math.min(Math.floor((CATCHUP_MIN*60/sec-COST.say)/COST.due),keep,due.length)}
   else{
    take=Math.min(capacity,due.length);
    const left=bt-COST.say-take*COST.due;
-   newAllowed=Math.max(0,Math.min(NEW_CAP-(o.newToday||0),Math.max(NEW_FLOOR,Math.floor(left/COST.fresh))))}
-  return {due:due.slice(0,take),dueTotal:due.length,waiting:due.length-take,newAllowed,catchup,overload,capacity}}
+   newAllowed=Math.max(0,Math.min(NEW_CAP-(o.newToday||0),Math.max(NEW_FLOOR,Math.floor(left/COST.fresh)),o.unseen==null?NEW_CAP:o.unseen))}
+  return {due:due.slice(0,take),dueTotal:due.length,waiting:due.length-take,newAllowed,catchup,overload,capacity,keep}}
  const estMinutes=(nDue,nFresh,sec)=>Math.max(1,Math.round((nDue*COST.due+nFresh*COST.fresh+COST.say)*sec/60));
  function spread(srs,ids,t,capacity){
   const L=Math.floor(BACKLOG_X*capacity),load={};
