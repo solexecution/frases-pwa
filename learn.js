@@ -1,198 +1,185 @@
 const RR=["Basics","Networking","Dating","Solar","Social","Out & about","Conversation","Understanding","Plans","Opinions","Work"];
-const BADGES=[
- {id:"first",n:"First step",d:"Finish a session",t:()=>prof.sessions>=1},
- {id:"s3",n:"3-day streak",d:"3 days in a row",t:()=>prof.best>=3},
- {id:"s7",n:"7-day streak",d:"A full week",t:()=>prof.best>=7},
- {id:"s30",n:"30-day streak",d:"A whole month",t:()=>prof.best>=30},
- {id:"x500",n:"500 XP",d:"Earn 500 XP",t:()=>prof.xp>=500},
- {id:"x2000",n:"2000 XP",d:"Earn 2000 XP",t:()=>prof.xp>=2000},
- {id:"c50",n:"50 phrases",d:"Meet 50 phrases",t:()=>seenCount()>=50},
- {id:"c150",n:"150 phrases",d:"Meet 150 phrases",t:()=>seenCount()>=150},
- {id:"perfect",n:"Flawless",d:"A perfect session",t:()=>prof.perfect>=1},
- {id:"solar",n:"Solar pro",d:"Master 12 solar phrases",t:()=>mastered("Solar")>=12},
- {id:"dating",n:"Smooth talker",d:"Master 12 dating phrases",t:()=>mastered("Dating")>=12},
- {id:"net",n:"Networker",d:"Master 12 networking phrases",t:()=>mastered("Networking")>=12},
- {id:"m1",n:"Role player",d:"Finish a mission",t:()=>Object.keys(prof.missions).length>=1},
- {id:"m8",n:"Mission master",d:"3 stars on every mission",t:()=>MISS.length>0&&MISS.every(m=>(prof.missions[m.id]||0)>=3)}
-];
 let S=null,M=null;
 const starsHtml=n=>[0,1,2].map(i=>SVG.star.replace("<svg",`<svg class="${i<n?"on":"off"}"`)).join("");
 const avatar=m=>`<span class="avatar">${esc(m.who.replace(/^(Sr\.|Doña)\s*/,"").charAt(0))}</span>`;
-
-function checkBadges(){const out=[];
- BADGES.forEach(b=>{if(!prof.badges.includes(b.id)&&b.t()){prof.badges.push(b.id);out.push(b)}});
- if(out.length)saveProf();return out}
-const badgeHtml=nb=>nb.length?`<div class="card"><div class="lab">New badge${nb.length>1?"s":""}</div>${nb.map(b=>`<div style="padding:4px 0"><span class="mini">${SVG.star}</span> <b>${esc(b.n)}</b> <span class="sub">${esc(b.d)}</span></div>`).join("")}</div>`:"";
+const core=w=>w.replace(/^[¿¡"'(«]+|[?!.,…:;"')»]+$/g,"");
 
 function pickNew(pool,n){
- const g={};pool.filter(p=>!srs[p.i]).forEach(p=>(g[p.cat]=g[p.cat]||[]).push(p));
+ const g={};pool.forEach(p=>(g[p.cat]=g[p.cat]||[]).push(p));
  const order=RR.filter(c=>g[c]);const out=[];
  while(out.length<n&&order.some(c=>g[c].length)){for(const c of order){if(out.length>=n)break;if(g[c].length)out.push(g[c].shift())}}
  return out}
-function plan(kind){
- const t=today();
- const all=P.filter(p=>!known.has(p.i));
- const prep=kind==="prep";
- const pool=prep?all.filter(p=>PREP.includes(p.cat)):(set.focus==="All"?all:all.filter(p=>p.cat===set.focus));
- const due=pool.filter(p=>srs[p.i]&&srs[p.i][1]<=t).sort((a,b)=>srs[a.i][1]-srs[b.i][1]).slice(0,prep?5:8);
- const fresh=pickNew(pool,prep?4:kind==="more"?3:set.newPerDay);
- const used=new Set([...due,...fresh].map(p=>p.i));
- const need=(prep?9:10)-due.length-fresh.length;
- const fill=need>0?shuffle(pool.filter(p=>srs[p.i]&&!used.has(p.i))).slice(0,need):[];
- return {due,fresh,fill}}
+const unseenPool=cats=>P.filter(p=>!srs[p.i]&&(cats?cats.includes(p.cat):(set.focus==="All"||p.cat===set.focus)));
 
-function openOv(){$("ov").hidden=false;$("ovBody").innerHTML="";$("ovBody").onclick=null;$("ovBody").classList.remove("hint");$("ovFoot").innerHTML="";$("ovCombo").textContent="";$("ovBar").style.width="0";document.body.style.overflow="hidden"}
+function lev(a,b){
+ if(Math.abs(a.length-b.length)>3)return 9;
+ let prev=Array.from({length:b.length+1},(_,j)=>j);
+ for(let i=1;i<=a.length;i++){const cur=[i];
+  for(let j=1;j<=b.length;j++)cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+  prev=cur}
+ return prev[b.length]}
+function similar(a,b){const x=norm(core(a)),y=norm(core(b));return x===y||x.startsWith(y)||y.startsWith(x)||lev(x,y)<=3}
+function conflictSet(p){const s=new Set([p.i]);(PAIRS[p.i]||[]).forEach(x=>s.add(x[0]));
+ P.forEach(x=>{if(x.i!==p.i&&(norm(x.en)===norm(p.en)||similar(x.es,p.es)||similar(x.en,p.en)))s.add(x.i)});return s}
+function lures(p,key,n){
+ const bad=conflictSet(p),isQ=s=>/[?¿]/.test(s),wc=s=>s.trim().split(/\s+/).length;
+ const pool=shuffle(P.filter(x=>!bad.has(x.i)));
+ const ord=[...pool.filter(x=>x.cat===p.cat),...pool.filter(x=>x.cat!==p.cat)];
+ const q=x=>isQ(x[key])===isQ(p[key]),d=x=>Math.abs(wc(x[key])-wc(p[key]));
+ const tiers=[x=>q(x)&&d(x)<=1,x=>q(x)&&d(x)<=2,x=>q(x),()=>true];
+ const out=[],seen=new Set([norm(p[key])]);
+ for(const f of tiers){for(const x of ord){if(out.length>=n)break;const v=norm(x[key]);if(seen.has(v)||!f(x))continue;seen.add(v);out.push(x)}if(out.length>=n)break}
+ return out}
+function renderChoices(labels,ci,cb){
+ const ch=$("chs");
+ const lock=()=>[...ch.querySelectorAll("button")].forEach(x=>{x.disabled=true});
+ labels.forEach((t,k)=>{const b=document.createElement("button");b.textContent=t;
+  b.onclick=()=>{lock();const ok=k===ci;b.classList.add(ok?"good":"bad");if(!ok)ch.children[ci].classList.add("good");cb(ok,false)};
+  ch.appendChild(b)});
+ const ns=document.createElement("button");ns.className="ns";ns.textContent="Not sure";
+ ns.onclick=()=>{lock();ch.children[ci].classList.add("good");cb(false,true)};
+ ch.appendChild(ns)}
+
+function openOv(){$("ov").hidden=false;$("ovBody").innerHTML="";$("ovBody").onclick=null;$("ovBody").classList.remove("hint");$("ovFoot").innerHTML="";$("ovBar").style.width="0";document.body.style.overflow="hidden"}
 function closeOv(){stopAudio();$("ov").hidden=true;document.body.style.overflow="";S=null;M=null;go(st.tab)}
 function setBody(h){$("ovBody").onclick=null;$("ovBody").innerHTML=h;$("ovBody").scrollTop=0}
 $("ovX").onclick=()=>{
  const live=(S&&S.i<S.steps.length)||(M&&M.i<M.m.steps.length);
  if(!live){closeOv();return}
- ask("Leave this one?","Answers so far are saved. The streak only counts when you finish.","Leave",closeOv,"bad")};
+ ask("Leave this one?","Answers so far are saved.","Leave",closeOv,"bad")};
 
-const core=w=>w.replace(/^[¿¡"'(«]+|[?!.,…:;"')»]+$/g,"");
 function qType(p){
- const e=srs[p.i],box=e?e[0]:0,n=p.es.split(/\s+/).length;
- const o=["listen","pickEs"];
- if(box>=1&&n>=2)o.push("fill");
- if(box>=1&&n>=2&&n<=8)o.push("build");
- if(box>=3&&n>=2){o.push("fill");if(n<=8)o.push("build")}
- if(box>=1&&(PAIRS[p.i]||[]).length){o.push("pair");if(box>=3)o.push("pair")}
- return o[Math.random()*o.length|0]}
-function queueRetry(p){
- const n=p.es.split(/\s+/).length;
- const t=["listen","pickEs","fill"];if(n>=2&&n<=8)t.push("build");
- let at=S.steps.findIndex((s,i)=>i>S.i&&s.k==="say");if(at<0)at=S.steps.length;
- S.steps.splice(at,0,{k:t[Math.random()*t.length|0],p})}
-function distract(p,key,n){
- const pool=shuffle(P.filter(x=>x.i!==p.i&&norm(x.en)!==norm(p.en)&&norm(x.es)!==norm(p.es)));
- const ordered=[...pool.filter(x=>x.cat===p.cat),...pool.filter(x=>x.cat!==p.cat)];
- const seen=new Set([norm(p[key])]),out=[];
- for(const x of ordered){const v=norm(x[key]);if(seen.has(v))continue;seen.add(v);out.push(x);if(out.length>=n)break}
- return out}
-function renderChoices(labels,ci,cb){
- const ch=$("chs");
- labels.forEach((t,k)=>{const b=document.createElement("button");b.textContent=t;
-  b.onclick=()=>{[...ch.children].forEach(x=>{x.disabled=true});const ok=k===ci;b.classList.add(ok?"good":"bad");if(!ok)ch.children[ci].classList.add("good");cb(ok)};
-  ch.appendChild(b)})}
+ const e=SRS.get(srs,p.i),box=e?e.box:0,n=p.es.split(/\s+/).length;
+ const f=SRS.formatsFor(box,n,MUST.has(p.i));
+ if(e&&e.u&&f.includes("build"))return "build";
+ return f[Math.random()*f.length|0]}
+function queueRetry(p,fmt){S.steps.splice(Math.min(S.i+6,S.steps.length),0,{k:fmt,p})}
+const tagHtml=p=>p.note?`<div class="tag">${esc(p.note)}</div>`:"";
 
 function startSession(kind){
- const pl=plan(kind);
- const cards=[...pl.fresh,...pl.due,...pl.fill];
- if(!cards.length){toast("Nothing to practice here. Try another focus on Today.");return}
- const steps=[];
- if(kind!=="prep")pl.fresh.forEach(p=>steps.push({k:"intro",p}));
- shuffle(cards).forEach(p=>steps.push({k:qType(p),p}));
- shuffle(cards).slice(0,Math.min(3,cards.length)).forEach(p=>steps.push({k:"say",p}));
- M=null;S={kind,steps,i:0,xp:0,right:0,wrong:0,combo:0,best:0,failed:new Set(),retried:new Set(),lvl0:lvl(prof.xp),fresh:pl.fresh.length};
+ const t=today(),all=ids();let due=[],fresh=[],practice=false,waiting=0;
+ if(kind==="extra"){
+  practice=true;
+  due=all.filter(i=>srs[i]&&(srs[i][0]<=2||(srs[i][3]||0)>0)).sort((a,b)=>srs[a][0]-srs[b][0]||(srs[b][3]||0)-(srs[a][3]||0)).slice(0,10).map(i=>P[i]);
+ }else if(kind==="prep"){
+  due=all.filter(i=>srs[i]&&PREP.includes(P[i].cat)).sort((a,b)=>(srs[a][1]<=t?0:1)-(srs[b][1]<=t?0:1)||srs[a][0]-srs[b][0]).slice(0,9).map(i=>P[i]);
+  fresh=pickNew(unseenPool(PREP),Math.max(0,Math.min(3,SRS.NEW_CAP-newToday())));
+ }else{
+  const pl=todayPlan(kind);
+  if(pl.catchup){SRS.spread(srs,all,t,pl.capacity);saveSrs()}
+  due=pl.due.map(i=>P[i]);waiting=pl.waiting;
+  fresh=pl.newAllowed?pickNew(unseenPool(),pl.newAllowed):[];
+ }
+ if(!due.length&&!fresh.length){toast(kind==="extra"?"Nothing weak to practise right now.":"Nothing is due right now.");return}
+ const mk=p=>({k:qType(p),p});
+ const dd=shuffle(due),half=Math.ceil(dd.length/2);
+ const steps=[...dd.slice(0,half).map(mk),...fresh.map(p=>({k:"intro",p})),...dd.slice(half).map(mk),...fresh.map(mk)];
+ if((kind==="daily"||kind==="prep"||kind==="extra")&&steps.length>=6)steps.splice(Math.floor(steps.length/2),0,{k:"sayBlock"});
+ M=null;S={kind,steps,i:0,first:{},failed:new Set(),retried:new Set(),fresh:fresh.length,waiting,practice,trials:0,scored:0,start:Date.now(),t0:0,slowTap:false,dueIds:due.map(p=>p.i)};
  openOv();nextStep()}
+function sayCards(){
+ const f=[...S.failed].map(i=>P[i]);
+ const rest=S.dueIds.filter(i=>!S.failed.has(i)&&srs[i]&&srs[i][0]>=2).map(i=>P[i]);
+ return [...f,...shuffle(rest)].slice(0,4)}
 function nextStep(){
  if(!S)return;
- if(S.i>=S.steps.length){finishSession();return}
- const s=S.steps[S.i];
- $("ovBar").style.width=(S.i/S.steps.length*100)+"%";
- $("ovCombo").textContent=S.combo>=2?"×"+S.combo:"";
- $("ovFoot").innerHTML="";
- S.extra=null;S.extraJ=null;
- ({intro:rIntro,pair:rPair,listen:rListen,pickEs:rPickEs,fill:rFill,build:rBuild,say:rSay})[s.k](s.p)}
-const praise=()=>["¡Perfecto!","¡Muy bien!","¡Excelente!","¡Así se hace!","¡Eso es!"][Math.random()*5|0];
-function feedback(ok,p){
- $("ovFoot").innerHTML=`<div class="fb ${ok?"ok":"bad"}">${ok?praise():"Not quite"}<small>${esc(p.es)} = ${esc(p.en)}${S.extra?"<br>"+S.extra:""}</small></div><button class="btn block" id="ovNext">Continue</button>`;
+ let s=S.steps[S.i];
+ while(s&&s.k==="sayBlock"){S.steps.splice(S.i,1,...sayCards().map(p=>({k:"say",p})));s=S.steps[S.i]}
+ if(!s){finishSession();return}
+ $("ovBar").style.width=(S.i/S.steps.length*100)+"%";$("ovFoot").innerHTML="";
+ S.t0=performance.now();S.slowTap=false;
+ ({intro:rIntro,listen:rListen,pickEs:rPickEs,build:rBuild,say:rSay})[s.k](s.p)}
+function feedback(ok,p,ns){
+ $("ovFoot").innerHTML=`<div class="fb ${ok?"ok":"bad"}">${ok?"Correct":ns?"No problem":"Not quite"}<small>${esc(p.es)} = ${esc(p.en)}${ok?"":"<br>Say it out loud once."}</small></div><button class="btn block" id="ovNext">Continue</button>`;
  $("ovNext").onclick=()=>{S.i++;nextStep()};
- sayPhrase(p.i,false).then(()=>{if(S&&S.extraJ!=null)sayPhrase(S.extraJ,false)})}
-function grade(ok,p){
- if(ok){
-  S.combo++;S.best=Math.max(S.best,S.combo);S.right++;
-  const g=10+2*Math.min(S.combo-1,5);S.xp+=g;addXp(g);
-  if(!S.failed.has(p.i))srsRight(p.i);
-  fx.good();buzz(25)}
- else{
-  S.combo=0;S.wrong++;S.failed.add(p.i);srsWrong(p.i);fx.bad();buzz([60,40,60]);
-  if(!S.retried.has(p.i)){S.retried.add(p.i);queueRetry(p)}}
- $("ovCombo").textContent=S.combo>=2?"×"+S.combo:"";
- feedback(ok,p)}
-
-const introPairs=p=>(PAIRS[p.i]||[]).length?`<div class="prs"><div class="q" style="margin:18px 0 2px">Pairs with</div>${pairsHTML(p.i,3)}</div>`:"";
-const PAIR_ASK={"Opposite":"Pick the opposite","Alternative":"Pick another way to say it","Goes with":"Pick the phrase that goes with it","Answer":"Pick a good answer","Question":"Pick the question it answers","Next":"Pick the next one","Previous":"Pick the one before"};
-function rPair(p){
- const q=shuffle(PAIRS[p.i])[0],t=P[q[0]];
- const bad=new Set([p.i,...PAIRS[p.i].map(x=>x[0])]);
- const pool=shuffle(P.filter(x=>!bad.has(x.i)&&norm(x.en)!==norm(t.en)&&norm(x.es)!==norm(t.es)));
- const d=[...pool.filter(x=>x.cat===t.cat),...pool.filter(x=>x.cat!==t.cat)].slice(0,3);
- const opts=shuffle([t,...d]);
- setBody(`<div class="q">${esc(PAIR_ASK[q[1]]||"Pick its partner")}</div><div class="big">${esc(p.es)}</div><div class="bigen">${esc(p.en)}</div><div class="hear" style="margin:14px 0"><button class="hearb sm" id="qPlay" aria-label="Hear">${SVG.say}</button></div><div class="ch" id="chs"></div>`);
- $("qPlay").onclick=()=>sayPhrase(p.i,false);
- S.extra=`<b>${esc(q[1])}:</b> ${esc(t.es)} = ${esc(t.en)}`;S.extraJ=t.i;
- renderChoices(opts.map(x=>x.es),opts.indexOf(t),ok=>grade(ok,p));
  sayPhrase(p.i,false)}
+function grade(ok,p,fmt,ns){
+ const ms=Math.round(performance.now()-S.t0),good=ok&&!ns;
+ const r=SRS.answer(srs,p.i,good,fmt,today(),{n:p.es.split(/\s+/).length,must:MUST.has(p.i),notSure:false,practice:S.practice});
+ saveSrs();
+ const first=!(p.i in S.first);if(first)S.first[p.i]=good;
+ logRow([Date.now(),p.i,fmt,ns?2:good?1:0,ms,r.box0,r.box1,(r.credited?1:0)|(r.due?2:0)|(S.slowTap?4:0)|(S.practice?16:0)|(first?0:32)]);
+ S.trials++;if(r.credited||r.demoted)S.scored++;
+ if(!good){S.failed.add(p.i);if(!S.retried.has(p.i)){S.retried.add(p.i);queueRetry(p,fmt)}}
+ else tick();
+ feedback(good,p,ns)}
+
+const introPairs=p=>{
+ const ok=["Answer","Question","Goes with"];
+ const l=(PAIRS[p.i]||[]).filter(x=>ok.includes(x[1])&&srs[x[0]]).slice(0,2);
+ return l.length?`<div class="prs"><div class="q" style="margin:18px 0 2px">Pairs with</div>${l.map(x=>`<div class="pr" data-j="${x[0]}"><span class="pl">${esc(x[1])}</span>${esc(P[x[0]].es)}<span class="pe"> ${esc(P[x[0]].en)}</span></div>`).join("")}</div>`:""};
 function rIntro(p){
  const m=groupMaps(p);
- setBody(`<div class="q">New phrase</div><div class="big">${wordsHTML(m.esT,m.esG)}</div><div class="bigen">${wordsHTML(m.enT,m.enG)}</div>${p.note?`<div class="tag">${esc(p.note)}</div>`:""}${introPairs(p)}<div class="hear" style="margin-top:22px"><button class="hearb" id="iPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="iSlow" aria-label="Slow">Slow</button></div><div class="sub center">Tap any word to see its match.</div>`);
+ setBody(`<div class="q">New phrase</div><div class="big">${wordsHTML(m.esT,m.esG)}</div><div class="bigen">${wordsHTML(m.enT,m.enG)}</div>${tagHtml(p)}${introPairs(p)}<div class="hear" style="margin-top:22px"><button class="hearb" id="iPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="iSlow" aria-label="Slow">Slow</button></div><div class="sub center">Tap any word to see its match.</div>`);
  $("ovBody").onclick=e=>{const r=e.target.closest(".pr");if(r){sayPhrase(+r.dataset.j,false);return}const w=e.target.closest(".w");if(w&&w.dataset.g!=null)hlGroup(+w.dataset.g,$("ovBody"))};
  $("iPlay").onclick=()=>sayPhrase(p.i,false);$("iSlow").onclick=()=>sayPhrase(p.i,true);
  $("ovFoot").innerHTML='<button class="btn block" id="ovNext">Got it</button>';
- $("ovNext").onclick=()=>{S.xp+=2;addXp(2);fx.tap();S.i++;nextStep()};
+ $("ovNext").onclick=()=>{const d=today();prof.newLog[d]=(prof.newLog[d]||0)+1;saveProf();tick();S.i++;nextStep()};
  sayPhrase(p.i,false)}
 function rListen(p){
- const opts=shuffle([p,...distract(p,"en",3)]);
+ const opts=shuffle([p,...lures(p,"en",3)]);
  setBody(`<div class="q">Listen. What does it mean?</div><div class="hear"><button class="hearb" id="qPlay" aria-label="Hear">${SVG.say}</button><button class="hearb sm" id="qSlow" aria-label="Slow">Slow</button></div><div class="ch" id="chs"></div>`);
- $("qPlay").onclick=()=>sayPhrase(p.i,false);$("qSlow").onclick=()=>sayPhrase(p.i,true);
- renderChoices(opts.map(x=>x.en),opts.indexOf(p),ok=>grade(ok,p));
+ $("qPlay").onclick=()=>sayPhrase(p.i,false);$("qSlow").onclick=()=>{S.slowTap=true;sayPhrase(p.i,true)};
+ renderChoices(opts.map(x=>x.en),opts.indexOf(p),(ok,ns)=>grade(ok,p,"listen",ns));
  sayPhrase(p.i,false)}
 function rPickEs(p){
- const opts=shuffle([p,...distract(p,"es",3)]);
- setBody(`<div class="q">How do you say it?</div><div class="big">${esc(p.en)}</div><div class="ch" id="chs"></div>`);
- renderChoices(opts.map(x=>x.es),opts.indexOf(p),ok=>grade(ok,p))}
-function rFill(p){
- const ts=p.es.split(/\s+/);
- const cand=ts.map((w,i)=>({w,i,c:core(w)})).filter(x=>x.c.length>=3);
- if(!cand.length){rPickEs(p);return}
- const t=cand[Math.random()*cand.length|0],ans=t.c.toLowerCase();
- const shown=ts.map((w,i)=>i===t.i?w.replace(t.c,"_____"):w).join(" ");
- const seen=new Set([ans]),d=[];
- for(const x of shuffle(P.filter(x=>x.i!==p.i))){
-  for(const w of x.es.split(/\s+/)){const c=core(w).toLowerCase();if(c.length>=3&&!seen.has(c)){seen.add(c);d.push(c);break}}
-  if(d.length>=3)break}
- if(d.length<3){rPickEs(p);return}
- const opts=shuffle([ans,...d]);
- setBody(`<div class="q">Fill the blank</div><div class="big">${esc(shown)}</div><div class="bigen">${esc(p.en)}</div><div class="ch" id="chs"></div>`);
- renderChoices(opts,opts.indexOf(ans),ok=>grade(ok,p))}
+ const opts=shuffle([p,...lures(p,"es",3)]);
+ setBody(`<div class="q">How do you say it?</div><div class="big">${esc(p.en)}</div>${tagHtml(p)}<div class="ch" id="chs"></div>`);
+ renderChoices(opts.map(x=>x.es),opts.indexOf(p),(ok,ns)=>grade(ok,p,"pickEs",ns))}
 function rBuild(p){
- const ts=p.es.split(/\s+/),bank=shuffle(ts.map((w,i)=>({w,i})));
+ const lab=p.es.split(/\s+/).map(w=>(core(w)||w).toLowerCase());
+ const have=new Set(lab),dec=[],nd=lab.length>=3?2:4;
+ for(const x of shuffle(P.filter(x=>x.i!==p.i))){
+  for(const w of x.es.split(/\s+/)){const c=(core(w)||w).toLowerCase();if(c.length>=2&&!have.has(c)){have.add(c);dec.push(c);break}}
+  if(dec.length>=nd)break}
+ const all=[...lab,...dec],items=shuffle(all.map((w,i)=>({w,i})));
+ const target=lab.map(norm).join(" ");
  let order=[],done=false;
- setBody(`<div class="q">Build the sentence</div><div class="big">${esc(p.en)}</div><div class="ans" id="bAns"></div><div class="bank" id="bBank"></div>`);
+ setBody(`<div class="q">Build the sentence</div><div class="big">${esc(p.en)}</div>${tagHtml(p)}<div class="ans" id="bAns"></div><div class="bank" id="bBank"></div>`);
  const draw=()=>{
-  $("bAns").innerHTML=order.map(k=>`<button class="tk" data-a="${k}">${esc(ts[k])}</button>`).join("");
-  $("bBank").innerHTML=bank.map(x=>`<button class="tk ${order.includes(x.i)?"used":""}" data-k="${x.i}">${esc(x.w)}</button>`).join("");
-  $("ovFoot").innerHTML=`<button class="btn block" id="bCheck" ${order.length===ts.length?"":"disabled"}>Check</button>`;
-  $("bCheck").onclick=()=>{done=true;const key=a=>a.map(k=>norm(core(ts[k]))).join(" ");grade(key(order)===key(ts.map((_,i)=>i)),p)}};
+  $("bAns").innerHTML=order.map(k=>`<button class="tk" data-a="${k}">${esc(all[k])}</button>`).join("");
+  $("bBank").innerHTML=items.map(x=>`<button class="tk ${order.includes(x.i)?"used":""}" data-k="${x.i}">${esc(x.w)}</button>`).join("");
+  $("ovFoot").innerHTML=`<div class="row"><button class="btn sec" id="bNs">Not sure</button><button class="btn" id="bCheck" ${order.length===lab.length?"":"disabled"}>Check</button></div>`;
+  $("bNs").onclick=()=>{done=true;grade(false,p,"build",true)};
+  $("bCheck").onclick=()=>{done=true;grade(order.map(k=>norm(all[k])).join(" ")===target,p,"build",false)}};
  $("ovBody").onclick=e=>{if(done)return;
   const a=e.target.closest("[data-a]"),k=e.target.closest("[data-k]");
-  if(a){order=order.filter(x=>x!==+a.dataset.a);fx.tap();draw()}
-  else if(k&&!order.includes(+k.dataset.k)){order.push(+k.dataset.k);fx.tap();draw()}};
+  if(a){order=order.filter(x=>x!==+a.dataset.a);tick();draw()}
+  else if(k&&!order.includes(+k.dataset.k)){order.push(+k.dataset.k);tick();draw()}};
  draw()}
 function rSay(p){
- setBody(`<div class="q">Say it out loud</div><div class="big center">${esc(p.en)}</div><div class="center say"><div class="mic">${SVG.mic}</div><div class="sub">Say it in Spanish. Then reveal the answer.</div></div><div id="sayAns" class="center" style="margin-top:14px"></div>`);
- $("ovFoot").innerHTML='<button class="btn block" id="sReveal">Reveal</button>';
- $("sReveal").onclick=()=>{
+ setBody(`<div class="q">Say it out loud</div><div class="big center">${esc(p.en)}</div>${tagHtml(p)}<div class="center say"><div class="mic">${SVG.mic}</div><div class="sub">Say it in Spanish out loud, then tap the button.</div></div><div id="sayAns" class="center" style="margin-top:14px"></div>`);
+ $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sSkip">Cannot speak now</button><button class="btn" id="sSaid">I said it</button></div>';
+ $("sSkip").onclick=()=>{S.i++;nextStep()};
+ $("sSaid").onclick=()=>{
   $("sayAns").innerHTML=`<div class="big">${esc(p.es)}</div>`;sayPhrase(p.i,false);
-  $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sNo">Not yet</button><button class="btn" id="sYes">Nailed it</button></div>';
-  $("sYes").onclick=()=>{S.xp+=8;addXp(8);fx.good();buzz(25);S.i++;nextStep()};
-  $("sNo").onclick=()=>{srsWrong(p.i);fx.tap();S.i++;nextStep()}}}
+  $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sNo">Missed it</button><button class="btn" id="sYes">Got it</button></div>';
+  const finish=ok=>{
+   const ms=Math.round(performance.now()-S.t0);
+   const r=ok?{box0:0,box1:0}:SRS.answer(srs,p.i,false,"say",today(),{n:1,must:false,notSure:false,practice:S.practice});
+   if(!ok)saveSrs();
+   logRow([Date.now(),p.i,"say",ok?1:0,ms,r.box0,r.box1,0]);S.i++;nextStep()};
+  $("sYes").onclick=()=>finish(true);$("sNo").onclick=()=>finish(false)}}
 
 function finishSession(){
- const first=markActive();
- prof.sessions++;
- const perfect=S.wrong===0&&S.right>0;
- const bonus=20+(perfect?10:0);S.xp+=bonus;addXp(bonus);
- if(perfect)prof.perfect++;
- saveProf();
- const nb=checkBadges(),L1=lvl(prof.xp);
- const tot=S.right+S.wrong,acc=tot?Math.round(S.right/tot*100):100;
- $("ovBar").style.width="100%";$("ovCombo").textContent="";
- setBody(`<div class="sum"><div class="em">${SVG.star}</div><h2>${perfect?"Perfect session!":"Session complete!"}</h2><div class="sub">${first?prof.streak+"-day streak!":"Bonus round, nice."}</div><div class="sg"><div><b>+${S.xp}</b><small>XP</small></div><div><b>${acc}%</b><small>Accuracy</small></div><div><b>${S.fresh}</b><small>New phrases</small></div></div>${L1>S.lvl0?`<div class="card"><b>Level ${L1} reached!</b></div>`:""}${badgeHtml(nb)}</div>`);
- $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sDone">Done</button><button class="btn" id="sMore">One more round</button></div>';
- $("sDone").onclick=closeOv;$("sMore").onclick=()=>startSession("more");
- fx.win();confetti();buzz([40,40,80])}
+ const t=today();
+ if(S.scored>=5)markReview();
+ prof.sessions++;prof.lastSess=t;prof.sess.push([Date.now(),S.trials,Date.now()-S.start]);
+ if(prof.sess.length>40)prof.sess=prof.sess.slice(-40);
+ saveProf();flushLog();
+ const total=Object.keys(S.first).length,right=Object.values(S.first).filter(Boolean).length;
+ const tomorrow=Object.values(srs).filter(e=>e[1]===t+1).length;
+ const left=SRS.dueList(srs,ids(),t).length;
+ $("ovBar").style.width="100%";
+ setBody(`<div class="sum"><h2>${S.practice?"Practice done":"Session done"}</h2>
+ <div class="mx"><span>Right on the first try</span><b>${right} of ${total}</b></div>
+ <div class="mx"><span>Phrases coming back tomorrow</span><b>${tomorrow}</b></div>
+ <div class="mx"><span>New phrases added</span><b>${S.fresh}</b></div>
+ <div class="mx"><span>Still waiting</span><b>${left}</b></div>
+ <div class="mx"><span>Practised in the last 14 days</span><b>${practisedDays()} days</b></div>
+ ${S.practice?'<p class="sub" style="margin-top:12px">Practice never moves a phrase up. Missed phrases are scheduled for tomorrow.</p>':""}</div>`);
+ $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sDone">Done</button><button class="btn" id="sMore">Extra practice</button></div>';
+ $("sDone").onclick=closeOv;$("sMore").onclick=()=>startSession("extra")}
 
 function renderMissions(){
  $("mList").innerHTML=MISS.map(m=>{const s=prof.missions[m.id]||0;
@@ -201,9 +188,9 @@ $("mList").onclick=e=>{const b=e.target.closest(".mcard");if(b)startMission(b.da
 
 function startMission(id){
  const m=MISS.find(x=>x.id===id);if(!m)return;
- S=null;M={m,i:0,wrong:0,right:0,xp:0};
+ S=null;M={m,i:0,wrong:0,right:0};
  openOv();
- setBody(`<div class="sum"><div class="em">${avatar(m)}</div><h2>${esc(m.title)}</h2><p class="sub">${esc(m.intro)}</p><p class="sub">You are talking to <b>${esc(m.who)}</b>. Listen first, then pick your reply.</p></div>`);
+ setBody(`<div class="sum"><div class="em">${avatar(m)}</div><h2>${esc(m.title)}</h2><p class="sub">${esc(m.intro)}</p><p class="sub">You are talking to <b>${esc(m.who)}</b>. Listen first, then pick your reply. The text is hidden until you answer; the eye button shows it.</p></div>`);
  $("ovFoot").innerHTML='<button class="btn block" id="mGo">Start</button>';
  $("mGo").onclick=mStep}
 function mStep(){
@@ -212,30 +199,33 @@ function mStep(){
  if(M.i>=m.steps.length){mFinish();return}
  const s=m.steps[M.i],opts=shuffle(s.opts);
  $("ovBar").style.width=(M.i/m.steps.length*100)+"%";$("ovFoot").innerHTML="";
- setBody(`<div class="who">${avatar(m)}${esc(m.who)}</div><div class="bub"><div class="big" style="font-size:1.5rem">${esc(s.npc.es)}</div><div class="bigen" id="mEn" style="visibility:hidden">${esc(s.npc.en)}</div></div><div class="hear" style="margin:0 0 10px"><button class="hearb sm" id="mReplay" aria-label="Replay">${SVG.say}</button><button class="hearb sm" id="mHint" aria-label="Show English">${SVG.eye}</button></div><div class="ch" id="chs"></div>`);
- const ch=$("chs");
+ M.hint=false;M.t0=performance.now();
+ setBody(`<div class="who">${avatar(m)}${esc(m.who)}</div><div class="bub"><div class="npcq" id="mQ">Listen, then choose your reply.</div><div class="big" id="mEs" style="font-size:1.5rem;display:none">${esc(s.npc.es)}</div><div class="bigen" id="mEn" style="display:none">${esc(s.npc.en)}</div></div><div class="hear" style="margin:0 0 10px"><button class="hearb sm" id="mReplay" aria-label="Replay">${SVG.say}</button><button class="hearb sm" id="mHint" aria-label="Show text">${SVG.eye}</button></div><div class="ch" id="chs"></div>`);
+ const ch=$("chs"),reveal=()=>{$("ovBody").classList.add("hint");$("mQ").style.display="none";$("mEs").style.display="block";$("mEn").style.display="block"};
  opts.forEach(o=>{const b=document.createElement("button");b.innerHTML=`${esc(o.es)}<span class="tr">${esc(o.en)}</span>`;
   b.onclick=()=>{
-   [...ch.children].forEach(x=>{x.disabled=true});
+   [...ch.querySelectorAll("button")].forEach(x=>{x.disabled=true});
    const ok=!!o.ok;b.classList.add(ok?"good":"bad");
-   if(ok){M.right++;M.xp+=12;addXp(12);fx.good();buzz(25)}
-   else{M.wrong++;ch.children[opts.findIndex(x=>x.ok)].classList.add("good");fx.bad();buzz([60,40,60])}
-   $("ovBody").classList.add("hint");$("mEn").style.visibility="visible";
-   playSrc("audio/"+o.a,o.es);
-   $("ovFoot").innerHTML=`<div class="fb ${ok?"ok":"bad"}">${ok?praise():"Not quite"}<small>${esc(s.why)}</small></div><button class="btn block" id="mNext">Continue</button>`;
+   if(ok){if(!M.hint)M.right++;tick()}
+   else{M.wrong++;ch.children[opts.findIndex(x=>x.ok)].classList.add("good")}
+   logRow([Date.now(),-1,"m:"+m.id+":"+M.i,ok?1:0,Math.round(performance.now()-M.t0),0,0,M.hint?8:0]);
+   reveal();playSrc("audio/"+o.a,o.es);
+   $("ovFoot").innerHTML=`<div class="fb ${ok?"ok":"bad"}">${ok?"Correct":"Not quite"}<small>${esc(s.why)}</small></div><button class="btn block" id="mNext">Continue</button>`;
    $("mNext").onclick=()=>{M.i++;mStep()}};
   ch.appendChild(b)});
  $("mReplay").onclick=()=>playSrc("audio/"+s.npc.a,s.npc.es);
- $("mHint").onclick=()=>{$("ovBody").classList.add("hint");$("mEn").style.visibility="visible"};
+ $("mHint").onclick=()=>{M.hint=true;reveal()};
  playSrc("audio/"+s.npc.a,s.npc.es)}
 function mFinish(){
  const m=M.m,stars=M.wrong===0?3:M.wrong===1?2:1;
- const bonus=stars*10;M.xp+=bonus;addXp(bonus);
  prof.missions[m.id]=Math.max(prof.missions[m.id]||0,stars);
- const first=markActive();saveProf();
- const nb=checkBadges();
+ const pl=todayPlan("daily");
+ if(pl.dueTotal*SRS.COST.due<=SRS.budgetTrials(set.budget,secPerTrial()))markReview();
+ saveProf();flushLog();
  $("ovBar").style.width="100%";
- setBody(`<div class="sum"><div class="em">${avatar(m)}</div><h2>Mission complete!</h2><div class="stars big">${starsHtml(stars)}</div><div class="sub">${first?prof.streak+"-day streak!":esc(m.title)}</div><div class="sg"><div><b>+${M.xp}</b><small>XP</small></div><div><b>${M.right}/${m.steps.length}</b><small>Right first try</small></div><div><b>${stars}</b><small>Stars</small></div></div>${badgeHtml(nb)}</div>`);
+ setBody(`<div class="sum"><div class="em">${avatar(m)}</div><h2>Mission done</h2><div class="stars big">${starsHtml(stars)}</div><div class="sub">${esc(m.title)}</div>
+ <div class="mx"><span>Right on the first try, no text shown</span><b>${M.right} of ${m.steps.length}</b></div>
+ <div class="mx"><span>Reviews still due today</span><b>${pl.dueTotal}</b></div>
+ <p class="sub" style="margin-top:12px">A mission counts toward Reviews done only when your due reviews are under today's budget.</p></div>`);
  $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="mDone">Done</button><button class="btn" id="mAgain">Play again</button></div>';
- $("mDone").onclick=closeOv;$("mAgain").onclick=()=>startMission(m.id);
- fx.win();if(stars===3)confetti()}
+ $("mDone").onclick=closeOv;$("mAgain").onclick=()=>startMission(m.id)}

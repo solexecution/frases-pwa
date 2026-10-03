@@ -19,15 +19,15 @@
       "ok": 1
      },
      {
-      "es": "Estoy bien, gracias",
-      "en": "I'm well, thanks"
+      "es": "¿Y tú? ¿Es tu primera vez?",
+      "en": "And you? Is it your first time?"
      },
      {
-      "es": "Cuesta mil pesos",
-      "en": "It costs a thousand pesos"
+      "es": "Gracias, me gusta este evento",
+      "en": "Thanks, I like this event"
      }
     ],
-    "why": "He asked about the event, not how you are."
+    "why": "He asked if it's your first time; turning the question back or just being polite doesn't answer it."
    },
    {
     "npc": {
@@ -41,15 +41,15 @@
       "ok": 1
      },
      {
-      "es": "Hasta luego, Carlos",
-      "en": "See you later, Carlos"
+      "es": "Carlos, mucho gusto. ¿Cómo te llamas?",
+      "en": "Carlos, nice to meet you. What's your name?"
      },
      {
-      "es": "Gracias por la cuenta",
-      "en": "Thanks for the bill"
+      "es": "Hasta luego, Carlos. Fue un gusto",
+      "en": "See you later, Carlos. It was a pleasure"
      }
     ],
-    "why": "He gave his name and asked yours: greet him back and say your name."
+    "why": "He gave his name and asked yours: greet him and say your name, don't ask his again or say goodbye already."
    },
    {
     "npc": {
@@ -63,15 +63,15 @@
       "ok": 1
      },
      {
-      "es": "Vivo aquí cerca",
-      "en": "I live nearby"
+      "es": "Vivo cerca de este lugar",
+      "en": "I live near this place"
      },
      {
-      "es": "Tengo mucha sed",
-      "en": "I'm very thirsty"
+      "es": "Estoy muy contento, gracias",
+      "en": "I'm very happy, thanks"
      }
     ],
-    "why": "\"¿A qué te dedicas?\" asks about your job, not where you live."
+    "why": "\"¿A qué te dedicas?\" asks about your job, not where you live or how you feel."
    },
    {
     "npc": {
@@ -85,15 +85,15 @@
       "ok": 1
      },
      {
-      "es": "No entiendo",
-      "en": "I don't understand"
+      "es": "No tengo tarjeta de crédito",
+      "en": "I don't have a credit card"
      },
      {
-      "es": "Sí, un café, por favor",
-      "en": "Yes, a coffee, please"
+      "es": "Gracias. ¿Tú tienes tarjeta?",
+      "en": "Thanks. Do you have a card?"
      }
     ],
-    "why": "Hand over the card: \"aquí tienes mi tarjeta\"."
+    "why": "Hand over the card: \"aquí tienes mi tarjeta\". It's a business card, not a credit card, and he asked you."
    }
   ]
  },
@@ -117,15 +117,15 @@
       "ok": 1
      },
      {
-      "es": "Lo siento, no hablo inglés",
-      "en": "Sorry, I don't speak English"
+      "es": "Mejor no, gracias",
+      "en": "Better not, thanks"
      },
      {
-      "es": "Para llevar, por favor",
-      "en": "To go, please"
+      "es": "Mucho gusto, Laura",
+      "en": "Nice to meet you, Laura"
      }
     ],
-    "why": "\"Con gusto\" is the friendly yes."
+    "why": "\"Con gusto\" is the friendly yes; the others refuse or greet her as if you had just met."
    },
    {
     "npc": {
@@ -139,15 +139,15 @@
       "ok": 1
      },
      {
-      "es": "No funciona",
-      "en": "It doesn't work"
+      "es": "Claro, ¿me pasas tu número?",
+      "en": "Sure, can you give me your number?"
      },
      {
-      "es": "¿Está lejos?",
-      "en": "Is it far?"
+      "es": "Lo siento, no tengo mi teléfono",
+      "en": "Sorry, I don't have my phone"
      }
     ],
-    "why": "She asked for your number, so you give it."
+    "why": "She asked for your number, so you give it; asking for hers or making an excuse doesn't answer."
    },
    {
     "npc": {
@@ -161,15 +161,15 @@
       "ok": 1
      },
      {
-      "es": "Ayer, por favor",
-      "en": "Yesterday, please"
+      "es": "Ayer me fue muy bien",
+      "en": "I did very well yesterday"
      },
      {
-      "es": "Un segundo, tengo frío",
-      "en": "One second, I'm cold"
+      "es": "¿Y tú cuándo estás libre?",
+      "en": "And when are you free?"
      }
     ],
-    "why": "She asked about timing, so name a day."
+    "why": "She asked about timing, so name a day; talking about yesterday or asking her back gives no time."
    },
    {
     "npc": {
@@ -183,15 +183,15 @@
       "ok": 1
      },
      {
-      "es": "Más despacio, por favor",
-      "en": "Slower, please"
+      "es": "Gracias, pero no tengo tiempo",
+      "en": "Thanks, but I don't have time"
      },
      {
-      "es": "¿Dónde está el baño?",
-      "en": "Where is the bathroom?"
+      "es": "Perfecto. Nos vemos mañana",
+      "en": "Perfect. See you tomorrow"
      }
     ],
-    "why": "A warm close: thank her for her time."
+    "why": "A warm close: thank her for her time; refusing or inventing plans for tomorrow doesn't fit \"keep in touch\"."
    }
   ]
  },
@@ -215,15 +215,15 @@
       "ok": 1
      },
      {
-      "es": "¿Dónde está el baño?",
-      "en": "Where is the bathroom?"
+      "es": "Disculpe, señor, estoy muy perdido. ¿Me puede ayudar?",
+      "en": "Excuse me, sir, I'm very lost. Can you help me?"
      },
      {
-      "es": "Quiero una cerveza, por favor",
-      "en": "I want a beer, please"
+      "es": "Hola, buenas tardes. Vendo paneles solares. ¿Tienes un minuto?",
+      "en": "Hi, good afternoon. I sell solar panels. Do you have a minute?"
      }
     ],
-    "why": "Introduce yourself and ask for a minute, politely."
+    "why": "Introduce yourself and ask for a minute, politely; asking him for help flips the roles, and \"tienes\" is too casual."
    },
    {
     "npc": {
@@ -237,15 +237,15 @@
       "ok": 1
      },
      {
-      "es": "Hace mucho calor",
-      "en": "It's very hot"
+      "es": "Entiendo, señor. Su recibo de luz es muy alto",
+      "en": "I understand, sir. Your electricity bill is very high"
      },
      {
-      "es": "El techo está lejos",
-      "en": "The roof is far"
+      "es": "Con paneles solares podemos reducir tu recibo de luz",
+      "en": "With solar panels we can reduce your electricity bill"
      }
     ],
-    "why": "Connect his problem to your solution."
+    "why": "Connect his problem to your solution using \"su\"; agreeing offers no solution, and \"tu\" is too casual for Sr. Ramírez."
    },
    {
     "npc": {
@@ -259,15 +259,15 @@
       "ok": 1
      },
      {
-      "es": "Son las dos",
-      "en": "It's two o'clock"
+      "es": "La instalación tarda solamente dos o tres días",
+      "en": "The installation takes only two or three days"
      },
      {
-      "es": "Tenemos garantía de veinticinco minutos",
-      "en": "We have a twenty-five-minute warranty"
+      "es": "Señor, ¿usted me puede dar una cotización gratis hoy?",
+      "en": "Sir, can you give me a free quote today?"
      }
     ],
-    "why": "Offer the free quote and ask for the bill. (The warranty is 25 años, not minutos!)"
+    "why": "He asked about the cost, so offer the free quote and ask for the bill; the others answer how long or ask him for a quote."
    },
    {
     "npc": {
@@ -281,15 +281,15 @@
       "ok": 1
      },
      {
-      "es": "No entiendo",
-      "en": "I don't understand"
+      "es": "Ya agendamos la visita ayer, señor",
+      "en": "We already scheduled the visit yesterday, sir"
      },
      {
-      "es": "Estoy perdido",
-      "en": "I'm lost"
+      "es": "Qué bueno. Muchas gracias por su tiempo",
+      "en": "Great. Thank you very much for your time"
      }
     ],
-    "why": "Move to the next step: book a visit."
+    "why": "He asked when you can start, so propose a visit; \"ayer\" is the wrong time, and only thanking him doesn't answer."
    }
   ]
  },
@@ -313,15 +313,15 @@
       "ok": 1
      },
      {
-      "es": "Qué lástima, adiós",
-      "en": "What a shame, goodbye"
+      "es": "Sí, es caro, tiene razón",
+      "en": "Yes, it's expensive, you're right"
      },
      {
-      "es": "Hace frío",
-      "en": "It's cold"
+      "es": "No te preocupes, se paga solo",
+      "en": "Don't worry, it pays for itself"
      }
     ],
-    "why": "Answer the objection with the payoff."
+    "why": "Answer the objection with the payoff; agreeing gives up, and \"no te preocupes\" is too casual for a señora."
    },
    {
     "npc": {
@@ -335,15 +335,15 @@
       "ok": 1
      },
      {
-      "es": "Sin hielo, por favor",
-      "en": "No ice, please"
+      "es": "Aceptamos solo efectivo",
+      "en": "We only accept cash"
      },
      {
-      "es": "Tengo mucha sed",
-      "en": "I'm very thirsty"
+      "es": "Tenemos garantía completa",
+      "en": "We have a full warranty"
      }
     ],
-    "why": "Financing solves the cash problem."
+    "why": "Her problem is not having cash now, and only financing solves that; cash-only and a warranty do not."
    },
    {
     "npc": {
@@ -357,15 +357,15 @@
       "ok": 1
      },
      {
-      "es": "Son las dos",
-      "en": "It's two o'clock"
+      "es": "Cuesta dos mil",
+      "en": "It costs two thousand"
      },
      {
-      "es": "Dos cervezas, por favor",
-      "en": "Two beers, please"
+      "es": "Muchas gracias",
+      "en": "Thank you very much"
      }
     ],
-    "why": "\"Dos días\" (two days) is not \"las dos\" (two o'clock)."
+    "why": "\"Dura dos días\" answers how long; the others give a price or only say thanks."
    },
    {
     "npc": {
@@ -379,15 +379,15 @@
       "ok": 1
      },
      {
-      "es": "Sale, al rato te marco",
-      "en": "Cool, I'll call you later"
+      "es": "Ayer se la mandé. Gracias por su tiempo",
+      "en": "I sent it to you yesterday. Thanks for your time"
      },
      {
-      "es": "No hay descuento",
-      "en": "There's no discount"
+      "es": "Sale, al rato te mando la cotización",
+      "en": "Cool, I'll send you the quote later"
      }
     ],
-    "why": "With a señora, stay formal: \"su\", not casual \"sale\" and \"te\"."
+    "why": "She asked you to send it, so say you will and stay formal with \"su\"; \"ayer\" is the wrong time and \"sale\" and \"te\" are too casual."
    }
   ]
  },
@@ -411,15 +411,15 @@
       "ok": 1
      },
      {
-      "es": "Quiero la cuenta, por favor",
-      "en": "I want the bill, please"
+      "es": "Bien, gracias. ¿Y usted?",
+      "en": "Fine, thanks. And you (formal)?"
      },
      {
-      "es": "Son las dos",
-      "en": "It's two o'clock"
+      "es": "Me llamo Max. ¿Y tú, Ana?",
+      "en": "My name is Max. And you, Ana?"
      }
     ],
-    "why": "Answer and ask back: \"¿Y tú?\""
+    "why": "Answer how you are and ask back with \"¿Y tú?\"; \"usted\" is too distant on a date, and your name answers a different question."
    },
    {
     "npc": {
@@ -433,15 +433,15 @@
       "ok": 1
      },
      {
-      "es": "Estoy cansado",
-      "en": "I'm tired"
+      "es": "Trabajo en energía solar",
+      "en": "I work in solar energy"
      },
      {
-      "es": "Es muy caro",
-      "en": "It's very expensive"
+      "es": "Quiero un café con leche",
+      "en": "I want a coffee with milk"
      }
     ],
-    "why": "\"Me gusta…\" talks about what you enjoy."
+    "why": "\"Me gusta…\" talks about what you enjoy; your job or your order answers other questions."
    },
    {
     "npc": {
@@ -455,15 +455,15 @@
       "ok": 1
      },
      {
-      "es": "Vivo aquí cerca",
-      "en": "I live nearby"
+      "es": "Tengo treinta años",
+      "en": "I'm thirty years old"
      },
      {
-      "es": "Tengo hambre",
-      "en": "I'm hungry"
+      "es": "Eres de Eslovaquia",
+      "en": "You are from Slovakia"
      }
     ],
-    "why": "\"¿De dónde eres?\" asks where you're from. \"Vivo aquí\" says where you live."
+    "why": "\"¿De dónde eres?\" asks where you're from; your age answers another question, and \"eres\" talks about her, not you."
    },
    {
     "npc": {
@@ -477,15 +477,15 @@
       "ok": 1
      },
      {
-      "es": "La cuenta, por favor",
-      "en": "The bill, please"
+      "es": "Qué bueno. Pero tengo que irme pronto",
+      "en": "Good. But I have to leave soon"
      },
      {
-      "es": "No funciona",
-      "en": "It doesn't work"
+      "es": "Gracias. Me encanta este lugar tan bonito",
+      "en": "Thanks. I love this very pretty place"
      }
     ],
-    "why": "Return the warmth."
+    "why": "Return the warmth; saying you must leave or praising only the place ignores her."
    }
   ]
  },
@@ -509,15 +509,15 @@
       "ok": 1
      },
      {
-      "es": "Busco un taxi",
-      "en": "I'm looking for a taxi"
+      "es": "Buscas algo serio",
+      "en": "You're looking for something serious"
      },
      {
-      "es": "Busco clientes",
-      "en": "I'm looking for clients"
+      "es": "Soy muy serio, Ana",
+      "en": "I'm very serious, Ana"
      }
     ],
-    "why": "Same verb \"busco\", very different meaning!"
+    "why": "\"Busco algo serio\" says what you want in a partner; \"buscas\" is about her, and \"soy serio\" describes you instead."
    },
    {
     "npc": {
@@ -531,15 +531,15 @@
       "ok": 1
      },
      {
-      "es": "Cien mil pesos",
-      "en": "A hundred thousand pesos"
+      "es": "Para ti la familia es muy importante",
+      "en": "For you, family is very important"
      },
      {
-      "es": "Hace mucho calor",
-      "en": "It's very hot"
+      "es": "Mi familia vive muy lejos de aquí",
+      "en": "My family lives very far from here"
      }
     ],
-    "why": "Share a real value."
+    "why": "Share your own value: \"para mí\" is you, \"para ti\" is her, and where your family lives isn't what matters to you."
    },
    {
     "npc": {
@@ -553,15 +553,15 @@
       "ok": 1
      },
      {
-      "es": "De nada, buen provecho",
-      "en": "You're welcome, enjoy your meal"
+      "es": "De nada, me gusta pasar tiempo contigo",
+      "en": "You're welcome, I like spending time with you"
      },
      {
-      "es": "Lo siento, no entiendo",
-      "en": "Sorry, I don't understand"
+      "es": "Qué bonito. Me gusta mucho esta canción",
+      "en": "How nice. I like this song a lot"
      }
     ],
-    "why": "Thank her and add something warm."
+    "why": "Thank her and add something warm about her; \"de nada\" answers thanks she didn't give, and the song isn't what she said."
    },
    {
     "npc": {
@@ -575,15 +575,15 @@
       "ok": 1
      },
      {
-      "es": "Ayer no pude",
-      "en": "Yesterday I couldn't"
+      "es": "Me encantó, gracias",
+      "en": "I loved it, thanks"
      },
      {
-      "es": "Estoy perdido",
-      "en": "I'm lost"
+      "es": "Qué pena, estoy ocupado",
+      "en": "Too bad, I'm busy"
      }
     ],
-    "why": "\"Me encantaría\" is a lovely yes."
+    "why": "\"Me encantaría\" is a lovely yes; \"me encantó\" is past tense, and being busy is a no."
    }
   ]
  },
@@ -607,15 +607,15 @@
       "ok": 1
      },
      {
-      "es": "Son las dos",
-      "en": "It's two o'clock"
+      "es": "Una mesa afuera, por favor",
+      "en": "A table outside, please"
      },
      {
-      "es": "Muchas gracias, adiós",
-      "en": "Thank you very much, goodbye"
+      "es": "Tres personas, por favor",
+      "en": "Three people, please"
      }
     ],
-    "why": "\"Para dos\" = for two people."
+    "why": "You and your date are two, so \"para dos\"; asking for a seat outside skips his question, and three is the wrong number."
    },
    {
     "npc": {
@@ -629,15 +629,15 @@
       "ok": 1
      },
      {
-      "es": "Estoy lleno",
-      "en": "I'm full"
+      "es": "Un pollo con arroz, por favor",
+      "en": "A chicken with rice, please"
      },
      {
-      "es": "A la derecha",
-      "en": "To the right"
+      "es": "Estamos muy bien, gracias. ¿Y usted?",
+      "en": "We're very well, thanks. And you?"
      }
     ],
-    "why": "He asks about drinks: order them."
+    "why": "He asks about drinks: order them; ordering food or answering a how-are-you doesn't answer."
    },
    {
     "npc": {
@@ -651,15 +651,15 @@
       "ok": 1
      },
      {
-      "es": "Sí, estoy perdido",
-      "en": "Yes, I'm lost"
+      "es": "No, gracias. La carta, por favor",
+      "en": "No, thanks. The menu, please"
      },
      {
-      "es": "Todo recto",
-      "en": "Straight ahead"
+      "es": "Gracias, buenas noches. Hasta luego",
+      "en": "Thanks, good night. See you later"
      }
     ],
-    "why": "Wrap up and ask for the bill."
+    "why": "Wrap up and ask for the bill: \"carta\" is the menu, and saying goodbye now means leaving without paying."
    },
    {
     "npc": {
@@ -673,15 +673,15 @@
       "ok": 1
      },
      {
-      "es": "Sin hielo, por favor",
-      "en": "No ice, please"
+      "es": "Para llevar, por favor",
+      "en": "To go, please"
      },
      {
-      "es": "Hace frío",
-      "en": "It's cold"
+      "es": "Perdón, ¿cuánto es?",
+      "en": "Sorry, how much is it?"
      }
     ],
-    "why": "He offered two choices: pick one."
+    "why": "He offered two choices: pick one; \"para llevar\" means to go, and asking the price again doesn't choose."
    }
   ]
  },
@@ -705,15 +705,15 @@
       "ok": 1
      },
      {
-      "es": "Sí, tengo sed",
-      "en": "Yes, I'm thirsty"
+      "es": "No, gracias, sé dónde está el hotel",
+      "en": "No thanks, I know where the hotel is"
      },
      {
-      "es": "No, gracias, estoy lleno",
-      "en": "No thanks, I'm full"
+      "es": "Sí, tú estás perdido. ¿Te puedo ayudar?",
+      "en": "Yes, you're lost. Can I help you?"
      }
     ],
-    "why": "Say what the problem is: \"estoy perdido\"."
+    "why": "Say what the problem is: \"estoy perdido\"; saying you know the way contradicts it, and offering help flips the roles."
    },
    {
     "npc": {
@@ -727,15 +727,15 @@
       "ok": 1
      },
      {
-      "es": "Estoy cansado",
-      "en": "I'm tired"
+      "es": "Vengo de la plaza ahorita",
+      "en": "I'm coming from the plaza right now"
      },
      {
-      "es": "Dos cervezas",
-      "en": "Two beers"
+      "es": "Soy de Eslovaquia, Paloma",
+      "en": "I'm from Slovakia, Paloma"
      }
     ],
-    "why": "\"Estoy buscando…\" names what you want to find."
+    "why": "\"Estoy buscando…\" names where you want to go; \"vengo de\" says where you come from, and your country answers another question."
    },
    {
     "npc": {
@@ -749,15 +749,15 @@
       "ok": 1
      },
      {
-      "es": "¿Cuánto cuesta?",
-      "en": "How much is it?"
+      "es": "¿Cuánto cuesta el taxi?",
+      "en": "How much is the taxi?"
      },
      {
-      "es": "Un café, por favor",
-      "en": "A coffee, please"
+      "es": "Qué bien. ¿Estaba lejos?",
+      "en": "Great. Was it far?"
      }
     ],
-    "why": "A natural follow-up about distance."
+    "why": "A natural follow-up about distance: \"¿Está lejos?\"; a taxi price changes the subject, and \"estaba\" is the wrong tense."
    },
    {
     "npc": {
@@ -771,15 +771,15 @@
       "ok": 1
      },
      {
-      "es": "Lo siento, no hay descuento",
-      "en": "Sorry, there's no discount"
+      "es": "Buen provecho. Que te vaya muy bien",
+      "en": "Enjoy your meal. All the best"
      },
      {
-      "es": "Estoy lleno",
-      "en": "I'm full"
+      "es": "Qué lejos. Mejor voy en taxi",
+      "en": "How far. I'd better take a taxi"
      }
     ],
-    "why": "Thank her and say goodbye."
+    "why": "Thank her and say goodbye; \"buen provecho\" is for meals, and five minutes isn't far."
    }
   ]
  }

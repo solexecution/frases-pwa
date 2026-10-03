@@ -22,7 +22,6 @@ button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 header{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 h1{margin:0;font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1;background:linear-gradient(90deg,var(--deep),var(--turq) 55%,var(--shallow));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hud{display:flex;gap:8px}
-.hud svg{width:14px;height:14px;color:var(--gold);vertical-align:-2px;margin-right:4px}
 .hud span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:.88rem;font-weight:700}
 main{padding:12px 16px 24px;max-width:680px;margin:0 auto}
 .screen[hidden]{display:none}
@@ -32,12 +31,12 @@ main{padding:12px 16px 24px;max-width:680px;margin:0 auto}
 .hi{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
 .bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:8px 0 6px}
 .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--turq),var(--gold));border-radius:99px;transition:width .4s}
-.lvlTop{display:flex;justify-content:space-between;align-items:baseline}
 .cta{width:100%;margin-top:12px;border:0;border-radius:20px;padding:20px 16px;background:linear-gradient(160deg,var(--deep),var(--turq));color:#fff;font-size:1.25rem;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 8px 22px rgba(10,61,79,.28)}
 .cta small{font-weight:500;font-size:.88rem;opacity:.9}
 .cta:active,.tile:active,.btn:active{transform:scale(.97)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .tile{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:14px 12px;text-align:left;display:flex;flex-direction:column;gap:3px}
+.tile[hidden]{display:none}
 .tile b{font-size:1.02rem}.tile small{color:var(--muted);font-size:.82rem}
 .btn{border:0;border-radius:14px;padding:13px 16px;background:var(--turq);color:#fff;font-weight:700;font-size:1rem}
 .btn.sec{background:var(--card);color:var(--ink);border:1px solid var(--line)}
@@ -133,16 +132,6 @@ body.fit main{padding-bottom:0}
 .stars .off{color:var(--line)}
 .stars.big svg{width:40px;height:40px}
 .tag{display:inline-block;font-size:.72rem;font-weight:700;color:var(--pink);margin-top:3px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center}
-.stat b{display:block;font-size:1.4rem}.stat small{color:var(--muted);font-size:.78rem}
-.week{display:flex;gap:8px;align-items:flex-end;height:96px}
-.week div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.72rem;color:var(--muted)}
-.week i{display:block;width:100%;background:var(--turq);border-radius:6px 6px 0 0;min-height:3px}
-.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
-.bd{text-align:center;padding:10px 6px;border:1px solid var(--line);border-radius:14px;font-size:.78rem;line-height:1.25}
-.bd .e{display:block}
-.bd .e svg{width:30px;height:30px;color:var(--gold)}.bd.lock{opacity:.35;filter:grayscale(1)}
 .set{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
 .set:first-of-type{border-top:0}
 .seg{display:flex;background:var(--line);border-radius:10px;padding:3px;gap:3px}
@@ -165,7 +154,6 @@ nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,v
 .ovTop button svg{width:24px;height:24px;display:block}
 .pb2{flex:1;height:12px;background:var(--line);border-radius:99px;overflow:hidden}
 .pb2 i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--turq),var(--gold));border-radius:99px;transition:width .3s}
-#ovCombo{min-width:56px;text-align:right;font-weight:800;color:var(--gold)}
 #ovBody{flex:1;overflow-y:auto;padding:8px 18px 18px;display:flex;flex-direction:column}
 #ovFoot{padding:12px 16px calc(14px + env(safe-area-inset-bottom,0px))}
 #ovFoot .fb{border-radius:16px;padding:12px 14px;margin-bottom:10px;font-weight:600}
@@ -200,7 +188,6 @@ nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,v
 .avatar{width:48px;height:48px;border-radius:50%;background:var(--turq);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.3rem;flex:none}
 .sum .avatar{width:84px;height:84px;font-size:2.4rem;margin:0 auto}
 .sum .em svg{width:72px;height:72px;color:var(--gold)}
-.mini svg{width:20px;height:20px;color:var(--gold);vertical-align:middle}
 .sum{text-align:center;padding-top:10px}
 .sum .em{margin-bottom:6px}
 .sum h2{margin:6px 0;font-size:1.7rem}
@@ -215,7 +202,16 @@ nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,v
 #md .acts{display:flex;gap:10px;margin-top:14px}
 #md .acts button{flex:1}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:40;max-width:648px;margin:0 auto;background:var(--ink);color:var(--bg);padding:13px 15px;border-radius:12px;font-size:.95rem;line-height:1.35;box-shadow:0 6px 24px rgba(0,0,0,.25);display:none}
-#fx{position:fixed;inset:0;z-index:50;pointer-events:none;display:none}
+.dots{display:flex;gap:5px;margin-top:6px}
+.dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);display:block}
+.dots i.on{background:var(--turq);border-color:var(--turq)}
+.rowlab{font-size:.92rem;margin-top:10px}
+.mx{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:.98rem;text-align:left}
+.mx span{flex:1}
+.ch button.ns{border:0;background:transparent;color:var(--muted);text-decoration:underline;align-self:center;padding:10px 16px;font-size:1rem}
+.potdq{font-size:1.25rem;font-weight:600;line-height:1.25}
+.npcq{font-size:1.25rem;color:var(--muted);font-weight:600}
+#md input[type=file]{width:100%}
 button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -223,24 +219,23 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
 <body>
 <header>
   <h1>Frases</h1>
-  <div class="hud"><span id="hStreak">0</span><span id="hLvl">Lv 1</span></div>
+  <div class="hud"><span id="hDue">0 due</span></div>
 </header>
 <main>
   <section id="s-today" class="screen">
     <div class="hi" id="greet"></div>
     <div class="sub" id="greetSub"></div>
-    <div class="card">
-      <div class="lvlTop"><b id="lvlTxt">Level 1</b><span class="sub" id="xpTxt"></span></div>
-      <div class="bar"><i id="xpBar"></i></div>
-      <div class="sub" id="doneTxt"></div>
-    </div>
-    <button class="cta" id="btnSession"><span id="ctaMain">Start today's session</span><small id="ctaSub"></small></button>
+    <button class="cta" id="btnSession"><span id="ctaMain"></span><small id="ctaSub"></small></button>
+    <div class="sub" id="paceLine" style="margin-top:8px"></div>
     <div class="two">
+      <button class="tile" id="btnTwo"><b>Just 2 minutes</b><small>5 reviews, counts as a day</small></button>
       <button class="tile" id="btnPrep"><b>Event prep</b><small>3-minute mixer drill</small></button>
+      <button class="tile" id="btnExtra"><b>Extra practice</b><small>weak phrases, no new ones</small></button>
       <button class="tile" id="btnPocket"><b>Pocket mode</b><small>tap-to-speak cheat sheet</small></button>
     </div>
+    <div class="card" id="rows14"></div>
     <div class="card potd" id="potd"></div>
-    <div class="card"><div class="lab">What do you want to learn?</div><div class="chips" id="chipsF"></div></div>
+    <div class="card"><div class="lab">Focus for new phrases</div><div class="chips" id="chipsF"></div></div>
     <div class="card off" id="offCard"></div>
   </section>
 
@@ -268,7 +263,6 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
       <button class="opt" id="oRep" aria-pressed="false">Repeat ×2</button>
       <button class="opt" id="oLoop" aria-pressed="true">Loop</button>
       <button class="opt" id="oGap">Gap 0.7s</button>
-      <button class="opt know" id="lKnow" aria-pressed="false">Known</button>
     </div>
     <div class="controls">
       <button id="lPrev" class="cbtn" aria-label="Previous"></button>
@@ -295,9 +289,8 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
   </section>
 
   <section id="s-me" class="screen" hidden>
-    <div class="grid3" id="stats"></div>
-    <div class="card"><div class="lab">Last 7 days (XP)</div><div class="week" id="week"></div></div>
-    <div class="card"><div class="lab">Badges</div><div class="badges" id="badges"></div></div>
+    <div class="card" id="progress"></div>
+    <div class="card" id="backup"></div>
     <div class="card" id="settings"></div>
   </section>
 </main>
@@ -311,14 +304,14 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
 </nav>
 
 <div id="ov" hidden>
-  <div class="ovTop"><button id="ovX" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div class="pb2"><i id="ovBar"></i></div><span id="ovCombo"></span></div>
+  <div class="ovTop"><button id="ovX" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div class="pb2"><i id="ovBar"></i></div></div>
   <div id="ovBody"></div>
   <div id="ovFoot"></div>
 </div>
 <div id="md" hidden><div class="panel" id="mdPanel"></div></div>
 <div id="toast"></div>
-<canvas id="fx"></canvas>
 <script src="ver.js"></script>
+<script src="srs.js"></script>
 <script src="app.js"></script>
 <script src="learn.js"></script>
 </body>

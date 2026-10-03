@@ -1,6 +1,6 @@
-const VER="v20";
+const VER="v21";
 const AV="1";
-const CORE=["./","index.html","app.js","learn.js","ver.js","phrases.json","align.json","missions.json","pairs.json","manifest.webmanifest","icon.svg","icon-180.png","icon-192.png","icon-512.png"];
+const CORE=["./","index.html","app.js","learn.js","ver.js","srs.js","phrases.json","align.json","missions.json","pairs.json","manifest.webmanifest","icon.svg","icon-180.png","icon-192.png","icon-512.png"];
 const pad3=i=>String(i).padStart(3,"0");
 function audioTiers(ph,ms){
  const base=[],extra=[];
