@@ -9,7 +9,7 @@ function pickNew(pool,n){
  const order=RR.filter(c=>g[c]);const out=[];
  while(out.length<n&&order.some(c=>g[c].length)){for(const c of order){if(out.length>=n)break;if(g[c].length)out.push(g[c].shift())}}
  return out}
-const unseenPool=cats=>P.filter(p=>!srs[p.i]&&(cats?cats.includes(p.cat):(set.focus==="All"||p.cat===set.focus)));
+const unseenPool=cats=>P.filter(p=>!srs[p.i]&&!skipped(p)&&(cats?cats.includes(p.cat):(set.focus==="All"||p.cat===set.focus)));
 
 function lev(a,b){
  if(Math.abs(a.length-b.length)>3)return 9;
@@ -24,7 +24,7 @@ function conflictSet(p){const s=new Set([p.i]);(PAIRS[p.i]||[]).forEach(x=>s.add
  P.forEach(x=>{if(x.i!==p.i&&(norm(x.en)===norm(p.en)||similar(x.es,p.es)||similar(x.en,p.en)))s.add(x.i)});return s}
 function lures(p,key,n){
  const bad=conflictSet(p),sig=s=>[/[?¿]/.test(s),/…|\.\.\./.test(s),/[!¡]/.test(s),/,/.test(s),/\d/.test(s)].join(),wc=s=>s.trim().split(/\s+/).length;
- const pool=shuffle(P.filter(x=>!bad.has(x.i)));
+ const pool=shuffle(P.filter(x=>!bad.has(x.i)&&!skipped(x)));
  const ord=[...pool.filter(x=>x.cat===p.cat),...pool.filter(x=>x.cat!==p.cat)];
  const q=x=>sig(x[key])===sig(p[key]),d=x=>Math.abs(wc(x[key])-wc(p[key]));
  const tiers=[x=>q(x)&&d(x)<=1,x=>q(x)&&d(x)<=2,x=>q(x),()=>true];
@@ -111,7 +111,7 @@ function grade(ok,p,fmt,ns){
 
 const introPairs=p=>{
  const ok=["Answer","Question","Goes with"];
- const l=(PAIRS[p.i]||[]).filter(x=>ok.includes(x[1])&&srs[x[0]]).slice(0,2);
+ const l=partners(p.i).filter(x=>ok.includes(x[1])&&srs[x[0]]).slice(0,2);
  return l.length?`<div class="prs"><div class="q" style="margin:18px 0 2px">Pairs with</div>${l.map(x=>`<div class="pr" data-j="${x[0]}"><span class="pl">${esc(x[1])}</span>${esc(P[x[0]].es)}<span class="pe"> ${esc(P[x[0]].en)}</span></div>`).join("")}</div>`:""};
 function rIntro(p){
  const m=groupMaps(p);

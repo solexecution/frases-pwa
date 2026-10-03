@@ -13,7 +13,7 @@ jobs:
           TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           if [ -z "$TOPIC" ]; then echo "NTFY_TOPIC not set"; exit 0; fi
-          pool=$(jq -c '[.[] | select(.[1] | test("[/(…]") | not)]' phrases.json)
+          pool=$(jq -c '[.[] | select((.[4] // "") != "x") | select(.[1] | test("[/(…]") | not)]' phrases.json)
           n=$(echo "$pool" | jq length)
           d=$(( ($(date -u +%s) - 18000) / 86400 ))
           i=$(( (d * 7919) % n ))

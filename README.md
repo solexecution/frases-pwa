@@ -49,6 +49,8 @@ Unchanged audio is reused on update instead of being downloaded again.
 4. `python build_align.py` rebuilds word pairing (hand-authored pairs live in `SRC`).
 5. Bump `VER`, commit, push.
 
+Gender: the learner is a man, so self-descriptions are masculine. A phrase with `"x"` as its 5th field (for example the feminine "Encantada de conocerte") is shown in Browse but never taught. Dating phrases that depend on who you are talking to are chosen in Me > Settings > Dating phrases for.
+
 Missions: edit `missions_src.json`, run `python gen_missions.py`.
 
 ## Voices

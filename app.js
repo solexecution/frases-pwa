@@ -35,7 +35,11 @@ let P=[],ALIGN=[],MISS=[],PAIRS=[];
 const MUST=new Set();
 let srs=store.get("frases-srs",{});
 let prof=Object.assign({sessions:0,missions:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},store.get("frases-prof",{}));
-let set=Object.assign({budget:10,sound:true,focus:"All"},store.get("frases-set",{}));
+let set=Object.assign({budget:10,sound:true,focus:"All",talkTo:"both"},store.get("frases-set",{}));
+const MAN_ADDR=new Set(["¿Estás soltero?","¿Tienes novia?","Eres muy guapo","¿Vives solo?"]);
+const WOMAN_ADDR=new Set(["¿Estás soltera?","¿Tienes novio?","Eres muy guapa","¿Vives sola?"]);
+const skipped=p=>p.skip||(set.talkTo==="women"&&MAN_ADDR.has(p.es))||(set.talkTo==="men"&&WOMAN_ADDR.has(p.es));
+const partners=i=>(PAIRS[i]||[]).filter(x=>!skipped(P[x[0]]));
 let opt=Object.assign({en:false,rep:false,loop:true,gap:1,slow:false,echo:false,pairs:false,rate:.85},store.get("frases-opt",{}));
 let LOG=store.get("frases-log",[]);
 let st={tab:"today",cat:CATS.includes(store.get("frases-cat","All"))?store.get("frases-cat","All"):"All",q:"",showEn:false};
@@ -48,7 +52,7 @@ function logRow(r){LOG.push(r);if(LOG.length>6000)LOG=LOG.slice(-5000);clearTime
 function flushLog(){clearTimeout(logT);store.set("frases-log",LOG)}
 function applyRate(){audio.defaultPlaybackRate=opt.rate;audio.playbackRate=opt.rate;audio.preservesPitch=true}
 
-const ids=()=>P.map(p=>p.i);
+const ids=()=>P.filter(p=>!skipped(p)).map(p=>p.i);
 const newToday=()=>prof.newLog[today()]||0;
 const gapDays=()=>prof.lastSess<0?0:today()-prof.lastSess;
 function secPerTrial(){
@@ -116,7 +120,7 @@ function filtered(useQ){const q=useQ?norm(st.q.trim()):"";
 const chipsHTML=(list,cur)=>list.map(c=>`<button class="chip" aria-pressed="${c===cur}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
 function renderChips(){$("chipsB").innerHTML=chipsHTML(CATS,st.cat);$("catBtn").innerHTML=`<span>Group: ${esc(st.cat)}</span><span class="sl">Change</span>`}
 
-const pairsHTML=(i,max)=>(PAIRS[i]||[]).slice(0,max).map(x=>`<div class="pr" data-j="${x[0]}"><span class="pl">${esc(x[1])}</span>${esc(P[x[0]].es)}<span class="pe"> ${esc(P[x[0]].en)}</span></div>`).join("");
+const pairsHTML=(i,max)=>partners(i).slice(0,max).map(x=>`<div class="pr" data-j="${x[0]}"><span class="pl">${esc(x[1])}</span>${esc(P[x[0]].es)}<span class="pe"> ${esc(P[x[0]].en)}</span></div>`).join("");
 function renderList(){const f=filtered(true);
  $("ul").innerHTML=f.length?f.map(p=>`<li class="p ${st.showEn?"":"hide"}" data-i="${p.i}">
   <div class="txt" tabindex="0"><div class="es" lang="es">${esc(p.es)}${p.note?`<span class="note">${esc(p.note)}</span>`:""}</div><div class="en">${esc(p.en)}</div>${pairsHTML(p.i,2)}</div>
@@ -144,13 +148,13 @@ function lisStop(){if(!lisT0)return;const m=(Date.now()-lisT0)/6e4;lisT0=0;
 async function keepAwake(on){try{
  if(on){if(!lock&&navigator.wakeLock){lock=await navigator.wakeLock.request("screen");lock.onrelease=()=>{lock=null}}}
  else if(lock){await lock.release();lock=null}}catch(e){}}
-function rebuildQueue(keep){const before=queue[qi];queue=filtered(false);
+function rebuildQueue(keep){const before=queue[qi];queue=filtered(false).filter(p=>!skipped(p));
  if(keep&&before){const j=queue.findIndex(p=>p.i===before.i);qi=j<0?0:j}else qi=0;
  if(qi>=queue.length)qi=Math.max(0,queue.length-1);showCurrent()}
 function fitPlayer(p){const pl=document.querySelector("#s-listen .player");if(!pl.clientHeight)return;
  const lv=["s","m","l","x","y"];let k=p.es.length<=16?0:p.es.length<=30?1:2;pl.dataset.l=lv[k];
  while(pl.scrollHeight>pl.clientHeight+1&&k<4){k++;pl.dataset.l=lv[k]}}
-function showPair(p){const q=(PAIRS[p.i]||[])[0],el=$("lPair");el.classList.remove("on");
+function showPair(p){const q=partners(p.i)[0],el=$("lPair");el.classList.remove("on");
  if(!q){el.innerHTML="";delete el.dataset.j;return}
  const t=P[q[0]];el.dataset.j=q[0];el.innerHTML=`<span class="pl">${esc(q[1])}</span>${esc(t.es)}<span class="pe"> ${esc(t.en)}</span>`}
 function showCurrent(){const p=queue[qi];
@@ -172,7 +176,7 @@ async function playLoop(){const my=++token;playing=true;lisT0=Date.now();setPlay
   hlMode="es";lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return;
   if(opt.echo){const d=(audio.duration||2)*1000/opt.rate;$("lCat").textContent="Your turn…";await wait(d*1.5+600);if(token!==my)return;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
   if(opt.rep){await wait(300);if(token!==my)return;lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return}
-  const q=opt.pairs?(PAIRS[p.i]||[])[0]:null;
+  const q=opt.pairs?partners(p.i)[0]:null;
   if(q){await wait(400);if(token!==my)return;$("lPair").classList.add("on");hlMode="none";
    if(opt.en){await sayEn(q[0]);if(token!==my)return;await wait(200);if(token!==my)return}
    await sayPhrase(q[0],opt.slow);if(token!==my)return;$("lPair").classList.remove("on")}
@@ -192,7 +196,7 @@ function renderPocket(){const m=byEs();
  $("pTabs").innerHTML=POCKET.map((g,i)=>`<button class="chip" aria-pressed="${i===pocketTab}" data-t="${i}">${esc(g.t)}</button>`).join("");
  $("pGrid").innerHTML=POCKET[pocketTab].l.map(es=>m.get(es)).filter(Boolean).map(p=>`<button class="pbtn" data-i="${p.i}"><b>${esc(p.es)}</b><small>${esc(p.en)}</small></button>`).join("")}
 
-function renderPotd(){const pool=P.filter(x=>!/[\/(…]/.test(x.en)),p=pool[(today()*7919)%pool.length];
+function renderPotd(){const pool=P.filter(x=>!x.skip&&!/[\/(…]/.test(x.en)),p=pool[(today()*7919)%pool.length];
  $("potd").innerHTML=`<div class="lab">Phrase of the day</div><div class="potdq">How do you say: ${esc(p.en.replace(/[?!.]+$/,""))}?</div><div id="potdAns" class="es" lang="es" style="margin-top:8px"></div><div style="margin-top:10px"><button class="btn sec" data-i="${p.i}">Show and play</button></div>`}
 function rowsHTML(){const t=today();
  const row=(label,fn)=>{let h="",n=0;for(let k=13;k>=0;k--){const on=fn(t-k);if(on)n++;h+=`<i class="${on?"on":""}"></i>`}return `<div class="rowlab"><span>${label}</span></div><div class="dots" role="img" aria-label="${label}: ${n} of the last 14 days">${h}</div>`};
@@ -200,7 +204,7 @@ function rowsHTML(){const t=today();
 function renderToday(){const h=new Date().getHours();
  $("greet").textContent=h<12?"¡Buenos días!":h<19?"¡Buenas tardes!":"¡Buenas noches!";
  const t=today(),all=ids(),pl=todayPlan("daily"),sec=secPerTrial();
- const unseen=P.filter(p=>!srs[p.i]).length;
+ const unseen=P.filter(p=>!srs[p.i]&&!skipped(p)).length;
  const back=gapDays()>=2&&gapDays()<7&&pl.dueTotal>0&&!pl.catchup;
  let main,sub,kind="daily";
  if(pl.catchup){main="Catch-up session";sub=`${pl.dueTotal} waiting, about ${SRS.estMinutes(pl.due.length,0,sec)} min today, no new phrases`}
@@ -269,6 +273,7 @@ function renderMe(){
  <div class="row" style="margin-top:10px"><button class="btn sec" id="btnExport">Export</button><button class="btn sec" id="btnImport">Import</button></div>`;
  $("settings").innerHTML=`<div class="lab">Settings</div>
  <div class="set"><span>Session length</span><div class="seg" id="segBud">${[6,10,15].map(n=>`<button data-n="${n}" aria-pressed="${set.budget===n}">${n} min</button>`).join("")}</div></div>
+ <div class="set"><span>Dating phrases for</span><div class="seg" id="segTalk">${[["women","Women"],["men","Men"],["both","Both"]].map(x=>`<button data-v="${x[0]}" aria-pressed="${set.talkTo===x[0]}">${x[1]}</button>`).join("")}</div></div>
  <div class="set"><span>Soft tick sounds</span><button class="tog" id="togSnd" aria-pressed="${set.sound}" style="padding:10px 16px">${set.sound?"On":"Off"}</button></div>
  <div class="set"><span>Daily push reminder</span><button class="btn sec" id="btnPush">Set up</button></div>
  <div class="set"><span>Install on this phone</span><button class="btn" id="btnInstall" ${standalone()?"disabled":""}>${standalone()?"Installed":"Install"}</button></div>
@@ -393,6 +398,8 @@ function wire(){
  $("settings").onclick=e=>{
   const n=e.target.closest("#segBud button");
   if(n){set.budget=+n.dataset.n;saveSet();renderMe();return}
+  const tk=e.target.closest("#segTalk button");
+  if(tk){set.talkTo=tk.dataset.v;saveSet();renderMe();hud();return}
   if(e.target.closest("#togSnd")){set.sound=!set.sound;saveSet();renderMe();return}
   if(e.target.closest("#btnPush")){pushModal();return}
   if(e.target.closest("#btnInstall")){doInstall();return}
@@ -409,7 +416,7 @@ function wire(){
 async function boot(){
  const j=u=>fetch(u).then(r=>r.json());
  const [raw,al,ms,pr]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[])]);
- P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||""}));ALIGN=al;MISS=ms;PAIRS=pr;
+ P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||"",skip:d[4]==="x"}));ALIGN=al;MISS=ms;PAIRS=pr;
  const m=byEs();POCKET.forEach(g=>g.l.forEach(es=>{const p=m.get(es);if(p)MUST.add(p.i)}));
  migrate();
  wire();renderChips();hud();go("today");
