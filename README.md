@@ -37,7 +37,7 @@ on later days, first-try accuracy, minutes, and days practised.
 ## Release a new version
 1. Edit what you need.
 2. Bump `VER` in `ver.js` (for example `v21` to `v22`). Bump `AV` only if you regenerate existing audio.
-3. Commit and push. Open apps reload themselves to the new version.
+3. Commit and push. Every open or returning app checks for a new version on load, on return to the app, when it comes back online and every 10 minutes, then refreshes itself. It waits until a quiz or Listen playback is finished so nothing is interrupted, and shows "Updated to vNN" afterwards. Me > Check for updates does the same on demand. If `VER` is not bumped, installed apps will not update.
 
 Unchanged audio is reused on update instead of being downloaded again.
 

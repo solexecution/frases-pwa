@@ -47,7 +47,8 @@ const saveProf=()=>store.set("frases-prof",prof);
 const saveSrs=()=>store.set("frases-srs",srs);
 const saveSet=()=>store.set("frases-set",set);
 const saveOpt=()=>store.set("frases-opt",opt);
-let logT=null,resetting=false,reloadWanted=false,modalOpener=null;
+let logT=null,resetting=false,reloadWanted=false,modalOpener=null,checkUpdates=()=>{};
+function applyUpdate(){if(reloadWanted&&$("ov").hidden&&!playing){reloadWanted=false;location.reload()}}
 function logRow(r){LOG.push(r);if(LOG.length>6000)LOG=LOG.slice(-5000);clearTimeout(logT);logT=setTimeout(()=>store.set("frases-log",LOG),400)}
 function flushLog(){clearTimeout(logT);store.set("frases-log",LOG)}
 function applyRate(){audio.defaultPlaybackRate=opt.rate;audio.playbackRate=opt.rate;audio.preservesPitch=true}
@@ -186,7 +187,7 @@ async function playLoop(){const my=++token;playing=true;lisT0=Date.now();setPlay
   qi=nx;warm=new Audio();warm.preload="auto";warm.src=srcFor(queue[qi].i,opt.slow)}
  if(token===my){playing=false;lisStop();setPlayIcon();keepAwake(false)}}
 function play(){if(!queue.length||playing)return;playLoop()}
-function pause(){playing=false;token++;lisStop();stopAudio();setPlayIcon();keepAwake(false);$("lPair").classList.remove("on");hlGroup(null,$("s-listen"));const p=queue[qi];if(p)$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
+function pause(){playing=false;token++;lisStop();stopAudio();setPlayIcon();keepAwake(false);applyUpdate();$("lPair").classList.remove("on");hlGroup(null,$("s-listen"));const p=queue[qi];if(p)$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
 const toggle=()=>playing?pause():play();
 function seek(d){const was=playing;playing=false;token++;lisStop();stopAudio();if(!queue.length){setPlayIcon();return}qi=(qi+d+queue.length)%queue.length;showCurrent();if(was)playLoop();else{setPlayIcon();keepAwake(false)}}
 
@@ -277,11 +278,21 @@ function renderMe(){
  <div class="set"><span>Soft tick sounds</span><button class="tog" id="togSnd" aria-pressed="${set.sound}" style="padding:10px 16px">${set.sound?"On":"Off"}</button></div>
  <div class="set"><span>Daily push reminder</span><button class="btn sec" id="btnPush">Set up</button></div>
  <div class="set"><span>Install on this phone</span><button class="btn" id="btnInstall" ${standalone()?"disabled":""}>${standalone()?"Installed":"Install"}</button></div>
- <div class="set"><span>Version ${VER}</span><button class="btn sec" id="btnReset">Reset progress</button></div>`}
+ <div class="set"><span>Version ${VER}</span><button class="btn sec" id="btnUpd">Check for updates</button></div>
+ <div class="set"><span>Reset all progress</span><button class="btn sec" id="btnReset">Reset</button></div>`}
 function pushModal(){const t=store.get("frases-topic","");
  modal(`<h3>Daily push reminder</h3><p>One reminder a day, even when the app is closed, comes from the free <b>ntfy</b> app. Install ntfy from Google Play or F-Droid, paste your private topic below, then tap Subscribe.</p><input type="text" id="topicIn" placeholder="your-private-topic" value="${esc(t)}" autocapitalize="off" autocomplete="off" spellcheck="false">`,
  [{t:"Close",cls:"sec"},{t:"Subscribe",fn:()=>{const v=$("topicIn").value.trim();if(!v){toast("Paste your topic first.");return}
   store.set("frases-topic",v);toast("If ntfy did not open, subscribe to the topic inside the ntfy app.");location.href="ntfy://ntfy.sh/"+encodeURIComponent(v)}}])}
+async function checkNow(){
+ if(!("serviceWorker" in navigator)){toast("Updates need a modern browser.");return}
+ toast("Checking for updates...");
+ try{const reg=await navigator.serviceWorker.getRegistration();
+  if(!reg){toast("This is not set up as an offline app yet.");return}
+  await reg.update();await wait(1800);
+  if(reg.installing||reg.waiting)toast("Update found. Installing now; the app will refresh by itself.");
+  else toast("You have the latest version ("+VER+").")}
+ catch(e){toast("Could not check. Are you offline?")}}
 async function doInstall(){if(!deferredPrompt){toast("Open the browser menu (three dots) and choose Install app or Add to Home screen.");return}
  deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}
 function resetAll(){resetting=true;clearTimeout(logT);LOG=[];["frases-srs","frases-prof","frases-known","frases-log"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});store.set("frases-schema",2);location.reload()}
@@ -335,7 +346,7 @@ function go(tab){
  else if(tab==="browse"){renderChips();renderList()}
  else if(tab==="me")renderMe();
  else if(tab==="pocket"){renderPocket();keepAwake(true)}
- scrollTo(0,0)}
+ scrollTo(0,0);applyUpdate()}
 
 function wire(){
  document.querySelector("nav").onclick=e=>{const b=e.target.closest("button");if(b)go(b.dataset.s)};
@@ -403,6 +414,7 @@ function wire(){
   if(e.target.closest("#togSnd")){set.sound=!set.sound;saveSet();renderMe();return}
   if(e.target.closest("#btnPush")){pushModal();return}
   if(e.target.closest("#btnInstall")){doInstall();return}
+  if(e.target.closest("#btnUpd")){checkNow();return}
   if(e.target.closest("#btnReset"))ask("Reset all progress?","This clears your review history and everything you have learned on this phone. Export a backup first if you want to keep it. It cannot be undone.","Reset",resetAll,"bad")};
  $("md").onclick=e=>{if(e.target===$("md"))closeModal()};
  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
@@ -411,7 +423,7 @@ function wire(){
  window.addEventListener("pagehide",()=>{if(resetting)return;lisStop();flushLog()});
  document.addEventListener("visibilitychange",()=>{
   if(document.visibilityState==="hidden"){if(!resetting)flushLog()}
-  else if(playing||st.tab==="pocket")keepAwake(true)})}
+  else{if(playing||st.tab==="pocket")keepAwake(true);applyUpdate()}})}
 
 async function boot(){
  const j=u=>fetch(u).then(r=>r.json());
@@ -419,11 +431,16 @@ async function boot(){
  P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||"",skip:d[4]==="x"}));ALIGN=al;MISS=ms;PAIRS=pr;
  const m=byEs();POCKET.forEach(g=>g.l.forEach(es=>{const p=m.get(es);if(p)MUST.add(p.i)}));
  migrate();
+ const pv=store.get("frases-lastver",null);if(pv&&pv!==VER)setTimeout(()=>toast("Updated to "+VER),600);store.set("frases-lastver",VER);
  wire();renderChips();hud();go("today");
  if("serviceWorker" in navigator){
-  const had=!!navigator.serviceWorker.controller;let reloaded=false;
-  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||reloaded)return;if(!$("ov").hidden){reloadWanted=true;return}reloaded=true;location.reload()});
-  navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(reg=>{reg.update();setInterval(()=>reg.update(),36e5)}).catch(()=>{});
-  document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")navigator.serviceWorker.getRegistration().then(r=>r&&r.update())})}
+  const had=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had)return;reloadWanted=true;applyUpdate()});
+  const check=()=>navigator.serviceWorker.getRegistration().then(r=>r&&r.update()).catch(()=>{});
+  checkUpdates=check;
+  navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(()=>{check();setInterval(check,6e5)}).catch(()=>{});
+  document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")check()});
+  window.addEventListener("online",check);
+  window.addEventListener("pageshow",e=>{if(e.persisted)check()})}
  setTimeout(fillOffline,1500)}
 document.addEventListener("DOMContentLoaded",boot);

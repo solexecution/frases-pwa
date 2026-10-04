@@ -42,7 +42,7 @@ function renderChoices(labels,ci,cb){
  ch.appendChild(ns)}
 
 function openOv(){$("ov").hidden=false;$("ovBody").innerHTML="";$("ovBody").onclick=null;$("ovBody").classList.remove("hint");$("ovFoot").innerHTML="";$("ovBar").style.width="0";document.body.style.overflow="hidden"}
-function closeOv(){stopAudio();$("ov").hidden=true;document.body.style.overflow="";S=null;M=null;if(reloadWanted){location.reload();return}go(st.tab)}
+function closeOv(){stopAudio();$("ov").hidden=true;document.body.style.overflow="";S=null;M=null;if(reloadWanted&&!playing){location.reload();return}go(st.tab)}
 function setBody(h){$("ovBody").onclick=null;$("ovBody").classList.remove("hint");$("ovBody").innerHTML=h;$("ovBody").scrollTop=0}
 $("ovX").onclick=()=>{
  const live=(S&&S.i<S.steps.length)||(M&&M.i<M.m.steps.length);
