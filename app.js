@@ -141,14 +141,61 @@ function renderList(){const f=filtered(true);
   <button class="ib say" aria-label="Listen">${SVG.say}</button>${p.my?`<button class="ib del" aria-label="Remove phrase">${SVG.x}</button>`:""}</li>`).join("")
   :`<li class="empty">No phrases match. Clear the search or pick another group.</li>`}
 const decode=s=>{const t=document.createElement("textarea");t.innerHTML=s;return t.value};
-async function translate(t){
+const SWAPS=[["coche","carro"],["coches","carros"],["ordenador","computadora"],["ordenadores","computadoras"],["móvil","celular"],["móviles","celulares"],["aparcar","estacionar"],["aparcamiento","estacionamiento"],["zumo","jugo"],["patata","papa"],["patatas","papas"],["gafas","lentes"],["billete","boleto"],["conducir","manejar"],["conduzco","manejo"],["vosotros","ustedes"],["vosotras","ustedes"]];
+const swapMx=s=>SWAPS.reduce((x,[a,b])=>x.replace(new RegExp("(^|[^\\p{L}])"+a+"(?![\\p{L}])","giu"),(m,p)=>p+b),s);
+const fixMarks=s=>{if(/\?$/.test(s)&&!/^¿/.test(s))s="¿"+s;if(/!$/.test(s)&&!/^¡/.test(s))s="¡"+s;return s};
+async function myMemory(t){
  const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(t)+"&langpair=en|es");
  const j=await r.json();let s=decode(String(j&&j.responseData&&j.responseData.translatedText||"")).trim();
  if(!s||/MYMEMORY|QUERY LENGTH|INVALID/i.test(s)||+j.responseStatus!==200)throw new Error("no");
  if(!/[.]$/.test(t)&&/[^.]\.$/.test(s))s=s.slice(0,-1);
- if(/\?$/.test(s)&&!/^¿/.test(s))s="¿"+s;
- if(/!$/.test(s)&&!/^¡/.test(s))s="¡"+s;
- return s}
+ return fixMarks(swapMx(s))}
+const GROK_SYS="You help an adult male beginner learn Mexican Spanish for solar-industry networking and dating. The user message is an English phrase, possibly from speech recognition with mistakes; fix obvious mishearings using that context. Translate it into natural, everyday Mexican Spanish: tu form unless the English is clearly formal, carro/celular/computadora not Spain words, masculine forms when the speaker refers to himself. Keep it short, one phrase, correct punctuation including the opening question and exclamation marks. Reply with JSON only: {\"en\":\"corrected English\",\"es\":\"Spanish\"}.";
+const grokKey=()=>store.get("frases-grok","");
+async function grokModels(key){
+ const r=await fetch("https://api.x.ai/v1/models",{headers:{Authorization:"Bearer "+key}});
+ if(r.status===401||r.status===403)throw new Error("key");
+ if(!r.ok)throw new Error("net");
+ const j=await r.json();const ids=(j.data||[]).map(m=>m.id).filter(id=>!/image|imagine|video|embed|vision|aurora/i.test(id));
+ const pick=[/fast.*non-reasoning/i,/non-reasoning/i,/mini/i,/^grok-\d/i].map(re=>ids.find(id=>re.test(id))).find(Boolean)||ids[0];
+ if(!pick)throw new Error("net");store.set("frases-grokmodel",pick);return pick}
+async function grokCall(t,key){
+ const c=new AbortController(),to=setTimeout(()=>c.abort(),8000);
+ try{
+  const r=await fetch("https://api.x.ai/v1/chat/completions",{method:"POST",signal:c.signal,headers:{"Content-Type":"application/json",Authorization:"Bearer "+key},
+   body:JSON.stringify({model:store.get("frases-grokmodel","grok-4-fast-non-reasoning"),temperature:0,max_tokens:200,messages:[{role:"system",content:GROK_SYS},{role:"user",content:t}]})});
+  if(!r.ok){const e=new Error("http");e.status=r.status;throw e}
+  const j=await r.json(),m=String(j.choices[0].message.content).match(/\{[\s\S]*\}/),o=JSON.parse(m[0]);
+  const es=String(o.es||"").trim(),en=String(o.en||"").trim();
+  if(!es||es.length>200)throw new Error("bad");
+  return {es:fixMarks(es),en:en&&en.length<200?en:""}}
+ finally{clearTimeout(to)}}
+async function grokTranslate(t){
+ const key=grokKey();if(!key)throw new Error("nokey");
+ try{return await grokCall(t,key)}
+ catch(e){if(e.status===404||e.status===400){await grokModels(key);return await grokCall(t,key)}throw e}}
+async function translate(t){
+ if(grokKey()){try{const r=await grokTranslate(t);r.src="Grok";return r}catch(e){}}
+ if(window.Translator){try{
+  const o={sourceLanguage:"en",targetLanguage:"es"};
+  if(await Translator.availability(o)==="available"){const tr=await Translator.create(o);const s=String(await tr.translate(t)).trim();if(s)return {es:fixMarks(swapMx(s)),src:"device"}}}catch(e){}}
+ return {es:await myMemory(t),src:grokKey()?"backup":"free"}}
+function grokModal(){
+ const has=!!grokKey();
+ modal(`<h3>Smart translation</h3><p>Paste your xAI (Grok) API key. It stays on this phone and is sent only to api.x.ai. Without it the free translator is used.</p><input type="password" id="gKey" autocomplete="off" placeholder="${has?"Key saved. Paste a new one to replace it":"xai-..."}"><p id="gMsg" class="hi" role="status"></p><button class="btn block" id="gSave">Save and test</button>`,
+  [{t:"Close",cls:"sec"},...(has?[{t:"Remove key",cls:"bad",fn:()=>{store.set("frases-grok","");renderMe();toast("Key removed.")}}]:[])]);
+ const msg=m=>{$("gMsg").textContent=m};
+ const save=async()=>{const k=$("gKey").value.trim();if(k.length<10){msg("Paste the key first.");return}
+  msg("Testing...");$("gSave").disabled=true;
+  try{const m=await grokModels(k);store.set("frases-grok",k);msg("Works. Using "+m+".");renderMe()}
+  catch(e){msg(e.message==="key"?"xAI rejected that key.":"Could not reach xAI. Check your connection.")}
+  $("gSave").disabled=false};
+ $("gSave").onclick=save;
+ $("gKey").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();e.stopPropagation();save()}}}
+function toastUndo(m,fn){const t=$("toast");t.textContent="";
+ const s=document.createElement("span");s.textContent=m;
+ const b=document.createElement("button");b.className="btn sec";b.textContent="Undo";b.style.cssText="min-height:36px;padding:4px 14px;margin-left:10px";
+ b.onclick=()=>{t.style.display="none";fn()};t.append(s,b);t.style.display="block";clearTimeout(t._h);t._h=setTimeout(()=>t.style.display="none",9000)}
 const getSR=()=>window.SpeechRecognition||window.webkitSpeechRecognition;
 function addModal(auto){
  modal(`<h3>Add a phrase</h3><p>Type it in English. It is translated and kept in your list under Mine.</p><input type="text" id="aEn" placeholder="English" autocomplete="off" maxlength="120"><div class="row" style="margin:8px 0"><button class="btn sec" id="aMic" style="flex:1">Dictate</button><button class="btn sec" id="aGo" style="flex:1">Translate</button></div><input type="text" id="aEs" lang="es" placeholder="Spanish" autocomplete="off" maxlength="160"><p id="aMsg" class="hi" role="status"></p><button class="btn block" id="aSave">Save phrase</button>`,[{t:"Cancel",cls:"sec"}]);
@@ -156,14 +203,14 @@ function addModal(auto){
  const go=async()=>{let t=$("aEn").value.trim();if(!t){msg("Type the English first.");return}
   t=t[0].toUpperCase()+t.slice(1);if(/^(who|what|when|where|why|how|which|do|does|did|can|could|is|are|will|would|should|may|have|has)/i.test(t)&&!/[?.!]$/.test(t))t+="?";$("aEn").value=t;
   msg("Translating...");$("aGo").disabled=true;
-  try{$("aEs").value=await translate(t);msg("Check the Spanish, change it if it sounds off, then save.")}
+  try{const r=await translate(t);$("aEs").value=r.es;if(r.en)$("aEn").value=r.en;msg(r.src==="Grok"?"Translated by Grok. Check it, then save.":r.src==="device"?"Translated on this phone. Check it, then save.":r.src==="backup"?"Grok was unavailable, used the free translator. Check it, then save.":"Check the Spanish, change it if it sounds off, then save.")}
   catch(e){msg("Could not translate (offline?). Type the Spanish yourself, then save.")}
   $("aGo").disabled=false};
  const save=()=>{const en=$("aEn").value.trim(),es=$("aEs").value.trim();
   if(!en||!es){msg("Fill in both English and Spanish.");return}
   const n=norm(es);if(P.some(p=>!p.skip&&norm(p.es)===n)){msg("That phrase is already in your list.");return}
   MINE.push([es,en,0]);saveMine();P.push({i:BASE+MINE.length-1,es,en,cat:"Mine",note:"",skip:false,my:1});
-  const ni=BASE+MINE.length-1;closeModal();st.cat="Mine";store.set("frases-cat","Mine");renderChips();renderList();hud();toast("Saved. It will come up in your next session.");if(auto)sayPhrase(ni,false)};
+  const ni=BASE+MINE.length-1;closeModal();st.cat="Mine";store.set("frases-cat","Mine");renderChips();renderList();hud();if(auto){toastUndo("Saved: "+es,()=>{MINE[ni-BASE][2]=1;P[ni].skip=true;saveMine();hud();renderList()});sayPhrase(ni,false)}else toast("Saved. It will come up in your next session.")};
  const mic=()=>{
   const SR=getSR();if(!SR){msg("Dictation is not supported in this browser. Type it instead.");return}
   const r=new SR();r.lang="en-US";r.interimResults=false;r.maxAlternatives=1;
@@ -326,6 +373,7 @@ function renderMe(){
  <div class="set"><span>Session length</span><div class="seg" id="segBud">${[6,10,15].map(n=>`<button data-n="${n}" aria-pressed="${set.budget===n}">${n} min</button>`).join("")}</div></div>
  <div class="set"><span>Dating phrases for</span><div class="seg" id="segTalk">${[["women","Women"],["men","Men"],["both","Both"]].map(x=>`<button data-v="${x[0]}" aria-pressed="${set.talkTo===x[0]}">${x[1]}</button>`).join("")}</div></div>
  <div class="set"><span>Soft tick sounds</span><button class="tog" id="togSnd" aria-pressed="${set.sound}" style="padding:10px 16px">${set.sound?"On":"Off"}</button></div>
+ <div class="set"><span>Smart translation (Grok)</span><button class="btn sec" id="btnGrok">${grokKey()?"On":"Set up"}</button></div>
  <div class="set"><span>Daily push reminder</span><button class="btn sec" id="btnPush">Set up</button></div>
  <div class="set"><span>Install on this phone</span><button class="btn" id="btnInstall" ${standalone()?"disabled":""}>${standalone()?"Installed":"Install"}</button></div>
  <div class="set"><span>Version ${VER}</span><button class="btn sec" id="btnUpd">Check for updates</button></div>
@@ -467,6 +515,7 @@ function wire(){
   if(tk){set.talkTo=tk.dataset.v;saveSet();renderMe();hud();return}
   if(e.target.closest("#togSnd")){set.sound=!set.sound;saveSet();renderMe();return}
   if(e.target.closest("#btnPush")){pushModal();return}
+  if(e.target.closest("#btnGrok")){grokModal();return}
   if(e.target.closest("#btnInstall")){doInstall();return}
   if(e.target.closest("#btnUpd")){checkNow();return}
   if(e.target.closest("#btnReset"))ask("Reset all progress?","This clears your review history and everything you have learned on this phone. Export a backup first if you want to keep it. It cannot be undone.","Reset",resetAll,"bad")};
