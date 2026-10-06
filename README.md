@@ -42,6 +42,9 @@ on later days, first-try accuracy, minutes, and days practised.
 Unchanged audio is reused on update instead of being downloaded again.
 
 ## Add phrases
+In the app: Browse > Add phrase. Tap Dictate a phrase, say it in English, and it is transcribed (phone speech recognition, needs a connection), translated, saved and spoken back. Or type English; it is translated online (MyMemory), edit the Spanish if needed and save. The phrase lives in a group called Mine, is taught like any other, is spoken with the phone voice, and is included in the backup. Translating needs a connection; saving does not.
+
+In the repo:
 1. Add lines to `phrases.json` (or to `new` in `pairs_src.json`, then link them in `pairs`): `["Nueva frase","New phrase","Work","MX"]`. The 4th item is optional.
    Category must be one in `CATS` in `app.js` (add a new one there to create a group).
 2. `python build_pairs.py` appends the `new` phrases and rebuilds `pairs.json` (it stops if a phrase has no partner or a name is misspelled).

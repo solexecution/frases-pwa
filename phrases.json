@@ -334,5 +334,7 @@
 ["Todavía no está listo", "It's not ready yet", "Work"],
 ["Todo bien", "All good", "Work"],
 ["Es muy caro", "It's very expensive", "Out & about"],
-["Es barato", "It's cheap", "Out & about"]
+["Es barato", "It's cheap", "Out & about"],
+["No sé", "I don't know", "Basics"],
+["Lo sé", "I know", "Basics"]
 ]

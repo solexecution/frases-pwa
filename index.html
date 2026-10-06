@@ -68,7 +68,7 @@ li.p{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px s
 .hide .en{filter:blur(6px);opacity:.55}
 .note{display:inline-block;margin-left:6px;font-size:.72rem;color:var(--pink);font-weight:600;vertical-align:middle}
 .ib{flex:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;padding:0}
-.ib svg{width:21px;height:21px}.ib.say{color:var(--pink)}
+.ib svg{width:21px;height:21px}.ib.say{color:var(--pink)}.ib.del{width:38px;height:38px;color:var(--muted,inherit)}
 .ib.play{color:var(--pink);animation:pulse 1s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
 .empty{padding:40px 0;color:var(--muted);text-align:center}
@@ -274,6 +274,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
       <input type="search" id="q" placeholder="Search Spanish or English" autocomplete="off">
       <button class="tog" id="showEn" aria-pressed="false">Show English</button>
     </div>
+    <div class="brow"><button class="btn" id="micPh" style="flex:1">Dictate a phrase</button><button class="btn sec" id="addPh" style="flex:1">Type a phrase</button></div>
     <div class="chips" id="chipsB"></div>
     <ul id="ul"></ul>
   </section>

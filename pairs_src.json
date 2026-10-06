@@ -1,244 +1,1223 @@
 {
-"new":[
-["No estoy de acuerdo","I disagree","Opinions"],
-["Claro que no","Of course not","Conversation"],
-["Estoy seguro","I'm sure","Opinions","m"],
-["No me parece bien","That doesn't sound right to me","Opinions"],
-["No tiene sentido","That doesn't make sense","Opinions"],
-["Llego temprano","I'll be early","Plans"],
-["Sí, me queda bien","Yes, that works for me","Plans"],
-["Hoy sí puedo","I can today","Plans"],
-["¿Dónde vives?","Where do you live?","Social"],
-["Está cerca","It's close","Out & about"],
-["Mejor en otro lugar","Somewhere else is better","Out & about"],
-["Me lo llevo","I'll take it","Out & about"],
-["Con hielo, por favor","With ice, please","Out & about"],
-["Para comer aquí","To eat here","Out & about"],
-["Está cerrado","It's closed","Out & about"],
-["¿A qué hora abren?","What time do you open?","Out & about"],
-["No tengo…","I don't have…","Out & about"],
-["Está muy rico","It's really tasty","Social"],
-["Tengo mucha energía","I have a lot of energy","Basics"],
-["Hoy","Today","Basics"],
-["Mañana","Tomorrow","Basics"],
-["Ahorita no puedo","I can't right now","Networking"],
-["Tú también me gustas","I like you too","Dating"],
-["No siento lo mismo","I don't feel the same way","Dating"],
-["Sí, me encantaría","Yes, I'd love to","Dating"],
-["Prefiero que seamos amigos","I'd rather we stay friends","Dating"],
-["Creo en el destino","I believe in fate","Dating"],
-["Dura dos días","It takes two days","Solar"],
-["No me interesa, gracias","I'm not interested, thanks","Solar"],
-["Sí, me interesa","Yes, I'm interested","Solar"],
-["Ya volvió la luz","The power is back","Work"],
-["Te mando mi ubicación","I'll send you my location","Work"],
-["Todavía no está listo","It's not ready yet","Work"],
-["Todo bien","All good","Work"],
-["Es muy caro","It's very expensive","Out & about"],
-["Es barato","It's cheap","Out & about"]
-],
-"chains":[
-["Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve","Diez","Veinte","Cien","Mil"],
-["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"],
-["Ayer","Hoy","Mañana"]
-],
-"pairs":[
-["Estoy de acuerdo","No estoy de acuerdo","opp"],
-["Creo que sí","Creo que no","opp"],
-["Claro","Claro que no","opp"],
-["Tienes razón","Exacto","alt"],
-["Tienes razón","Buen punto","alt"],
-["¿En serio?","¡No manches!","alt"],
-["¡Órale!","¡Qué padre!","alt"],
-["¡Qué padre!","Qué lástima","opp"],
-["Ni modo","Qué lástima","alt"],
-["Déjame pensarlo","Un segundo","alt"],
-["Un segundo","Un momento, por favor","alt"],
-["A ver…","Este…","alt"],
-["O sea…","La verdad…","alt"],
-["Por cierto…","Oye…","alt"],
-["Ya veo","Me imagino","alt"],
-["Ya veo","Ya entendí","alt"],
-["Depende","Puede ser","alt"],
-["No entendí eso","¿Me lo repites?","with"],
-["¿Mande?","¿Me lo repites?","alt"],
-["¿Me lo repites?","¿Puede repetir, por favor?","alt"],
-["Más despacio, por favor","¿Me lo repites?","with"],
-["¿Qué significa…?","¿Cómo se dice … en español?","alt"],
-["¿Qué significa…?","¿Cómo se llama esto?","alt"],
-["¿Cómo se escribe?","¿Me lo puedes escribir?","alt"],
-["No sé cómo se dice","¿Cómo se dice … en español?","with"],
-["Hablo un poco de español","No hablo mucho español","alt"],
-["¿Hablas inglés?","Hablo un poco de español","with"],
-["¿Me explicas?","¿A qué te refieres?","with"],
-["¿Me explicas?","Te explico cómo funciona","qa"],
-["Ya entendí","No entiendo","opp"],
-["No entendí eso","Ya entendí","opp"],
-["Todavía estoy aprendiendo","Estoy aprendiendo español","alt"],
-["Estoy seguro","No estoy seguro","opp"],
-["Me parece bien","No me parece bien","opp"],
-["Me da igual","Prefiero…","opp"],
-["Vale la pena","No vale la pena","opp"],
-["Vale la pena","La inversión vale la pena","alt"],
-["Tiene sentido","No tiene sentido","opp"],
-["Voy en camino","Ahorita voy","alt"],
-["Voy en camino","Llego en diez minutos","with"],
-["Voy tarde","Llego temprano","opp"],
-["¿A qué hora nos vemos?","¿Dónde nos vemos?","with"],
-["¿Te queda bien mañana?","Sí, me queda bien","qa"],
-["¿Te queda bien mañana?","Hoy no puedo","qa"],
-["Hoy no puedo","Hoy sí puedo","opp"],
-["Nos vemos al rato","Nos vemos pronto","alt"],
-["Luego te aviso","Te marco más tarde","alt"],
-["Quedamos así","Sale","alt"],
-["¿Cuánto tiempo tarda?","¿Cuánto dura la instalación?","alt"],
-["¿Cuánto dura la instalación?","Dura dos días","qa"],
-["Ya casi","Todavía no","opp"],
-["¿Qué onda?","¿Cómo te va?","alt"],
-["¿Cómo te va?","¿Cómo estás?","alt"],
-["¿Cómo te va?","¿Cómo va el negocio?","alt"],
-["Mucho gusto","Igualmente","qa"],
-["¿A qué te dedicas?","Trabajo en energía solar","qa"],
-["¿A qué te dedicas?","Me dedico a las ventas","qa"],
-["¿De dónde eres?","Soy de Eslovaquia","qa"],
-["¿Dónde vives?","Vivo aquí cerca","qa"],
-["Con permiso","Disculpe","alt"],
-["Perdón","No pasa nada","qa"],
-["Perdón","Lo siento","alt"],
-["Gracias por todo","De nada","qa"],
-["Que te vaya bien","Cuídate","alt"],
-["¡Salud!","Buen provecho","alt"],
-["Está delicioso","Está muy rico","alt"],
-["Estoy lleno","Tengo hambre","opp"],
-["¡Felicidades!","Gracias","qa"],
-["¡Buen fin de semana!","Igualmente","qa"],
-["¿Cuánto cuesta?","¿Hay descuento?","with"],
-["¿Cuánto cuesta?","Es muy caro","with"],
-["Es muy caro","Es barato","opp"],
-["¿Me das la cuenta?","La cuenta, por favor","alt"],
-["La cuenta, por favor","Quédate con el cambio","with"],
-["¿Aceptan tarjeta?","¿Puedo pagar con tarjeta?","alt"],
-["¿Dónde está…?","¿Cómo llego a…?","alt"],
-["¿Dónde está…?","¿Dónde está el baño?","alt"],
-["¿Me puedes ayudar?","¿En qué puedo ayudarte?","qa"],
-["Necesito…","Me hace falta…","alt"],
-["Necesito…","Quisiera…","alt"],
-["¿Tienes…?","No tengo…","qa"],
-["¿Tienes…?","¿Tiene wifi?","with"],
-["¿Está lejos?","Está cerca","opp"],
-["Aquí está bien","Mejor en otro lugar","opp"],
-["¿Me lo apartas?","Me lo llevo","with"],
-["Sin hielo, por favor","Con hielo, por favor","opp"],
-["Para llevar","Para comer aquí","opp"],
-["Estoy perdido","¿Cómo llego a…?","with"],
-["¿Cómo llego a…?","¿Dónde puedo tomar un taxi?","alt"],
-["A la derecha","A la izquierda","opp"],
-["Todo recto","A la derecha","with"],
-["¿Está abierto?","Está cerrado","opp"],
-["¿A qué hora cierran?","¿A qué hora abren?","opp"],
-["¿Tiene wifi?","¿Cuál es la contraseña?","with"],
-["Un café, por favor","Una cerveza, por favor","alt"],
-["Una cerveza, por favor","Agua, por favor","alt"],
-["Estoy buscando…","¿Tienes…?","with"],
-["¿Me recomienda algo?","¿Me recomiendas a alguien?","alt"],
-["¿Cómo te llamas?","Me llamo…","qa"],
-["Hola","Adiós","opp"],
-["Hola","Buenos días","alt"],
-["Buenos días","Buenas tardes","alt"],
-["Buenas tardes","Buenas noches","alt"],
-["¿Cómo estás?","Estoy bien, gracias","qa"],
-["¿Y tú?","¿Cómo estás?","with"],
-["Sí","No","opp"],
-["Por favor","Gracias","with"],
-["Gracias","Muchas gracias","alt"],
-["Gracias","De nada","qa"],
-["Lo siento","No hay problema","qa"],
-["Con gusto","De nada","alt"],
-["Tengo hambre","Tengo sed","alt"],
-["Estoy cansado","Tengo mucha energía","opp"],
-["Hace calor","Hace frío","opp"],
-["¿Qué hora es?","Son las dos","qa"],
-["Ayer","Mañana","opp"],
-["Mucho gusto en conocerte","Mucho gusto","alt"],
-["Encantado de conocerte","Encantada de conocerte","alt"],
-["Encantado de conocerte","Mucho gusto en conocerte","alt"],
-["¿De qué empresa eres?","Tengo mi propia empresa","qa"],
-["¿Tienes una tarjeta de presentación?","Aquí tienes mi tarjeta","qa"],
-["¿Nos conectamos en LinkedIn?","¿Cuál es tu correo?","with"],
-["¿Me pasas tu número?","¿Me das tu número?","alt"],
-["¿Cuál es tu correo?","¿Me pasas tu número?","alt"],
-["Te escribo esta semana","Hablemos pronto","with"],
-["Mantengamos el contacto","Seguimos en contacto","alt"],
-["¿Qué te trae por aquí?","¿Es tu primera vez en este evento?","with"],
-["¿Qué te trae por aquí?","¿Vienes seguido a estos eventos?","alt"],
-["¿Podemos agendar una reunión?","¿Cuándo te viene bien?","with"],
-["¿Podemos agendar una reunión?","Podemos agendar una visita","alt"],
-["¿Tienes un minuto?","Ahorita no puedo","opp"],
-["Déjame presentarte a…","¿Me presentas?","with"],
-["Ella es mi colega","Él es mi socio","alt"],
-["Cuéntame más","Suena interesante","with"],
-["Cuéntame más","Cuéntame de ti","alt"],
-["Me encantaría colaborar","Trabajemos juntos","alt"],
-["Te mando la información","¿Te mando la cotización?","alt"],
-["Estoy buscando clientes","¿Buscas proveedores?","alt"],
-["Fue un gusto","Me encantó conocerte","alt"],
-["Tengo una propuesta para ti","Suena interesante","with"],
-["Gracias por tu tiempo","Quedo a tus órdenes","qa"],
-["¿Estás soltero?","¿Estás soltera?","alt"],
-["¿Tienes novio?","¿Tienes novia?","alt"],
-["Me gustas","Tú también me gustas","qa"],
-["Me gustas","No siento lo mismo","opp"],
-["Eres muy guapo","Eres muy guapa","alt"],
-["Tienes una sonrisa bonita","Eres increíble","alt"],
-["¿Quieres salir conmigo?","Sí, me encantaría","qa"],
-["¿Quieres salir conmigo?","Prefiero que seamos amigos","opp"],
-["¿Te gustaría tomar un café?","¿Puedo invitarte una copa?","alt"],
-["¿Nos vemos otra vez?","¿Cuándo te vuelvo a ver?","alt"],
-["La pasé muy bien","Me encantó conocerte","alt"],
-["Pienso en ti","Te extraño","alt"],
-["Me haces feliz","Eres especial para mí","alt"],
-["Me haces feliz","Me encanta tu forma de ser","alt"],
-["¿Qué te gusta hacer?","¿Cuáles son tus pasatiempos?","alt"],
-["¿Qué te gusta hacer?","¿Qué tipo de música te gusta?","alt"],
-["¿Qué te gusta hacer?","¿Te gusta viajar?","alt"],
-["Tenemos mucho en común","Hacemos buena pareja","with"],
-["Me siento cómodo contigo","Me gusta pasar tiempo contigo","with"],
-["Busco algo serio","No busco nada casual","alt"],
-["Quiero formar una familia","Busco algo serio","with"],
-["¿Qué buscas en una pareja?","Busco algo serio","qa"],
-["Me gustaría conocerte mejor","Cuéntame de ti","with"],
-["¿Quieres ser mi pareja?","¿Quieres salir conmigo?","with"],
-["¿Vives solo?","¿Vives sola?","alt"],
-["¿Crees en el destino?","Creo en el destino","qa"],
-["Energía solar","Paneles solares","with"],
-["Instalamos paneles solares","Hacemos el mantenimiento","with"],
-["Instalamos paneles solares","Vendemos e instalamos","alt"],
-["¿Cuánto cuesta la instalación?","Hacemos una cotización gratis","qa"],
-["Te ahorra dinero","Reduce tu recibo de luz","alt"],
-["¿Cuánto pagas de luz al mes?","¿Cuál es tu consumo?","alt"],
-["¿Cuánto pagas de luz al mes?","Necesito ver tu recibo","with"],
-["El inversor","La batería","with"],
-["El techo","¿Tu techo recibe sol?","with"],
-["¿Cuántos paneles necesito?","¿Cuánto espacio hay en tu techo?","with"],
-["Hacemos una cotización gratis","Te mando la cotización hoy","with"],
-["Tenemos garantía de 25 años","Se paga solo en pocos años","with"],
-["La energía es limpia","Es bueno para el medio ambiente","alt"],
-["Cuida el planeta","Es bueno para el medio ambiente","alt"],
-["Funciona con la luz del sol","El sol es gratis","with"],
-["¿Cuánto genera al día?","¿Cuál es tu consumo?","with"],
-["Medición neta","Conectamos a la red","with"],
-["Ofrecemos financiamiento","No necesitas pagar por adelantado","alt"],
-["¿Te interesa ahorrar en luz?","Sí, me interesa","qa"],
-["¿Te interesa ahorrar en luz?","No me interesa, gracias","opp"],
-["Sí, me interesa","No me interesa, gracias","opp"],
-["Trabajamos con empresas y casas","¿Es tu casa o rentas?","with"],
-["¿Cuándo quieres empezar?","¿Cuándo pueden empezar?","alt"],
-["Más energía, menos costo","Te ahorra dinero","alt"],
-["Te mando la cotización hoy","¿Te mando la cotización?","alt"],
-["Hay que revisarlo","No funciona","with"],
-["Se fue la luz","Ya volvió la luz","opp"],
-["¿Me mandas tu ubicación?","Te mando mi ubicación","qa"],
-["Ya está listo","Todavía no está listo","opp"],
-["¿Todo bien?","Todo bien","qa"]
-]
+ "new": [
+  [
+   "No estoy de acuerdo",
+   "I disagree",
+   "Opinions"
+  ],
+  [
+   "Claro que no",
+   "Of course not",
+   "Conversation"
+  ],
+  [
+   "Estoy seguro",
+   "I'm sure",
+   "Opinions",
+   "m"
+  ],
+  [
+   "No me parece bien",
+   "That doesn't sound right to me",
+   "Opinions"
+  ],
+  [
+   "No tiene sentido",
+   "That doesn't make sense",
+   "Opinions"
+  ],
+  [
+   "Llego temprano",
+   "I'll be early",
+   "Plans"
+  ],
+  [
+   "Sí, me queda bien",
+   "Yes, that works for me",
+   "Plans"
+  ],
+  [
+   "Hoy sí puedo",
+   "I can today",
+   "Plans"
+  ],
+  [
+   "¿Dónde vives?",
+   "Where do you live?",
+   "Social"
+  ],
+  [
+   "Está cerca",
+   "It's close",
+   "Out & about"
+  ],
+  [
+   "Mejor en otro lugar",
+   "Somewhere else is better",
+   "Out & about"
+  ],
+  [
+   "Me lo llevo",
+   "I'll take it",
+   "Out & about"
+  ],
+  [
+   "Con hielo, por favor",
+   "With ice, please",
+   "Out & about"
+  ],
+  [
+   "Para comer aquí",
+   "To eat here",
+   "Out & about"
+  ],
+  [
+   "Está cerrado",
+   "It's closed",
+   "Out & about"
+  ],
+  [
+   "¿A qué hora abren?",
+   "What time do you open?",
+   "Out & about"
+  ],
+  [
+   "No tengo…",
+   "I don't have…",
+   "Out & about"
+  ],
+  [
+   "Está muy rico",
+   "It's really tasty",
+   "Social"
+  ],
+  [
+   "Tengo mucha energía",
+   "I have a lot of energy",
+   "Basics"
+  ],
+  [
+   "Hoy",
+   "Today",
+   "Basics"
+  ],
+  [
+   "Mañana",
+   "Tomorrow",
+   "Basics"
+  ],
+  [
+   "Ahorita no puedo",
+   "I can't right now",
+   "Networking"
+  ],
+  [
+   "Tú también me gustas",
+   "I like you too",
+   "Dating"
+  ],
+  [
+   "No siento lo mismo",
+   "I don't feel the same way",
+   "Dating"
+  ],
+  [
+   "Sí, me encantaría",
+   "Yes, I'd love to",
+   "Dating"
+  ],
+  [
+   "Prefiero que seamos amigos",
+   "I'd rather we stay friends",
+   "Dating"
+  ],
+  [
+   "Creo en el destino",
+   "I believe in fate",
+   "Dating"
+  ],
+  [
+   "Dura dos días",
+   "It takes two days",
+   "Solar"
+  ],
+  [
+   "No me interesa, gracias",
+   "I'm not interested, thanks",
+   "Solar"
+  ],
+  [
+   "Sí, me interesa",
+   "Yes, I'm interested",
+   "Solar"
+  ],
+  [
+   "Ya volvió la luz",
+   "The power is back",
+   "Work"
+  ],
+  [
+   "Te mando mi ubicación",
+   "I'll send you my location",
+   "Work"
+  ],
+  [
+   "Todavía no está listo",
+   "It's not ready yet",
+   "Work"
+  ],
+  [
+   "Todo bien",
+   "All good",
+   "Work"
+  ],
+  [
+   "Es muy caro",
+   "It's very expensive",
+   "Out & about"
+  ],
+  [
+   "Es barato",
+   "It's cheap",
+   "Out & about"
+  ],
+  [
+   "No sé",
+   "I don't know",
+   "Basics"
+  ],
+  [
+   "Lo sé",
+   "I know",
+   "Basics"
+  ]
+ ],
+ "chains": [
+  [
+   "Uno",
+   "Dos",
+   "Tres",
+   "Cuatro",
+   "Cinco",
+   "Seis",
+   "Siete",
+   "Ocho",
+   "Nueve",
+   "Diez",
+   "Veinte",
+   "Cien",
+   "Mil"
+  ],
+  [
+   "Lunes",
+   "Martes",
+   "Miércoles",
+   "Jueves",
+   "Viernes",
+   "Sábado",
+   "Domingo"
+  ],
+  [
+   "Ayer",
+   "Hoy",
+   "Mañana"
+  ]
+ ],
+ "pairs": [
+  [
+   "Estoy de acuerdo",
+   "No estoy de acuerdo",
+   "opp"
+  ],
+  [
+   "Creo que sí",
+   "Creo que no",
+   "opp"
+  ],
+  [
+   "Claro",
+   "Claro que no",
+   "opp"
+  ],
+  [
+   "Tienes razón",
+   "Exacto",
+   "alt"
+  ],
+  [
+   "Tienes razón",
+   "Buen punto",
+   "alt"
+  ],
+  [
+   "¿En serio?",
+   "¡No manches!",
+   "alt"
+  ],
+  [
+   "¡Órale!",
+   "¡Qué padre!",
+   "alt"
+  ],
+  [
+   "¡Qué padre!",
+   "Qué lástima",
+   "opp"
+  ],
+  [
+   "Ni modo",
+   "Qué lástima",
+   "alt"
+  ],
+  [
+   "Déjame pensarlo",
+   "Un segundo",
+   "alt"
+  ],
+  [
+   "Un segundo",
+   "Un momento, por favor",
+   "alt"
+  ],
+  [
+   "A ver…",
+   "Este…",
+   "alt"
+  ],
+  [
+   "O sea…",
+   "La verdad…",
+   "alt"
+  ],
+  [
+   "Por cierto…",
+   "Oye…",
+   "alt"
+  ],
+  [
+   "Ya veo",
+   "Me imagino",
+   "alt"
+  ],
+  [
+   "Ya veo",
+   "Ya entendí",
+   "alt"
+  ],
+  [
+   "Depende",
+   "Puede ser",
+   "alt"
+  ],
+  [
+   "No entendí eso",
+   "¿Me lo repites?",
+   "with"
+  ],
+  [
+   "¿Mande?",
+   "¿Me lo repites?",
+   "alt"
+  ],
+  [
+   "¿Me lo repites?",
+   "¿Puede repetir, por favor?",
+   "alt"
+  ],
+  [
+   "Más despacio, por favor",
+   "¿Me lo repites?",
+   "with"
+  ],
+  [
+   "¿Qué significa…?",
+   "¿Cómo se dice … en español?",
+   "alt"
+  ],
+  [
+   "¿Qué significa…?",
+   "¿Cómo se llama esto?",
+   "alt"
+  ],
+  [
+   "¿Cómo se escribe?",
+   "¿Me lo puedes escribir?",
+   "alt"
+  ],
+  [
+   "No sé cómo se dice",
+   "¿Cómo se dice … en español?",
+   "with"
+  ],
+  [
+   "Hablo un poco de español",
+   "No hablo mucho español",
+   "alt"
+  ],
+  [
+   "¿Hablas inglés?",
+   "Hablo un poco de español",
+   "with"
+  ],
+  [
+   "¿Me explicas?",
+   "¿A qué te refieres?",
+   "with"
+  ],
+  [
+   "¿Me explicas?",
+   "Te explico cómo funciona",
+   "qa"
+  ],
+  [
+   "Ya entendí",
+   "No entiendo",
+   "opp"
+  ],
+  [
+   "No entendí eso",
+   "Ya entendí",
+   "opp"
+  ],
+  [
+   "Todavía estoy aprendiendo",
+   "Estoy aprendiendo español",
+   "alt"
+  ],
+  [
+   "Estoy seguro",
+   "No estoy seguro",
+   "opp"
+  ],
+  [
+   "Me parece bien",
+   "No me parece bien",
+   "opp"
+  ],
+  [
+   "Me da igual",
+   "Prefiero…",
+   "opp"
+  ],
+  [
+   "Vale la pena",
+   "No vale la pena",
+   "opp"
+  ],
+  [
+   "Vale la pena",
+   "La inversión vale la pena",
+   "alt"
+  ],
+  [
+   "Tiene sentido",
+   "No tiene sentido",
+   "opp"
+  ],
+  [
+   "Voy en camino",
+   "Ahorita voy",
+   "alt"
+  ],
+  [
+   "Voy en camino",
+   "Llego en diez minutos",
+   "with"
+  ],
+  [
+   "Voy tarde",
+   "Llego temprano",
+   "opp"
+  ],
+  [
+   "¿A qué hora nos vemos?",
+   "¿Dónde nos vemos?",
+   "with"
+  ],
+  [
+   "¿Te queda bien mañana?",
+   "Sí, me queda bien",
+   "qa"
+  ],
+  [
+   "¿Te queda bien mañana?",
+   "Hoy no puedo",
+   "qa"
+  ],
+  [
+   "Hoy no puedo",
+   "Hoy sí puedo",
+   "opp"
+  ],
+  [
+   "Nos vemos al rato",
+   "Nos vemos pronto",
+   "alt"
+  ],
+  [
+   "Luego te aviso",
+   "Te marco más tarde",
+   "alt"
+  ],
+  [
+   "Quedamos así",
+   "Sale",
+   "alt"
+  ],
+  [
+   "¿Cuánto tiempo tarda?",
+   "¿Cuánto dura la instalación?",
+   "alt"
+  ],
+  [
+   "¿Cuánto dura la instalación?",
+   "Dura dos días",
+   "qa"
+  ],
+  [
+   "Ya casi",
+   "Todavía no",
+   "opp"
+  ],
+  [
+   "¿Qué onda?",
+   "¿Cómo te va?",
+   "alt"
+  ],
+  [
+   "¿Cómo te va?",
+   "¿Cómo estás?",
+   "alt"
+  ],
+  [
+   "¿Cómo te va?",
+   "¿Cómo va el negocio?",
+   "alt"
+  ],
+  [
+   "Mucho gusto",
+   "Igualmente",
+   "qa"
+  ],
+  [
+   "¿A qué te dedicas?",
+   "Trabajo en energía solar",
+   "qa"
+  ],
+  [
+   "¿A qué te dedicas?",
+   "Me dedico a las ventas",
+   "qa"
+  ],
+  [
+   "¿De dónde eres?",
+   "Soy de Eslovaquia",
+   "qa"
+  ],
+  [
+   "¿Dónde vives?",
+   "Vivo aquí cerca",
+   "qa"
+  ],
+  [
+   "Con permiso",
+   "Disculpe",
+   "alt"
+  ],
+  [
+   "Perdón",
+   "No pasa nada",
+   "qa"
+  ],
+  [
+   "Perdón",
+   "Lo siento",
+   "alt"
+  ],
+  [
+   "Gracias por todo",
+   "De nada",
+   "qa"
+  ],
+  [
+   "Que te vaya bien",
+   "Cuídate",
+   "alt"
+  ],
+  [
+   "¡Salud!",
+   "Buen provecho",
+   "alt"
+  ],
+  [
+   "Está delicioso",
+   "Está muy rico",
+   "alt"
+  ],
+  [
+   "Estoy lleno",
+   "Tengo hambre",
+   "opp"
+  ],
+  [
+   "¡Felicidades!",
+   "Gracias",
+   "qa"
+  ],
+  [
+   "¡Buen fin de semana!",
+   "Igualmente",
+   "qa"
+  ],
+  [
+   "¿Cuánto cuesta?",
+   "¿Hay descuento?",
+   "with"
+  ],
+  [
+   "¿Cuánto cuesta?",
+   "Es muy caro",
+   "with"
+  ],
+  [
+   "Es muy caro",
+   "Es barato",
+   "opp"
+  ],
+  [
+   "¿Me das la cuenta?",
+   "La cuenta, por favor",
+   "alt"
+  ],
+  [
+   "La cuenta, por favor",
+   "Quédate con el cambio",
+   "with"
+  ],
+  [
+   "¿Aceptan tarjeta?",
+   "¿Puedo pagar con tarjeta?",
+   "alt"
+  ],
+  [
+   "¿Dónde está…?",
+   "¿Cómo llego a…?",
+   "alt"
+  ],
+  [
+   "¿Dónde está…?",
+   "¿Dónde está el baño?",
+   "alt"
+  ],
+  [
+   "¿Me puedes ayudar?",
+   "¿En qué puedo ayudarte?",
+   "qa"
+  ],
+  [
+   "Necesito…",
+   "Me hace falta…",
+   "alt"
+  ],
+  [
+   "Necesito…",
+   "Quisiera…",
+   "alt"
+  ],
+  [
+   "¿Tienes…?",
+   "No tengo…",
+   "qa"
+  ],
+  [
+   "¿Tienes…?",
+   "¿Tiene wifi?",
+   "with"
+  ],
+  [
+   "¿Está lejos?",
+   "Está cerca",
+   "opp"
+  ],
+  [
+   "Aquí está bien",
+   "Mejor en otro lugar",
+   "opp"
+  ],
+  [
+   "¿Me lo apartas?",
+   "Me lo llevo",
+   "with"
+  ],
+  [
+   "Sin hielo, por favor",
+   "Con hielo, por favor",
+   "opp"
+  ],
+  [
+   "Para llevar",
+   "Para comer aquí",
+   "opp"
+  ],
+  [
+   "Estoy perdido",
+   "¿Cómo llego a…?",
+   "with"
+  ],
+  [
+   "¿Cómo llego a…?",
+   "¿Dónde puedo tomar un taxi?",
+   "alt"
+  ],
+  [
+   "A la derecha",
+   "A la izquierda",
+   "opp"
+  ],
+  [
+   "Todo recto",
+   "A la derecha",
+   "with"
+  ],
+  [
+   "¿Está abierto?",
+   "Está cerrado",
+   "opp"
+  ],
+  [
+   "¿A qué hora cierran?",
+   "¿A qué hora abren?",
+   "opp"
+  ],
+  [
+   "¿Tiene wifi?",
+   "¿Cuál es la contraseña?",
+   "with"
+  ],
+  [
+   "Un café, por favor",
+   "Una cerveza, por favor",
+   "alt"
+  ],
+  [
+   "Una cerveza, por favor",
+   "Agua, por favor",
+   "alt"
+  ],
+  [
+   "Estoy buscando…",
+   "¿Tienes…?",
+   "with"
+  ],
+  [
+   "¿Me recomienda algo?",
+   "¿Me recomiendas a alguien?",
+   "alt"
+  ],
+  [
+   "¿Cómo te llamas?",
+   "Me llamo…",
+   "qa"
+  ],
+  [
+   "Hola",
+   "Adiós",
+   "opp"
+  ],
+  [
+   "Hola",
+   "Buenos días",
+   "alt"
+  ],
+  [
+   "Buenos días",
+   "Buenas tardes",
+   "alt"
+  ],
+  [
+   "Buenas tardes",
+   "Buenas noches",
+   "alt"
+  ],
+  [
+   "¿Cómo estás?",
+   "Estoy bien, gracias",
+   "qa"
+  ],
+  [
+   "¿Y tú?",
+   "¿Cómo estás?",
+   "with"
+  ],
+  [
+   "Sí",
+   "No",
+   "opp"
+  ],
+  [
+   "Por favor",
+   "Gracias",
+   "with"
+  ],
+  [
+   "Gracias",
+   "Muchas gracias",
+   "alt"
+  ],
+  [
+   "Gracias",
+   "De nada",
+   "qa"
+  ],
+  [
+   "Lo siento",
+   "No hay problema",
+   "qa"
+  ],
+  [
+   "Con gusto",
+   "De nada",
+   "alt"
+  ],
+  [
+   "Tengo hambre",
+   "Tengo sed",
+   "alt"
+  ],
+  [
+   "Estoy cansado",
+   "Tengo mucha energía",
+   "opp"
+  ],
+  [
+   "Hace calor",
+   "Hace frío",
+   "opp"
+  ],
+  [
+   "¿Qué hora es?",
+   "Son las dos",
+   "qa"
+  ],
+  [
+   "Ayer",
+   "Mañana",
+   "opp"
+  ],
+  [
+   "Mucho gusto en conocerte",
+   "Mucho gusto",
+   "alt"
+  ],
+  [
+   "Encantado de conocerte",
+   "Encantada de conocerte",
+   "alt"
+  ],
+  [
+   "Encantado de conocerte",
+   "Mucho gusto en conocerte",
+   "alt"
+  ],
+  [
+   "¿De qué empresa eres?",
+   "Tengo mi propia empresa",
+   "qa"
+  ],
+  [
+   "¿Tienes una tarjeta de presentación?",
+   "Aquí tienes mi tarjeta",
+   "qa"
+  ],
+  [
+   "¿Nos conectamos en LinkedIn?",
+   "¿Cuál es tu correo?",
+   "with"
+  ],
+  [
+   "¿Me pasas tu número?",
+   "¿Me das tu número?",
+   "alt"
+  ],
+  [
+   "¿Cuál es tu correo?",
+   "¿Me pasas tu número?",
+   "alt"
+  ],
+  [
+   "Te escribo esta semana",
+   "Hablemos pronto",
+   "with"
+  ],
+  [
+   "Mantengamos el contacto",
+   "Seguimos en contacto",
+   "alt"
+  ],
+  [
+   "¿Qué te trae por aquí?",
+   "¿Es tu primera vez en este evento?",
+   "with"
+  ],
+  [
+   "¿Qué te trae por aquí?",
+   "¿Vienes seguido a estos eventos?",
+   "alt"
+  ],
+  [
+   "¿Podemos agendar una reunión?",
+   "¿Cuándo te viene bien?",
+   "with"
+  ],
+  [
+   "¿Podemos agendar una reunión?",
+   "Podemos agendar una visita",
+   "alt"
+  ],
+  [
+   "¿Tienes un minuto?",
+   "Ahorita no puedo",
+   "opp"
+  ],
+  [
+   "Déjame presentarte a…",
+   "¿Me presentas?",
+   "with"
+  ],
+  [
+   "Ella es mi colega",
+   "Él es mi socio",
+   "alt"
+  ],
+  [
+   "Cuéntame más",
+   "Suena interesante",
+   "with"
+  ],
+  [
+   "Cuéntame más",
+   "Cuéntame de ti",
+   "alt"
+  ],
+  [
+   "Me encantaría colaborar",
+   "Trabajemos juntos",
+   "alt"
+  ],
+  [
+   "Te mando la información",
+   "¿Te mando la cotización?",
+   "alt"
+  ],
+  [
+   "Estoy buscando clientes",
+   "¿Buscas proveedores?",
+   "alt"
+  ],
+  [
+   "Fue un gusto",
+   "Me encantó conocerte",
+   "alt"
+  ],
+  [
+   "Tengo una propuesta para ti",
+   "Suena interesante",
+   "with"
+  ],
+  [
+   "Gracias por tu tiempo",
+   "Quedo a tus órdenes",
+   "qa"
+  ],
+  [
+   "¿Estás soltero?",
+   "¿Estás soltera?",
+   "alt"
+  ],
+  [
+   "¿Tienes novio?",
+   "¿Tienes novia?",
+   "alt"
+  ],
+  [
+   "Me gustas",
+   "Tú también me gustas",
+   "qa"
+  ],
+  [
+   "Me gustas",
+   "No siento lo mismo",
+   "opp"
+  ],
+  [
+   "Eres muy guapo",
+   "Eres muy guapa",
+   "alt"
+  ],
+  [
+   "Tienes una sonrisa bonita",
+   "Eres increíble",
+   "alt"
+  ],
+  [
+   "¿Quieres salir conmigo?",
+   "Sí, me encantaría",
+   "qa"
+  ],
+  [
+   "¿Quieres salir conmigo?",
+   "Prefiero que seamos amigos",
+   "opp"
+  ],
+  [
+   "¿Te gustaría tomar un café?",
+   "¿Puedo invitarte una copa?",
+   "alt"
+  ],
+  [
+   "¿Nos vemos otra vez?",
+   "¿Cuándo te vuelvo a ver?",
+   "alt"
+  ],
+  [
+   "La pasé muy bien",
+   "Me encantó conocerte",
+   "alt"
+  ],
+  [
+   "Pienso en ti",
+   "Te extraño",
+   "alt"
+  ],
+  [
+   "Me haces feliz",
+   "Eres especial para mí",
+   "alt"
+  ],
+  [
+   "Me haces feliz",
+   "Me encanta tu forma de ser",
+   "alt"
+  ],
+  [
+   "¿Qué te gusta hacer?",
+   "¿Cuáles son tus pasatiempos?",
+   "alt"
+  ],
+  [
+   "¿Qué te gusta hacer?",
+   "¿Qué tipo de música te gusta?",
+   "alt"
+  ],
+  [
+   "¿Qué te gusta hacer?",
+   "¿Te gusta viajar?",
+   "alt"
+  ],
+  [
+   "Tenemos mucho en común",
+   "Hacemos buena pareja",
+   "with"
+  ],
+  [
+   "Me siento cómodo contigo",
+   "Me gusta pasar tiempo contigo",
+   "with"
+  ],
+  [
+   "Busco algo serio",
+   "No busco nada casual",
+   "alt"
+  ],
+  [
+   "Quiero formar una familia",
+   "Busco algo serio",
+   "with"
+  ],
+  [
+   "¿Qué buscas en una pareja?",
+   "Busco algo serio",
+   "qa"
+  ],
+  [
+   "Me gustaría conocerte mejor",
+   "Cuéntame de ti",
+   "with"
+  ],
+  [
+   "¿Quieres ser mi pareja?",
+   "¿Quieres salir conmigo?",
+   "with"
+  ],
+  [
+   "¿Vives solo?",
+   "¿Vives sola?",
+   "alt"
+  ],
+  [
+   "¿Crees en el destino?",
+   "Creo en el destino",
+   "qa"
+  ],
+  [
+   "Energía solar",
+   "Paneles solares",
+   "with"
+  ],
+  [
+   "Instalamos paneles solares",
+   "Hacemos el mantenimiento",
+   "with"
+  ],
+  [
+   "Instalamos paneles solares",
+   "Vendemos e instalamos",
+   "alt"
+  ],
+  [
+   "¿Cuánto cuesta la instalación?",
+   "Hacemos una cotización gratis",
+   "qa"
+  ],
+  [
+   "Te ahorra dinero",
+   "Reduce tu recibo de luz",
+   "alt"
+  ],
+  [
+   "¿Cuánto pagas de luz al mes?",
+   "¿Cuál es tu consumo?",
+   "alt"
+  ],
+  [
+   "¿Cuánto pagas de luz al mes?",
+   "Necesito ver tu recibo",
+   "with"
+  ],
+  [
+   "El inversor",
+   "La batería",
+   "with"
+  ],
+  [
+   "El techo",
+   "¿Tu techo recibe sol?",
+   "with"
+  ],
+  [
+   "¿Cuántos paneles necesito?",
+   "¿Cuánto espacio hay en tu techo?",
+   "with"
+  ],
+  [
+   "Hacemos una cotización gratis",
+   "Te mando la cotización hoy",
+   "with"
+  ],
+  [
+   "Tenemos garantía de 25 años",
+   "Se paga solo en pocos años",
+   "with"
+  ],
+  [
+   "La energía es limpia",
+   "Es bueno para el medio ambiente",
+   "alt"
+  ],
+  [
+   "Cuida el planeta",
+   "Es bueno para el medio ambiente",
+   "alt"
+  ],
+  [
+   "Funciona con la luz del sol",
+   "El sol es gratis",
+   "with"
+  ],
+  [
+   "¿Cuánto genera al día?",
+   "¿Cuál es tu consumo?",
+   "with"
+  ],
+  [
+   "Medición neta",
+   "Conectamos a la red",
+   "with"
+  ],
+  [
+   "Ofrecemos financiamiento",
+   "No necesitas pagar por adelantado",
+   "alt"
+  ],
+  [
+   "¿Te interesa ahorrar en luz?",
+   "Sí, me interesa",
+   "qa"
+  ],
+  [
+   "¿Te interesa ahorrar en luz?",
+   "No me interesa, gracias",
+   "opp"
+  ],
+  [
+   "Sí, me interesa",
+   "No me interesa, gracias",
+   "opp"
+  ],
+  [
+   "Trabajamos con empresas y casas",
+   "¿Es tu casa o rentas?",
+   "with"
+  ],
+  [
+   "¿Cuándo quieres empezar?",
+   "¿Cuándo pueden empezar?",
+   "alt"
+  ],
+  [
+   "Más energía, menos costo",
+   "Te ahorra dinero",
+   "alt"
+  ],
+  [
+   "Te mando la cotización hoy",
+   "¿Te mando la cotización?",
+   "alt"
+  ],
+  [
+   "Hay que revisarlo",
+   "No funciona",
+   "with"
+  ],
+  [
+   "Se fue la luz",
+   "Ya volvió la luz",
+   "opp"
+  ],
+  [
+   "¿Me mandas tu ubicación?",
+   "Te mando mi ubicación",
+   "qa"
+  ],
+  [
+   "Ya está listo",
+   "Todavía no está listo",
+   "opp"
+  ],
+  [
+   "¿Todo bien?",
+   "Todo bien",
+   "qa"
+  ],
+  [
+   "No sé",
+   "Lo sé",
+   "opp"
+  ],
+  [
+   "No sé",
+   "No sé cómo se dice",
+   "with"
+  ]
+ ]
 }

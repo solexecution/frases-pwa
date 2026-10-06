@@ -1,4 +1,4 @@
-const RR=["Basics","Networking","Dating","Solar","Social","Out & about","Conversation","Understanding","Plans","Opinions","Work"];
+const RR=["Mine","Basics","Networking","Dating","Solar","Social","Out & about","Conversation","Understanding","Plans","Opinions","Work"];
 let S=null,M=null;
 const starsHtml=n=>[0,1,2].map(i=>SVG.star.replace("<svg",`<svg class="${i<n?"on":"off"}"`)).join("");
 const avatar=m=>`<span class="avatar">${esc(m.who.replace(/^(Sr\.|Doña)\s*/,"").charAt(0))}</span>`;

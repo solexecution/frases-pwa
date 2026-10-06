@@ -1,4 +1,4 @@
-const CATS=["All","Basics","Conversation","Understanding","Opinions","Plans","Social","Out & about","Work","Networking","Dating","Solar"];
+const CATS=["All","Basics","Conversation","Understanding","Opinions","Plans","Social","Out & about","Work","Networking","Dating","Solar","Mine"];
 const FOCUS=["All","Basics","Networking","Dating","Solar","Social","Out & about","Conversation"];
 const PREP=["Networking","Dating","Solar","Basics","Social"];
 const GAPS=[400,700,1200,2000];
@@ -11,6 +11,7 @@ const POCKET=[
  {t:"Out",l:["¿Cuánto cuesta?","La cuenta, por favor","¿Aceptan tarjeta?","¿Dónde está el baño?","Agua, por favor","Una cerveza, por favor","Estoy perdido","Gracias por todo"]}
 ];
 const SVG={
+ x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
  say:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>',
  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>',
  pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
@@ -31,7 +32,7 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.
 const today=()=>SRS.dayNum(Date.now(),new Date().getTimezoneOffset());
 const dayStr=n=>new Date(n*864e5).toISOString().slice(0,10);
 
-let P=[],ALIGN=[],MISS=[],PAIRS=[];
+let P=[],ALIGN=[],MISS=[],PAIRS=[],BASE=0,MINE=store.get("frases-mine",[]);
 const MUST=new Set();
 let srs=store.get("frases-srs",{});
 let prof=Object.assign({sessions:0,missions:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},store.get("frases-prof",{}));
@@ -65,6 +66,16 @@ function markReview(){prof.rev[today()]=1;saveProf()}
 function practisedDays(){const t=today();let n=0;for(let k=0;k<14;k++)if(prof.rev[t-k])n++;return n}
 function hud(){$("hDue").textContent=SRS.dueList(srs,ids(),today()).length+" due"}
 
+const saveMine=()=>store.set("frases-mine",MINE);
+function shiftIds(a,b){const dl=b-a,n={};
+ Object.keys(srs).forEach(k=>{n[+k>=a?+k+dl:+k]=srs[k]});srs=n;saveSrs();
+ LOG.forEach(r=>{if(r[1]>=a)r[1]+=dl});flushLog()}
+function loadMine(){
+ if(!Array.isArray(MINE))MINE=[];
+ const ob=store.get("frases-mybase",BASE);
+ if(ob!==BASE&&MINE.length)shiftIds(ob,BASE);
+ store.set("frases-mybase",BASE);
+ MINE.forEach((d,k)=>P.push({i:BASE+k,es:d[0],en:d[1],cat:"Mine",note:"",skip:!!d[2],my:1}))}
 function migrate(){
  if(store.get("frases-schema",1)>=2)return;
  const oldLast=typeof prof.last==="number"?prof.last:-1;
@@ -93,12 +104,13 @@ function speak(text,lang){return new Promise(res=>{
  setTimeout(res,12000)})}
 function playSrc(src,fb,lang){return new Promise(res=>{
  const bail=()=>{if(fb)speak(fb,lang||"es").then(res);else res()};
+ if(!src){bail();return}
  audio.onended=()=>res();audio.onerror=bail;
  audio.src=src;applyRate();audio.currentTime=0;
  const pr=audio.play();if(pr&&pr.catch)pr.catch(e=>{if(e&&e.name==="AbortError")return;bail()})})}
-const srcFor=(i,slow)=>(slow?"audio/slow/":"audio/")+pad(i)+".mp3";
+const srcFor=(i,slow)=>P[i]&&P[i].my?"":(slow?"audio/slow/":"audio/")+pad(i)+".mp3";
 const sayPhrase=(i,slow)=>playSrc(srcFor(i,slow),P[i].es);
-const sayEn=i=>playSrc("audio/en/"+pad(i)+".mp3",P[i].en,"en");
+const sayEn=i=>playSrc(P[i].my?"":"audio/en/"+pad(i)+".mp3",P[i].en,"en");
 function stopAudio(){audio.pause();try{speechSynthesis&&speechSynthesis.cancel()}catch(e){}}
 
 let ac=null;
@@ -116,6 +128,7 @@ function ask(title,msg,yes,fn,cls){modal(`<h3>${esc(title)}</h3><p>${esc(msg)}</
 
 function filtered(useQ){const q=useQ?norm(st.q.trim()):"";
  return P.filter(p=>{
+  if(p.my&&p.skip)return false;
   if(st.cat!=="All"&&p.cat!==st.cat)return false;
   return !q||norm(p.es+" "+p.en).includes(q)})}
 const chipsHTML=(list,cur)=>list.map(c=>`<button class="chip" aria-pressed="${c===cur}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
@@ -125,8 +138,45 @@ const pairsHTML=(i,max)=>partners(i).slice(0,max).map(x=>`<div class="pr" data-j
 function renderList(){const f=filtered(true);
  $("ul").innerHTML=f.length?f.map(p=>`<li class="p ${st.showEn?"":"hide"}" data-i="${p.i}">
   <div class="txt" tabindex="0"><div class="es" lang="es">${esc(p.es)}${p.note?`<span class="note">${esc(p.note)}</span>`:""}</div><div class="en">${esc(p.en)}</div>${pairsHTML(p.i,2)}</div>
-  <button class="ib say" aria-label="Listen">${SVG.say}</button></li>`).join("")
+  <button class="ib say" aria-label="Listen">${SVG.say}</button>${p.my?`<button class="ib del" aria-label="Remove phrase">${SVG.x}</button>`:""}</li>`).join("")
   :`<li class="empty">No phrases match. Clear the search or pick another group.</li>`}
+const decode=s=>{const t=document.createElement("textarea");t.innerHTML=s;return t.value};
+async function translate(t){
+ const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(t)+"&langpair=en|es");
+ const j=await r.json();let s=decode(String(j&&j.responseData&&j.responseData.translatedText||"")).trim();
+ if(!s||/MYMEMORY|QUERY LENGTH|INVALID/i.test(s)||+j.responseStatus!==200)throw new Error("no");
+ if(!/[.]$/.test(t)&&/[^.]\.$/.test(s))s=s.slice(0,-1);
+ if(/\?$/.test(s)&&!/^¿/.test(s))s="¿"+s;
+ if(/!$/.test(s)&&!/^¡/.test(s))s="¡"+s;
+ return s}
+const getSR=()=>window.SpeechRecognition||window.webkitSpeechRecognition;
+function addModal(auto){
+ modal(`<h3>Add a phrase</h3><p>Type it in English. It is translated and kept in your list under Mine.</p><input type="text" id="aEn" placeholder="English" autocomplete="off" maxlength="120"><div class="row" style="margin:8px 0"><button class="btn sec" id="aMic" style="flex:1">Dictate</button><button class="btn sec" id="aGo" style="flex:1">Translate</button></div><input type="text" id="aEs" lang="es" placeholder="Spanish" autocomplete="off" maxlength="160"><p id="aMsg" class="hi" role="status"></p><button class="btn block" id="aSave">Save phrase</button>`,[{t:"Cancel",cls:"sec"}]);
+ const msg=m=>{$("aMsg").textContent=m};
+ const go=async()=>{let t=$("aEn").value.trim();if(!t){msg("Type the English first.");return}
+  t=t[0].toUpperCase()+t.slice(1);if(/^(who|what|when|where|why|how|which|do|does|did|can|could|is|are|will|would|should|may|have|has)/i.test(t)&&!/[?.!]$/.test(t))t+="?";$("aEn").value=t;
+  msg("Translating...");$("aGo").disabled=true;
+  try{$("aEs").value=await translate(t);msg("Check the Spanish, change it if it sounds off, then save.")}
+  catch(e){msg("Could not translate (offline?). Type the Spanish yourself, then save.")}
+  $("aGo").disabled=false};
+ const save=()=>{const en=$("aEn").value.trim(),es=$("aEs").value.trim();
+  if(!en||!es){msg("Fill in both English and Spanish.");return}
+  const n=norm(es);if(P.some(p=>!p.skip&&norm(p.es)===n)){msg("That phrase is already in your list.");return}
+  MINE.push([es,en,0]);saveMine();P.push({i:BASE+MINE.length-1,es,en,cat:"Mine",note:"",skip:false,my:1});
+  const ni=BASE+MINE.length-1;closeModal();st.cat="Mine";store.set("frases-cat","Mine");renderChips();renderList();hud();toast("Saved. It will come up in your next session.");if(auto)sayPhrase(ni,false)};
+ const mic=()=>{
+  const SR=getSR();if(!SR){msg("Dictation is not supported in this browser. Type it instead.");return}
+  const r=new SR();r.lang="en-US";r.interimResults=false;r.maxAlternatives=1;
+  let got=false,bad=false;
+  msg("Listening. Say the phrase in English.");$("aMic").disabled=true;
+  r.onresult=async e=>{got=true;$("aEn").value=e.results[0][0].transcript.trim();await go();if(auto&&$("aEs").value)save()};
+  r.onerror=e=>{bad=true;msg(e.error==="not-allowed"||e.error==="service-not-allowed"?"The microphone is blocked. Allow it in the browser site settings.":e.error==="network"?"Dictation needs a connection.":"Did not catch that. Tap Dictate and try again.")};
+  r.onend=()=>{$("aMic").disabled=false;if(!got&&!bad)msg("Did not catch that. Tap Dictate and try again.")};
+  try{r.start()}catch(x){$("aMic").disabled=false;msg("Could not start the microphone.")}};
+ $("aMic").onclick=()=>{auto=false;mic()};
+ if(auto)mic();
+ $("aGo").onclick=go;$("aSave").onclick=save;
+ [["aEn",go],["aEs",save]].forEach(([id,f])=>$(id).onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();e.stopPropagation();f()}})}
 function tapSay(i,btn){stopAudio();document.querySelectorAll(".play").forEach(b=>b.classList.remove("play"));
  if(btn)btn.classList.add("play");
  sayPhrase(i,false).then(()=>{if(btn)btn.classList.remove("play")})}
@@ -297,7 +347,7 @@ async function doInstall(){if(!deferredPrompt){toast("Open the browser menu (thr
  deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}
 function resetAll(){resetting=true;clearTimeout(logT);LOG=[];["frases-srs","frases-prof","frases-known","frases-log"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});store.set("frases-schema",2);location.reload()}
 function exportData(){flushLog();prof.lastBackup=Date.now();saveProf();
- const blob=new Blob([JSON.stringify({v:2,date:new Date().toISOString(),srs,prof,set,opt,log:LOG})],{type:"application/json"});
+ const blob=new Blob([JSON.stringify({v:2,date:new Date().toISOString(),srs,prof,set,opt,log:LOG,mine:MINE})],{type:"application/json"});
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="frases-backup-"+dayStr(today())+".json";
  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
  toast("Backup saved to your downloads.");renderMe()}
@@ -305,7 +355,8 @@ const isObj=x=>x&&typeof x==="object"&&!Array.isArray(x);
 function validBackup(d){
  if(!isObj(d)||d.v!==2||!isObj(d.srs))return "That is not a Frases backup.";
  for(const k of Object.keys(d.srs)){const e=d.srs[k];
-  if(!/^\d+$/.test(k)||+k>=P.length||!Array.isArray(e)||e.length<4||e.length>8||!e.every(x=>x===null||Number.isFinite(x)))return "The backup has damaged schedule data."}
+  if(!/^\d+$/.test(k)||+k>=BASE+(Array.isArray(d.mine)?d.mine.length:0)||!Array.isArray(e)||e.length<4||e.length>8||!e.every(x=>x===null||Number.isFinite(x)))return "The backup has damaged schedule data."}
+ if(d.mine!=null&&(!Array.isArray(d.mine)||d.mine.length>500||!d.mine.every(m=>Array.isArray(m)&&typeof m[0]==="string"&&typeof m[1]==="string"&&m[0].length<200&&m[1].length<200)))return "The backup has damaged custom phrases.";
  if(d.prof!=null&&!isObj(d.prof))return "The backup has damaged progress data.";
  if(d.set!=null&&!isObj(d.set))return "The backup has damaged settings.";
  if(d.opt!=null&&!isObj(d.opt))return "The backup has damaged options.";
@@ -328,7 +379,7 @@ function importModal(){
    closeModal();
    ask("Replace progress?",`Backup from ${String(d.date||"").slice(0,10)} with ${Object.keys(d.srs).length} phrases tracked will replace what is on this phone. A copy of the current progress is kept first.`,"Replace",()=>{
     store.set("frases-backup-pre-import",{srs,prof,set,opt,log:LOG.slice(-2000)});
-    srs=d.srs;prof=cleanProf(d.prof);set=Object.assign(set,d.set||{});if(d.opt)opt=Object.assign(opt,d.opt);LOG=d.log||[];
+    MINE=Array.isArray(d.mine)?d.mine.map(m=>[m[0],m[1],m[2]?1:0]):MINE;saveMine();srs=d.srs;prof=cleanProf(d.prof);set=Object.assign(set,d.set||{});if(d.opt)opt=Object.assign(opt,d.opt);LOG=d.log||[];
     saveSrs();saveProf();saveSet();saveOpt();flushLog();store.set("frases-schema",2);location.reload()},"bad")};
   r.readAsText(f)}}
 
@@ -365,8 +416,11 @@ function wire(){
  $("catBtn").onclick=()=>{modal(`<h3>Choose a group</h3><div class="chips">${chipsHTML(CATS,st.cat)}</div>`,[{t:"Close",cls:"sec"}]);
   $("mdPanel").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.c;store.set("frases-cat",st.cat);closeModal();renderChips();pause();rebuildQueue(false)}};
  $("q").oninput=e=>{st.q=e.target.value;renderList()};
+ $("addPh").onclick=()=>addModal(false);
+ $("micPh").onclick=()=>addModal(true)
  $("showEn").onclick=e=>{st.showEn=!st.showEn;e.currentTarget.setAttribute("aria-pressed",st.showEn);e.currentTarget.textContent=st.showEn?"Hide English":"Show English";renderList()};
  $("ul").onclick=e=>{const li=e.target.closest("li.p");if(!li)return;const pr=e.target.closest(".pr");if(pr){tapSay(+pr.dataset.j,null);return}const p=P[+li.dataset.i];
+  if(e.target.closest(".del")){ask("Remove this phrase?",p.es+" - "+p.en,"Remove",()=>{MINE[p.i-BASE][2]=1;p.skip=true;saveMine();hud();renderList()},"bad");return}
   if(e.target.closest(".say"))tapSay(p.i,e.target.closest(".say"));
   else if(e.target.closest(".txt")&&!st.showEn)li.classList.toggle("hide")};
  $("ul").onkeydown=e=>{if(e.key==="Enter"&&e.target.classList.contains("txt"))e.target.click()};
@@ -428,7 +482,7 @@ function wire(){
 async function boot(){
  const j=u=>fetch(u).then(r=>r.json());
  const [raw,al,ms,pr]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[])]);
- P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||"",skip:d[4]==="x"}));ALIGN=al;MISS=ms;PAIRS=pr;
+ P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||"",skip:d[4]==="x"}));BASE=P.length;loadMine();ALIGN=al;MISS=ms;PAIRS=pr;
  const m=byEs();POCKET.forEach(g=>g.l.forEach(es=>{const p=m.get(es);if(p)MUST.add(p.i)}));
  migrate();
  const pv=store.get("frases-lastver",null);if(pv&&pv!==VER)setTimeout(()=>toast("Updated to "+VER),600);store.set("frases-lastver",VER);
