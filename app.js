@@ -182,7 +182,7 @@ async function translate(t){
  return {es:await myMemory(t),src:grokKey()?"backup":"free"}}
 function grokModal(){
  const has=!!grokKey();
- modal(`<h3>Smart translation</h3><p>Paste your xAI (Grok) API key. It stays on this phone and is sent only to api.x.ai. Without it the free translator is used.</p><input type="password" id="gKey" autocomplete="off" placeholder="${has?"Key saved. Paste a new one to replace it":"xai-..."}"><p id="gMsg" class="hi" role="status"></p><button class="btn block" id="gSave">Save and test</button>`,
+ modal(`<h3>Smart translation</h3><p>Paste your xAI (Grok) API key. It stays on this phone and is sent only to api.x.ai. Without it the free translator is used.</p><input type="password" id="gKey" autocomplete="off" placeholder="${has?"Key saved. Paste a new one to replace it":"xai-..."}"><p id="gMsg" role="status" style="font-size:.95rem;min-height:1.3em;margin:8px 0"></p><button class="btn block" id="gSave">Save and test</button>`,
   [{t:"Close",cls:"sec"},...(has?[{t:"Remove key",cls:"bad",fn:()=>{store.set("frases-grok","");renderMe();toast("Key removed.")}}]:[])]);
  const msg=m=>{$("gMsg").textContent=m};
  const save=async()=>{const k=$("gKey").value.trim();if(k.length<10){msg("Paste the key first.");return}
@@ -198,7 +198,7 @@ function toastUndo(m,fn){const t=$("toast");t.textContent="";
  b.onclick=()=>{t.style.display="none";fn()};t.append(s,b);t.style.display="block";clearTimeout(t._h);t._h=setTimeout(()=>t.style.display="none",9000)}
 const getSR=()=>window.SpeechRecognition||window.webkitSpeechRecognition;
 function addModal(auto){
- modal(`<h3>Add a phrase</h3><p>Type it in English. It is translated and kept in your list under Mine.</p><input type="text" id="aEn" placeholder="English" autocomplete="off" maxlength="120"><div class="row" style="margin:8px 0"><button class="btn sec" id="aMic" style="flex:1">Dictate</button><button class="btn sec" id="aGo" style="flex:1">Translate</button></div><input type="text" id="aEs" lang="es" placeholder="Spanish" autocomplete="off" maxlength="160"><p id="aMsg" class="hi" role="status"></p><button class="btn block" id="aSave">Save phrase</button>`,[{t:"Cancel",cls:"sec"}]);
+ modal(`<h3>Add a phrase</h3><p>Type it in English. It is translated and kept in your list under Mine.</p><input type="text" id="aEn" placeholder="English" autocomplete="off" maxlength="120"><div class="row" style="margin:8px 0"><button class="btn sec" id="aMic" style="flex:1">Dictate</button><button class="btn sec" id="aGo" style="flex:1">Translate</button></div><input type="text" id="aEs" lang="es" placeholder="Spanish" autocomplete="off" maxlength="160"><p id="aMsg" role="status" style="font-size:.95rem;min-height:1.3em;margin:8px 0"></p><button class="btn block" id="aSave">Save phrase</button>`,[{t:"Cancel",cls:"sec"}]);
  const msg=m=>{$("aMsg").textContent=m};
  const go=async()=>{let t=$("aEn").value.trim();if(!t){msg("Type the English first.");return}
   t=t[0].toUpperCase()+t.slice(1);if(/^(who|what|when|where|why|how|which|do|does|did|can|could|is|are|will|would|should|may|have|has)/i.test(t)&&!/[?.!]$/.test(t))t+="?";$("aEn").value=t;
@@ -464,6 +464,7 @@ function wire(){
  $("catBtn").onclick=()=>{modal(`<h3>Choose a group</h3><div class="chips">${chipsHTML(CATS,st.cat)}</div>`,[{t:"Close",cls:"sec"}]);
   $("mdPanel").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.c;store.set("frases-cat",st.cat);closeModal();renderChips();pause();rebuildQueue(false)}};
  $("q").oninput=e=>{st.q=e.target.value;renderList()};
+ $("fab").onclick=()=>{if(!$("md").hidden)return;if(playing)pause();stopAudio();addModal(true)};
  $("addPh").onclick=()=>addModal(false);
  $("micPh").onclick=()=>addModal(true)
  $("showEn").onclick=e=>{st.showEn=!st.showEn;e.currentTarget.setAttribute("aria-pressed",st.showEn);e.currentTarget.textContent=st.showEn?"Hide English":"Show English";renderList()};
@@ -536,6 +537,7 @@ async function boot(){
  migrate();
  const pv=store.get("frases-lastver",null);if(pv&&pv!==VER)setTimeout(()=>toast("Updated to "+VER),600);store.set("frases-lastver",VER);
  wire();renderChips();hud();go("today");
+ if(/[?&]dictate=1/.test(location.search)){history.replaceState(null,"",location.pathname);go("browse");addModal(true)}
  if("serviceWorker" in navigator){
   const had=!!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had)return;reloadWanted=true;applyUpdate()});

@@ -199,6 +199,7 @@ nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,v
 #md p{margin:0 0 12px;line-height:1.45}
 #md .acts{display:flex;gap:10px;margin-top:14px}
 #md .acts button{flex:1}
+#fab{position:fixed;right:16px;bottom:calc(90px + env(safe-area-inset-bottom,0px));z-index:7;width:60px;height:60px;border-radius:50%;border:0;background:var(--fill);color:#fff;display:grid;place-items:center;padding:0;box-shadow:0 6px 18px rgba(0,0,0,.3)}#fab svg{width:28px;height:28px}#fab:active{transform:scale(.94)}body.fit #fab{bottom:auto;top:12px}#fab[hidden]{display:none}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:40;max-width:648px;margin:0 auto;background:var(--ink);color:var(--bg);padding:13px 15px;border-radius:12px;font-size:.95rem;line-height:1.35;box-shadow:0 6px 24px rgba(0,0,0,.25);display:none}
 .dots{display:flex;gap:5px;margin-top:6px}
 .dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);display:block}
@@ -308,6 +309,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
   <div id="ovFoot"></div>
 </div>
 <div id="md" hidden><div class="panel" id="mdPanel" role="dialog" aria-modal="true"></div></div>
+<button id="fab" aria-label="Dictate a phrase"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
 <div id="toast"></div>
 <script src="ver.js"></script>
 <script src="srs.js"></script>

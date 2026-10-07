@@ -42,7 +42,7 @@ on later days, first-try accuracy, minutes, and days practised.
 Unchanged audio is reused on update instead of being downloaded again.
 
 ## Add phrases
-In the app: Browse > Add phrase. Tap Dictate a phrase, say it in English, and it is transcribed (phone speech recognition, needs a connection), translated, saved and spoken back. Or type English; it is translated online (MyMemory), edit the Spanish if needed and save. The phrase lives in a group called Mine, is taught like any other, is spoken with the phone voice, and is included in the backup. Translating needs a connection; saving does not.
+In the app: Browse > Add phrase. Tap the round mic button (bottom right on every screen, top right in Listen) or long-press the app icon and choose Dictate a phrase, then say it in English, and it is transcribed (phone speech recognition, needs a connection), translated, saved and spoken back. Or type English; it is translated online (MyMemory), edit the Spanish if needed and save. The phrase lives in a group called Mine, is taught like any other, is spoken with the phone voice, and is included in the backup. Translating needs a connection; saving does not.
 
 Smart translation: Me > Smart translation (Grok), paste an xAI API key. It is stored only on the phone (never in the repo or the backup) and the app calls api.x.ai directly; the model is picked automatically from the account's list. The Spanish is natural Mexican, speech mishearings are corrected, and if Grok fails the free MyMemory translator is used with a Mexican word-swap list (`SWAPS` in `app.js`). Dictated phrases show an Undo for 9 seconds.
 
