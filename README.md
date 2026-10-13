@@ -39,7 +39,7 @@ on later days, first-try accuracy, minutes, and days practised.
 2. Bump `VER` in `ver.js` (for example `v21` to `v22`). Bump `AV` only if you regenerate existing audio.
 3. Commit and push. Every open or returning app checks for a new version on load, on return to the app, when it comes back online and every 10 minutes, then refreshes itself. It waits until a quiz or Listen playback is finished so nothing is interrupted, and shows "Updated to vNN" afterwards. Me > Check for updates does the same on demand. If `VER` is not bumped, installed apps will not update.
 
-Unchanged audio is reused on update instead of being downloaded again.
+The app shell and audio live in separate caches. A new version installs only the small app files (a second or two) and takes over straight away; audio sits in its own cache named by `AV`, so a release never re-downloads it, and the page fills any missing clips quietly in the background afterwards. The current version is shown on the Me tab icon.
 
 ## Add phrases
 In the app: Browse > Add phrase. Tap the round mic button (bottom right on every screen, top right in Listen) or long-press the app icon and choose Dictate a phrase, then say it in English, and it is transcribed (phone speech recognition, needs a connection), translated, saved and spoken back. Or type English; it is translated online (MyMemory), edit the Spanish if needed and save. The phrase lives in a group called Mine, is taught like any other, is spoken with the phone voice, and is included in the backup. Translating needs a connection; saving does not.

@@ -325,12 +325,10 @@ function offlineCard(){const c=$("offCard");
  const pct=off.need?Math.floor(off.have/off.need*100):0;
  c.className="card off";c.innerHTML=`<span class="dot"></span><span>Getting offline pack… ${pct}%</span><div class="bar"><i style="width:${pct}%"></i></div>`}
 let filling=false;
-async function curCache(){
- const ks=(await caches.keys()).filter(k=>/^frases-v\d+-a\d+$/.test(k)).sort((a,b)=>parseInt(b.slice(8))-parseInt(a.slice(8)));
- return caches.open(ks[0]||"frases-"+VER+"-a"+AV)}
+const audCache=()=>caches.open("frases-audio-a"+AV);
 async function fillOffline(){if(filling||!window.caches||!P.length)return;filling=true;
- try{const c=await curCache();
-  const t=audioTiers(P,MISS);const urls=[...CORE,...t.base,...t.extra].map(u=>new URL(u,location.href).href);
+ try{const c=await audCache();
+  const t=audioTiers(P.filter(p=>!p.my),MISS);const urls=[...t.base,...t.extra].map(u=>new URL(u,location.href).href);
   off.need=urls.length;
   for(let pass=0;pass<4;pass++){
    const have=new Set((await c.keys()).map(k=>k.url));
@@ -338,12 +336,13 @@ async function fillOffline(){if(filling||!window.caches||!P.length)return;fillin
    off.have=urls.length-todo.length;if(st.tab==="today")offlineCard();
    if(!todo.length||!navigator.onLine)break;
    if(pass>0)await wait(1500);
-   for(let i=0;i<todo.length;i+=12){
+   for(let i=0;i<todo.length;i+=4){
     if(!navigator.onLine)break;
-    await Promise.all(todo.slice(i,i+12).map(u=>c.add(u).then(()=>{off.have++}).catch(()=>{})));
+    await Promise.all(todo.slice(i,i+4).map(u=>c.add(u).then(()=>{off.have++}).catch(()=>{})));
     if(st.tab==="today")offlineCard();await wait(30)}}
  }catch(e){}
- filling=false;if(st.tab==="today")offlineCard()}
+ filling=false;if(st.tab==="today")offlineCard();
+ if(off.need&&off.have>=off.need&&navigator.serviceWorker&&navigator.serviceWorker.controller)navigator.serviceWorker.controller.postMessage("purge")}
 
 let deferredPrompt=null;
 const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone;
@@ -535,6 +534,7 @@ async function boot(){
  P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||"",skip:d[4]==="x"}));BASE=P.length;loadMine();ALIGN=al;MISS=ms;PAIRS=pr;
  const m=byEs();POCKET.forEach(g=>g.l.forEach(es=>{const p=m.get(es);if(p)MUST.add(p.i)}));
  migrate();
+ const vb=$("verBadge");if(vb)vb.textContent=VER;
  const pv=store.get("frases-lastver",null);if(pv&&pv!==VER)setTimeout(()=>toast("Updated to "+VER),600);store.set("frases-lastver",VER);
  wire();renderChips();hud();go("today");
  if(/[?&]dictate=1/.test(location.search)){history.replaceState(null,"",location.pathname);go("browse");addModal(true)}
