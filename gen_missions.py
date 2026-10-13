@@ -7,7 +7,7 @@ OUT = ROOT / "audio" / "m"
 RATE = "-8%"
 NPC = {"m": "es-MX-JorgeNeural", "f": "es-US-PalomaNeural"}
 YOU = "es-MX-DaliaNeural"
-TRIM = "areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB"
+TRIM = "silenceremove=start_periods=1:start_threshold=-55dB,adelay=90:all=1,apad=pad_dur=0.35"
 
 def clean(s):
     for c in "…¿¡":
