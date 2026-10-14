@@ -56,7 +56,7 @@ In the repo:
 1. Add lines to `phrases.json` (or to `new` in `pairs_src.json`, then link them in `pairs`): `["Nueva frase","New phrase","Work","MX"]`. The 4th item is optional.
    Category must be one in `CATS` in `app.js` (add a new one there to create a group).
 2. `python build_pairs.py` appends the `new` phrases and rebuilds `pairs.json` (it stops if a phrase has no partner or a name is misspelled).
-3. `python gen_audio.py` renders the normal, slow, English and Slovak clips (needs ffmpeg and `pip install -U edge-tts`). The original 48 kbps studio audio is cached outside the repo in `../raw_audio` and encoded once to Opus (`.ogg`, 28 kbps mono, 24 kHz) with silence trimmed at the start and a short natural tail; change `BITRATE` in `audiolib.py` and run `python gen_audio.py --force` to re-encode without downloading again. Needs the network for new text only.
+3. `python gen_audio.py` renders the normal, slow, English and Slovak clips (needs ffmpeg and `pip install -U edge-tts`). The original 48 kbps studio audio is cached outside the repo in `../raw_audio` and encoded once to Opus (`.ogg`, 64 kbps mono, 24 kHz) with silence trimmed at the start and a short natural tail; change `BITRATE` in `audiolib.py` and run `python gen_audio.py --force` to re-encode without downloading again. Needs the network for new text only.
 4. `python build_align.py` rebuilds word pairing (hand-authored pairs live in `SRC`).
 5. Bump `VER`, commit, push.
 

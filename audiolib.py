@@ -4,7 +4,7 @@ import edge_tts
 
 RAW = Path(__file__).resolve().parent.parent / "raw_audio"
 TRIM = "silenceremove=start_periods=1:start_threshold=-55dB,adelay=90:all=1,apad=pad_dur=0.35"
-BITRATE = "28k"
+BITRATE = "64k"
 EXT = ".ogg"
 
 
