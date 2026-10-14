@@ -1,4 +1,4 @@
-const RR=["Mine","Basics","Networking","Dating","Solar","Social","Out & about","Conversation","Understanding","Plans","Opinions","Work"];
+const RR=["Basics","Easy","Networking","Dating","Solar","Numbers","Time","Body","Social","Out & about","Conversation","Understanding","Plans","Opinions","Work"];
 let S=null,M=null;
 const starsHtml=n=>[0,1,2].map(i=>SVG.star.replace("<svg",`<svg class="${i<n?"on":"off"}"`)).join("");
 const avatar=m=>`<span class="avatar">${esc(m.who.replace(/^(Sr\.|Doña)\s*/,"").charAt(0))}</span>`;
@@ -6,9 +6,11 @@ const core=w=>w.replace(/^[¿¡"'(«]+|[?!.,…:;"')»]+$/g,"");
 
 function pickNew(pool,n){
  const g={};pool.forEach(p=>(g[p.cat]=g[p.cat]||[]).push(p));
- const out=[],cw=g.Core||[];
+ const out=[],cw=g.Core||[],mn=g.Mine||[];
  while(out.length<Math.min(2,n)&&cw.length)out.push(cw.shift());
- const order=RR.filter(c=>g[c]);
+ while(out.length<n&&mn.length)out.push(mn.shift());
+ let order=RR.filter(c=>g[c]);
+ if(order.length){const k=today()%order.length;order=[...order.slice(k),...order.slice(0,k)]}
  while(out.length<n&&order.some(c=>g[c].length)){for(const c of order){if(out.length>=n)break;if(g[c].length)out.push(g[c].shift())}}
  return out}
 let ES_MAP=null;

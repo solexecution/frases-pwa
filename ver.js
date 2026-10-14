@@ -1,10 +1,12 @@
-const VER="v35";
+const VER="v36";
 const AV="2";
-const CORE=["./","index.html","app.js","learn.js","ver.js","srs.js","phrases.json","align.json","missions.json","pairs.json","core.json","manifest.webmanifest","icon.svg","icon-180.png","icon-192.png","icon-512.png"];
+const CORE=["./","index.html","app.js","learn.js","ver.js","srs.js","phrases.json","align.json","missions.json","pairs.json","core.json","sk.json","sk_m.json","manifest.webmanifest","icon.svg","icon-180.png","icon-192.png","icon-512.png"];
 const pad3=i=>String(i).padStart(3,"0");
-function audioTiers(ph,ms){
+function audioTiers(ph,ms,sk){
  const base=[],extra=[];
- ph.forEach((_,i)=>{base.push("audio/"+pad3(i)+".mp3");extra.push("audio/slow/"+pad3(i)+".mp3","audio/en/"+pad3(i)+".mp3")});
+ ph.forEach((_,i)=>{base.push("audio/"+pad3(i)+".ogg");extra.push("audio/slow/"+pad3(i)+".ogg");if(!sk)extra.push("audio/en/"+pad3(i)+".ogg")});
+
+ ph.forEach((_,i)=>{if(sk)extra.push("audio/sk/"+pad3(i)+".ogg")});
  ms.forEach(m=>m.steps.forEach(s=>{base.push("audio/"+s.npc.a);s.opts.forEach(o=>base.push("audio/"+o.a))}));
  return {base:[...new Set(base)],extra};
 }

@@ -22,7 +22,7 @@ button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 header{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 h1{margin:0;font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1;background:linear-gradient(90deg,var(--deep),var(--turq) 55%,var(--shallow));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hud{display:flex;gap:8px}
-.hud span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:.88rem;font-weight:700}
+.langb{background:var(--deep,var(--card));color:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;min-height:34px;font-size:.88rem;font-weight:800;letter-spacing:.04em}.hud span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:.88rem;font-weight:700}
 main{padding:12px 16px 100px;max-width:680px;margin:0 auto}
 .screen[hidden]{display:none}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:12px}
@@ -218,7 +218,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
 <body>
 <header>
   <h1>Frases</h1>
-  <div class="hud"><span id="hDue">0 due</span></div>
+  <div class="hud"><button id="langBtn" class="langb">EN</button><span id="hDue">0 due</span></div>
 </header>
 <main>
   <section id="s-today" class="screen">

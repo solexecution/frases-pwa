@@ -1,5 +1,5 @@
-const CATS=["All","Basics","Core","Conversation","Understanding","Opinions","Plans","Social","Out & about","Work","Networking","Dating","Solar","Mine"];
-const FOCUS=["All","Basics","Core","Networking","Dating","Solar","Social","Out & about","Conversation"];
+const CATS=["All","Basics","Easy","Core","Numbers","Time","Body","Conversation","Understanding","Opinions","Plans","Social","Out & about","Work","Networking","Dating","Solar","Mine"];
+const FOCUS=["All","Basics","Easy","Core","Numbers","Time","Body","Networking","Dating","Solar","Social","Out & about","Conversation"];
 const PREP=["Networking","Dating","Solar","Basics","Social"];
 const GAPS=[400,700,1200,2000];
 const POCKET=[
@@ -24,6 +24,9 @@ const SVG={
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(3,"0");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const SKL=()=>set.lang==="sk";
+const LN=()=>SKL()?"Slovak":"English";
+const setGloss=p=>{p.en=SKL()?(p.sk||p.en0):(p.en0||p.sk)};
 const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -32,11 +35,11 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.
 const today=()=>SRS.dayNum(Date.now(),new Date().getTimezoneOffset());
 const dayStr=n=>new Date(n*864e5).toISOString().slice(0,10);
 
-let P=[],ALIGN=[],MISS=[],PAIRS=[],CW={needs:{},cloze:{},words:[]},BASE=0,MINE=store.get("frases-mine",[]);
+let P=[],ALIGN=[],MISS=[],PAIRS=[],SK=[],CW={needs:{},cloze:{},words:[]},BASE=0,MINE=store.get("frases-mine",[]);
 const MUST=new Set();
 let srs=store.get("frases-srs",{});
 let prof=Object.assign({sessions:0,missions:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},store.get("frases-prof",{}));
-let set=Object.assign({budget:10,sound:true,focus:"All",talkTo:"both"},store.get("frases-set",{}));
+let set=Object.assign({budget:10,sound:true,focus:"All",talkTo:"both",lang:"en"},store.get("frases-set",{}));
 const MAN_ADDR=new Set(["¿Estás soltero?","¿Tienes novia?","Eres muy guapo","¿Vives solo?"]);
 const WOMAN_ADDR=new Set(["¿Estás soltera?","¿Tienes novio?","Eres muy guapa","¿Vives sola?"]);
 const skipped=p=>p.skip||(set.talkTo==="women"&&MAN_ADDR.has(p.es))||(set.talkTo==="men"&&WOMAN_ADDR.has(p.es));
@@ -75,7 +78,7 @@ function loadMine(){
  const ob=store.get("frases-mybase",BASE);
  if(ob!==BASE&&MINE.length)shiftIds(ob,BASE);
  store.set("frases-mybase",BASE);
- MINE.forEach((d,k)=>P.push({i:BASE+k,es:d[0],en:d[1],cat:"Mine",note:"",skip:!!d[2],my:1}))}
+ MINE.forEach((d,k)=>P.push({i:BASE+k,es:d[0],en:d[1]||"",en0:d[1]||"",sk:d[3]||"",cat:"Mine",note:"",skip:!!d[2],my:1}))}
 function migrate(){
  if(store.get("frases-schema",1)>=2)return;
  const oldLast=typeof prof.last==="number"?prof.last:-1;
@@ -91,15 +94,16 @@ function migrate(){
  try{localStorage.removeItem("frases-known")}catch(e){}}
 
 const audio=new Audio();audio.preload="auto";
-let esVoice=null,enVoice=null;
+let esVoice=null,enVoice=null,skVoice=null;
 function pickVoices(){if(!("speechSynthesis" in window))return;const v=speechSynthesis.getVoices();
+ skVoice=v.find(x=>/^sk/i.test(x.lang))||null;
  esVoice=v.find(x=>/es[-_]MX/i.test(x.lang))||v.find(x=>/^es/i.test(x.lang))||null;
  enVoice=v.find(x=>/en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null}
 if("speechSynthesis" in window){pickVoices();speechSynthesis.onvoiceschanged=pickVoices}
 function speak(text,lang){return new Promise(res=>{
  if(!("speechSynthesis" in window)){res();return}
  const u=new SpeechSynthesisUtterance(text.replace(/[…¿¡]/g,""));
- const v=lang==="en"?enVoice:esVoice;u.lang=v?v.lang:(lang==="en"?"en-US":"es-MX");if(v)u.voice=v;u.rate=.92;
+ const v=lang==="en"?enVoice:lang==="sk"?skVoice:esVoice;u.lang=v?v.lang:(lang==="en"?"en-US":lang==="sk"?"sk-SK":"es-MX");if(v)u.voice=v;u.rate=.92;
  u.onend=res;u.onerror=res;try{speechSynthesis.cancel()}catch(e){}speechSynthesis.speak(u);
  setTimeout(res,12000)})}
 let DG=store.get("frases-diag",[]);
@@ -141,9 +145,9 @@ function playSrc(src,fb,lang){inGap=false;return new Promise(res=>{
  audio.onended=()=>res();audio.onerror=bail;
  audio.src=src;applyRate();audio.currentTime=0;
  const pr=audio.play();if(pr&&pr.catch)pr.catch(e=>{if(e&&e.name==="AbortError")return;dg("play-rej:"+(e&&e.name));bail()})})}
-const srcFor=(i,slow)=>P[i]&&P[i].my?"":(slow?"audio/slow/":"audio/")+pad(i)+".mp3";
+const srcFor=(i,slow)=>P[i]&&P[i].my?"":(slow?"audio/slow/":"audio/")+pad(i)+".ogg";
 const sayPhrase=(i,slow)=>playSrc(srcFor(i,slow),P[i].es);
-const sayEn=i=>playSrc(P[i].my?"":"audio/en/"+pad(i)+".mp3",P[i].en,"en");
+const sayEn=i=>playSrc(P[i].my?"":"audio/"+(SKL()?"sk":"en")+"/"+pad(i)+".ogg",P[i].en,SKL()?"sk":"en");
 function stopAudio(){audio.pause();try{speechSynthesis&&speechSynthesis.cancel()}catch(e){}}
 
 let ac=null;
@@ -178,11 +182,12 @@ const SWAPS=[["coche","carro"],["coches","carros"],["ordenador","computadora"],[
 const swapMx=s=>SWAPS.reduce((x,[a,b])=>x.replace(new RegExp("(^|[^\\p{L}])"+a+"(?![\\p{L}])","giu"),(m,p)=>p+b),s);
 const fixMarks=s=>{if(/\?$/.test(s)&&!/^¿/.test(s))s="¿"+s;if(/!$/.test(s)&&!/^¡/.test(s))s="¡"+s;return s};
 async function myMemory(t){
- const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(t)+"&langpair=en|es");
+ const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(t)+"&langpair="+(SKL()?"sk":"en")+"|es");
  const j=await r.json();let s=decode(String(j&&j.responseData&&j.responseData.translatedText||"")).trim();
  if(!s||/MYMEMORY|QUERY LENGTH|INVALID/i.test(s)||+j.responseStatus!==200)throw new Error("no");
  if(!/[.]$/.test(t)&&/[^.]\.$/.test(s))s=s.slice(0,-1);
  return fixMarks(swapMx(s))}
+const grokSys=()=>GROK_SYS.replace("an English phrase","a "+LN()+" phrase");
 const GROK_SYS="You help an adult male beginner learn Mexican Spanish for solar-industry networking and dating. The user message is an English phrase, possibly from speech recognition with mistakes; fix obvious mishearings using that context. Translate it into natural, everyday Mexican Spanish: tu form unless the English is clearly formal, carro/celular/computadora not Spain words, masculine forms when the speaker refers to himself. Keep it short, one phrase, correct punctuation including the opening question and exclamation marks. Reply with JSON only: {\"en\":\"corrected English\",\"es\":\"Spanish\"}.";
 const grokKey=()=>store.get("frases-grok","");
 async function grokModels(key){
@@ -196,7 +201,7 @@ async function grokCall(t,key){
  const c=new AbortController(),to=setTimeout(()=>c.abort(),8000);
  try{
   const r=await fetch("https://api.x.ai/v1/chat/completions",{method:"POST",signal:c.signal,headers:{"Content-Type":"application/json",Authorization:"Bearer "+key},
-   body:JSON.stringify({model:store.get("frases-grokmodel","grok-4-fast-non-reasoning"),temperature:0,max_tokens:200,messages:[{role:"system",content:GROK_SYS},{role:"user",content:t}]})});
+   body:JSON.stringify({model:store.get("frases-grokmodel","grok-4-fast-non-reasoning"),temperature:0,max_tokens:200,messages:[{role:"system",content:grokSys()},{role:"user",content:t}]})});
   if(!r.ok){const e=new Error("http");e.status=r.status;throw e}
   const j=await r.json(),m=String(j.choices[0].message.content).match(/\{[\s\S]*\}/),o=JSON.parse(m[0]);
   const es=String(o.es||"").trim(),en=String(o.en||"").trim();
@@ -231,24 +236,24 @@ function toastUndo(m,fn){const t=$("toast");t.textContent="";
  b.onclick=()=>{t.style.display="none";fn()};t.append(s,b);t.style.display="block";clearTimeout(t._h);t._h=setTimeout(()=>t.style.display="none",9000)}
 const getSR=()=>window.SpeechRecognition||window.webkitSpeechRecognition;
 function addModal(auto){
- modal(`<h3>Add a phrase</h3><p>Type it in English. It is translated and kept in your list under Mine.</p><input type="text" id="aEn" placeholder="English" autocomplete="off" maxlength="120"><div class="row" style="margin:8px 0"><button class="btn sec" id="aMic" style="flex:1">Dictate</button><button class="btn sec" id="aGo" style="flex:1">Translate</button></div><input type="text" id="aEs" lang="es" placeholder="Spanish" autocomplete="off" maxlength="160"><p id="aMsg" role="status" style="font-size:.95rem;min-height:1.3em;margin:8px 0"></p><button class="btn block" id="aSave">Save phrase</button>`,[{t:"Cancel",cls:"sec"}]);
+ modal(`<h3>Add a phrase</h3><p>Type it in ${LN()}. It is translated and kept in your list under Mine.</p><input type="text" id="aEn" placeholder="${LN()}" autocomplete="off" maxlength="120"><div class="row" style="margin:8px 0"><button class="btn sec" id="aMic" style="flex:1">Dictate</button><button class="btn sec" id="aGo" style="flex:1">Translate</button></div><input type="text" id="aEs" lang="es" placeholder="Spanish" autocomplete="off" maxlength="160"><p id="aMsg" role="status" style="font-size:.95rem;min-height:1.3em;margin:8px 0"></p><button class="btn block" id="aSave">Save phrase</button>`,[{t:"Cancel",cls:"sec"}]);
  const msg=m=>{$("aMsg").textContent=m};
- const go=async()=>{let t=$("aEn").value.trim();if(!t){msg("Type the English first.");return}
-  t=t[0].toUpperCase()+t.slice(1);if(/^(who|what|when|where|why|how|which|do|does|did|can|could|is|are|will|would|should|may|have|has)/i.test(t)&&!/[?.!]$/.test(t))t+="?";$("aEn").value=t;
+ const go=async()=>{let t=$("aEn").value.trim();if(!t){msg("Type the "+LN()+" first.");return}
+  t=t[0].toUpperCase()+t.slice(1);if(!SKL()&&/^(who|what|when|where|why|how|which|do|does|did|can|could|is|are|will|would|should|may|have|has)/i.test(t)&&!/[?.!]$/.test(t))t+="?";$("aEn").value=t;
   msg("Translating...");$("aGo").disabled=true;
   try{const r=await translate(t);$("aEs").value=r.es;if(r.en)$("aEn").value=r.en;msg(r.src==="Grok"?"Translated by Grok. Check it, then save.":r.src==="device"?"Translated on this phone. Check it, then save.":r.src==="backup"?"Grok was unavailable, used the free translator. Check it, then save.":"Check the Spanish, change it if it sounds off, then save.")}
   catch(e){msg("Could not translate (offline?). Type the Spanish yourself, then save.")}
   $("aGo").disabled=false};
  const save=()=>{const en=$("aEn").value.trim(),es=$("aEs").value.trim();
-  if(!en||!es){msg("Fill in both English and Spanish.");return}
+  if(!en||!es){msg("Fill in both "+LN()+" and Spanish.");return}
   const n=norm(es);if(P.some(p=>!p.skip&&norm(p.es)===n)){msg("That phrase is already in your list.");return}
-  MINE.push([es,en,0]);saveMine();P.push({i:BASE+MINE.length-1,es,en,cat:"Mine",note:"",skip:false,my:1});
+  MINE.push(SKL()?[es,"",0,en]:[es,en,0,""]);saveMine();const np={i:BASE+MINE.length-1,es,en:"",en0:SKL()?"":en,sk:SKL()?en:"",cat:"Mine",note:"",skip:false,my:1};setGloss(np);P.push(np);
   const ni=BASE+MINE.length-1;closeModal();st.cat="Mine";store.set("frases-cat","Mine");renderChips();renderList();hud();if(auto){toastUndo("Saved: "+es,()=>{MINE[ni-BASE][2]=1;P[ni].skip=true;saveMine();hud();renderList()});sayPhrase(ni,false)}else toast("Saved. It will come up in your next session.")};
  const mic=()=>{
   const SR=getSR();if(!SR){msg("Dictation is not supported in this browser. Type it instead.");return}
-  const r=new SR();r.lang="en-US";r.interimResults=false;r.maxAlternatives=1;
+  const r=new SR();r.lang=SKL()?"sk-SK":"en-US";r.interimResults=false;r.maxAlternatives=1;
   let got=false,bad=false;
-  msg("Listening. Say the phrase in English.");$("aMic").disabled=true;
+  msg("Listening. Say the phrase in "+LN()+".");$("aMic").disabled=true;
   r.onresult=async e=>{got=true;$("aEn").value=e.results[0][0].transcript.trim();await go();if(auto&&$("aEs").value)save()};
   r.onerror=e=>{bad=true;msg(e.error==="not-allowed"||e.error==="service-not-allowed"?"The microphone is blocked. Allow it in the browser site settings.":e.error==="network"?"Dictation needs a connection.":"Did not catch that. Tap Dictate and try again.")};
   r.onend=()=>{$("aMic").disabled=false;if(!got&&!bad)msg("Did not catch that. Tap Dictate and try again.")};
@@ -262,7 +267,7 @@ function tapSay(i,btn){stopAudio();document.querySelectorAll(".play").forEach(b=
  sayPhrase(i,false).then(()=>{if(btn)btn.classList.remove("play")})}
 
 function groupMaps(p){const esT=p.es.split(/\s+/),enT=p.en.split(/\s+/);
- const g=(ALIGN[p.i]&&ALIGN[p.i].length)?ALIGN[p.i]:[{es:esT.map((_,i)=>i),en:enT.map((_,i)=>i)}];
+ const g=(!SKL()&&ALIGN[p.i]&&ALIGN[p.i].length)?ALIGN[p.i]:[{es:esT.map((_,i)=>i),en:enT.map((_,i)=>i)}];
  const esG={},enG={};g.forEach((grp,gi)=>{(grp.es||[]).forEach(i=>esG[i]=gi);(grp.en||[]).forEach(i=>enG[i]=gi)});
  return {esT,enT,g,esG,enG}}
 function wordsHTML(ts,gm){return ts.map((w,i)=>`<span class="w"${gm[i]!=null?` data-g="${gm[i]}"`:""}>${esc(w)}</span>`).join(" ")}
@@ -362,7 +367,7 @@ let filling=false;
 const audCache=()=>caches.open("frases-audio-a"+AV);
 async function fillOffline(){if(filling||!window.caches||!P.length)return;filling=true;
  try{const c=await audCache();
-  const t=audioTiers(P.filter(p=>!p.my),MISS);const urls=[...t.base,...t.extra].map(u=>new URL(u,location.href).href);
+  const t=audioTiers(P.filter(p=>!p.my),MISS,SKL());const urls=[...t.base,...t.extra].map(u=>new URL(u,location.href).href);
   off.need=urls.length;
   for(let pass=0;pass<4;pass++){
    const have=new Set((await c.keys()).map(k=>k.url));
@@ -404,6 +409,7 @@ function renderMe(){
  <div class="row" style="margin-top:10px"><button class="btn sec" id="btnExport">Export</button><button class="btn sec" id="btnImport">Import</button></div>`;
  $("settings").innerHTML=`<div class="lab">Settings</div>
  <div class="set"><span>Session length</span><div class="seg" id="segBud">${[6,10,15].map(n=>`<button data-n="${n}" aria-pressed="${set.budget===n}">${n} min</button>`).join("")}</div></div>
+ <div class="set"><span>Translate from</span><div class="seg" id="segLang">${[["en","English"],["sk","Slovak"]].map(x=>`<button data-v="${x[0]}" aria-pressed="${set.lang===x[0]}">${x[1]}</button>`).join("")}</div></div>
  <div class="set"><span>Dating phrases for</span><div class="seg" id="segTalk">${[["women","Women"],["men","Men"],["both","Both"]].map(x=>`<button data-v="${x[0]}" aria-pressed="${set.talkTo===x[0]}">${x[1]}</button>`).join("")}</div></div>
  <div class="set"><span>Soft tick sounds</span><button class="tog" id="togSnd" aria-pressed="${set.sound}" style="padding:10px 16px">${set.sound?"On":"Off"}</button></div>
  <div class="set"><span>Smart translation (Grok)</span><button class="btn sec" id="btnGrok">${grokKey()?"On":"Set up"}</button></div>
@@ -505,9 +511,10 @@ function wire(){
   $("mdPanel").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;st.cat=b.dataset.c;store.set("frases-cat",st.cat);closeModal();renderChips();pause();rebuildQueue(false)}};
  $("q").oninput=e=>{st.q=e.target.value;renderList()};
  $("fab").onclick=()=>{if(!$("md").hidden)return;if(playing)pause();stopAudio();addModal(true)};
+ $("langBtn").onclick=switchLang;
  $("addPh").onclick=()=>addModal(false);
  $("micPh").onclick=()=>addModal(true)
- $("showEn").onclick=e=>{st.showEn=!st.showEn;e.currentTarget.setAttribute("aria-pressed",st.showEn);e.currentTarget.textContent=st.showEn?"Hide English":"Show English";renderList()};
+ $("showEn").onclick=e=>{st.showEn=!st.showEn;e.currentTarget.setAttribute("aria-pressed",st.showEn);e.currentTarget.textContent=(st.showEn?"Hide ":"Show ")+LN();renderList()};
  $("ul").onclick=e=>{const li=e.target.closest("li.p");if(!li)return;const pr=e.target.closest(".pr");if(pr){tapSay(+pr.dataset.j,null);return}const p=P[+li.dataset.i];
   if(e.target.closest(".del")){ask("Remove this phrase?",p.es+" - "+p.en,"Remove",()=>{MINE[p.i-BASE][2]=1;p.skip=true;saveMine();hud();renderList()},"bad");return}
   if(e.target.closest(".say"))tapSay(p.i,e.target.closest(".say"));
@@ -565,6 +572,8 @@ function wire(){
  $("settings").onclick=e=>{
   const n=e.target.closest("#segBud button");
   if(n){set.budget=+n.dataset.n;saveSet();renderMe();return}
+  const lg=e.target.closest("#segLang button");
+  if(lg){if(lg.dataset.v!==set.lang)switchLang();return}
   const tk=e.target.closest("#segTalk button");
   if(tk){set.talkTo=tk.dataset.v;saveSet();renderMe();hud();return}
   if(e.target.closest("#togSnd")){set.sound=!set.sound;saveSet();renderMe();return}
@@ -583,16 +592,32 @@ function wire(){
   if(document.visibilityState==="hidden"){if(!resetting)flushLog()}
   else{if(playing||st.tab==="pocket")keepAwake(true);applyUpdate()}})}
 
+function skMissions(map){
+ MISS.forEach((m,mi)=>{
+  const g=(id,cur)=>map[id]||cur;
+  m.title=g(mi+":title",m.title);m.intro=g(mi+":intro",m.intro);
+  m.steps.forEach((s,si)=>{
+   s.npc.en=g(mi+":"+si+":npc",s.npc.en);
+   s.opts.forEach((o,oi)=>{o.en=g(mi+":"+si+":"+oi,o.en)});
+   if(s.why)s.why=g(mi+":"+si+":why",s.why)})})}
+function langUi(){
+ $("langBtn").textContent=SKL()?"SK":"EN";
+ $("langBtn").setAttribute("aria-label","Translating from "+LN()+". Tap to switch.");
+ $("oEn").textContent=LN();
+ $("q").placeholder="Search Spanish or "+LN();
+ $("showEn").textContent=(st.showEn?"Hide ":"Show ")+LN()}
+function switchLang(){if(playing)pause();set.lang=SKL()?"en":"sk";saveSet();location.reload()}
 async function boot(){
  const j=u=>fetch(u).then(r=>r.json());
- const [raw,al,ms,pr,cw]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[]),j("core.json").catch(()=>null)]);
+ const [raw,al,ms,pr,cw,sk,msk]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[]),j("core.json").catch(()=>null),j("sk.json").catch(()=>[]),j("sk_m.json").catch(()=>({}))]);
  if(cw&&cw.needs&&cw.cloze)CW=cw;
- P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||"",skip:d[4]==="x"}));BASE=P.length;loadMine();ALIGN=al;MISS=ms;PAIRS=pr;
+ SK=Array.isArray(sk)?sk:[];
+ P=raw.map((d,i)=>({i,es:d[0],en:d[1],en0:d[1],sk:SK[i]||"",cat:d[2],note:d[3]||"",skip:d[4]==="x"}));BASE=P.length;loadMine();P.forEach(setGloss);ALIGN=al;MISS=ms;PAIRS=pr;if(SKL())skMissions(msk);
  const m=byEs();POCKET.forEach(g=>g.l.forEach(es=>{const p=m.get(es);if(p)MUST.add(p.i)}));
  migrate();
  const vb=$("verBadge");if(vb)vb.textContent=VER;
  const pv=store.get("frases-lastver",null);if(pv&&pv!==VER)setTimeout(()=>toast("Updated to "+VER),600);store.set("frases-lastver",VER);
- wire();renderChips();hud();go("today");
+ wire();langUi();renderChips();hud();go("today");
  if(/[?&]dictate=1/.test(location.search)){history.replaceState(null,"",location.pathname);go("browse");addModal(true)}
  if("serviceWorker" in navigator){
   const had=!!navigator.serviceWorker.controller;

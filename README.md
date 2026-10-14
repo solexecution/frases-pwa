@@ -41,6 +41,9 @@ on later days, first-try accuracy, minutes, and days practised.
 
 The app shell and audio live in separate caches. A new version installs only the small app files (a second or two) and takes over straight away; audio sits in its own cache named by `AV`, so a release never re-downloads it, and the page fills any missing clips quietly in the background afterwards. The current version is shown on the Me tab icon.
 
+## Slovak mode
+The EN/SK pill in the header (or Me > Translate from) switches the learning language between English and Slovak. In Slovak mode every prompt, answer option, mission line and the Listen translation track use the Slovak text in `sk.json` (parallel to `phrases.json`, one entry per phrase) and its audio in `audio/sk` (voice sk-SK-ViktoriaNeural, rendered by `python gen_audio.py`). Word-by-word highlighting is English-only. Mission text is in `sk_m.json`. Phrases you add (dictated or typed) are saved in the active language and fall back to the other one if empty. When adding phrases, add the Slovak line to `sk.json` too (the app falls back to English for any missing entry).
+
 ## Core words
 A group called Core holds 43 of the most common words (yo, tú, me, te, conmigo, soy, quiero, aquí, qué, porque...) each with two short sentences. Two Core items are introduced per day ahead of other groups. A sentence is only introduced after its word has reached box 2. Today > Core words drill is a fill-in-the-missing-word practice (never promotes, a miss reschedules like any other). Edit `CORE` in `build_core.py`, then run `python build_core.py`, `python build_pairs.py`, `python gen_audio.py`, `python build_align.py`.
 
@@ -53,7 +56,7 @@ In the repo:
 1. Add lines to `phrases.json` (or to `new` in `pairs_src.json`, then link them in `pairs`): `["Nueva frase","New phrase","Work","MX"]`. The 4th item is optional.
    Category must be one in `CATS` in `app.js` (add a new one there to create a group).
 2. `python build_pairs.py` appends the `new` phrases and rebuilds `pairs.json` (it stops if a phrase has no partner or a name is misspelled).
-3. `python gen_audio.py` renders normal, slow and English clips and trims silence (needs ffmpeg and `pip install edge-tts`).
+3. `python gen_audio.py` renders the normal, slow, English and Slovak clips (needs ffmpeg and `pip install -U edge-tts`). The original 48 kbps studio audio is cached outside the repo in `../raw_audio` and encoded once to Opus (`.ogg`, 28 kbps mono, 24 kHz) with silence trimmed at the start and a short natural tail; change `BITRATE` in `audiolib.py` and run `python gen_audio.py --force` to re-encode without downloading again. Needs the network for new text only.
 4. `python build_align.py` rebuilds word pairing (hand-authored pairs live in `SRC`).
 5. Bump `VER`, commit, push.
 
@@ -62,7 +65,7 @@ Gender: the learner is a man, so self-descriptions are masculine. A phrase with 
 Missions: edit `missions_src.json`, run `python gen_missions.py`.
 
 ## Voices
-Spanish: es-MX-DaliaNeural. English: en-US-AriaNeural. Change in `gen_audio.py`, then `python gen_audio.py --force` and bump `AV`.
+Spanish: es-MX-DaliaNeural. English: en-US-AriaNeural. Change in `gen_audio.py`, delete `../raw_audio` if the voice or rate changed, then `python gen_audio.py --force` and bump `AV`.
 Mission characters: es-MX-JorgeNeural (male), es-US-PalomaNeural (female).
 
 ## Daily push reminder (ntfy)
