@@ -118,6 +118,18 @@ function silenceUrl(ms){
  v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,n*2,true);
  for(let i=0;i<n;i++)v.setInt16(44+i*2,Math.round(Math.sin(i*2*Math.PI*30/sr)*100),true);
  const u=URL.createObjectURL(new Blob([b],{type:"audio/wav"}));SIL.set(ms,u);return u}
+const keep=new Audio();keep.loop=true;keep.preload="auto";
+let rtFails=0;
+function keepStart(){
+ try{
+  if(!keep.src)keep.src=silenceUrl(10000);
+  if(keep.paused){keep.volume=1;const pr=keep.play();if(pr&&pr.catch)pr.catch(e=>dg("keep-rej:"+(e&&e.name)))}
+ }catch(e){}}
+function keepStop(){try{keep.pause()}catch(e){}}
+["play","pause","error","waiting"].forEach(ev=>keep.addEventListener(ev,()=>{if(playing)dg("keep:"+ev)}));
+keep.addEventListener("pause",()=>{
+ if(!playing)return;
+ setTimeout(()=>{if(playing&&keep.paused&&rtFails<6){rtFails++;keepStart()}},500)});
 function gap(ms){return new Promise(res=>{
  inGap=true;
  audio.onended=()=>res();audio.onerror=()=>setTimeout(res,ms);
@@ -288,7 +300,7 @@ function setMeta(p){if("mediaSession" in navigator&&window.MediaMetadata){
  navigator.mediaSession.metadata=new MediaMetadata({title:p.es,artist:p.en,album:"Frases",artwork:[{src:"icon-192.png",sizes:"192x192",type:"image/png"},{src:"icon-512.png",sizes:"512x512",type:"image/png"}]})}}
 function setPlayIcon(){$("lPlay").innerHTML=playing?SVG.pause:SVG.play;$("lPlay").setAttribute("aria-label",playing?"Pause":"Play");
  if("mediaSession" in navigator)navigator.mediaSession.playbackState=playing?"playing":"paused"}
-async function playLoop(){const my=++token;playing=true;lisT0=Date.now();setPlayIcon();keepAwake(true);
+async function playLoop(){const my=++token;playing=true;rtFails=0;keepStart();lisT0=Date.now();setPlayIcon();keepAwake(true);
  while(playing&&token===my){const p=queue[qi];if(!p){playing=false;break}
   showCurrent();
   if(opt.en){hlMode="en";lastGi=null;await sayEn(p.i);if(token!==my)return;await gap(200);if(token!==my)return}
@@ -303,9 +315,9 @@ async function playLoop(){const my=++token;playing=true;lisT0=Date.now();setPlay
   let nx=qi+1;
   if(nx>=queue.length){if(opt.loop)nx=0;else{playing=false;break}}
   qi=nx;warm=new Audio();warm.preload="auto";warm.src=srcFor(queue[qi].i,opt.slow)}
- if(token===my){playing=false;lisStop();setPlayIcon();keepAwake(false)}}
+ if(token===my){playing=false;keepStop();lisStop();setPlayIcon();keepAwake(false)}}
 function play(){if(!queue.length||playing)return;playLoop()}
-function pause(){playing=false;token++;lisStop();stopAudio();setPlayIcon();keepAwake(false);applyUpdate();$("lPair").classList.remove("on");hlGroup(null,$("s-listen"));const p=queue[qi];if(p)$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
+function pause(){playing=false;token++;keepStop();lisStop();stopAudio();setPlayIcon();keepAwake(false);applyUpdate();$("lPair").classList.remove("on");hlGroup(null,$("s-listen"));const p=queue[qi];if(p)$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
 const toggle=()=>playing?pause():play();
 function seek(d){const was=playing;playing=false;token++;lisStop();stopAudio();if(!queue.length){setPlayIcon();return}qi=(qi+d+queue.length)%queue.length;showCurrent();if(was)playLoop();else{setPlayIcon();keepAwake(false)}}
 
@@ -515,6 +527,7 @@ function wire(){
  $("lEs").addEventListener("click",tap);$("lEn").addEventListener("click",tap);
  $("lPair").onclick=()=>{if(playing||$("lPair").dataset.j==null)return;stopAudio();sayPhrase(+$("lPair").dataset.j,opt.slow)};
  audio.addEventListener("timeupdate",()=>{
+  if(audio.currentTime>1)rtFails=0;
   if(inGap||st.tab!=="listen"||!playing||!cur||!audio.duration)return;
   if(hlMode==="none")return;const seq=hlMode==="en"?cur.en:cur.es;if(!seq.length)return;
   const f=audio.currentTime/audio.duration;let gi=seq[seq.length-1].gi;
@@ -530,7 +543,9 @@ function wire(){
   if(!playing)return;
   setTimeout(()=>{
    if(!playing||!audio.paused||audio.ended)return;
-   dg("resume-try");
+   rtFails++;
+   dg("resume-try "+rtFails+(keep.paused?" kP":" kp"));
+   if(rtFails>6){dg("resume-giveup");pause();toast("Android stopped the audio. Tap play to continue.");return}
    const pr=audio.play();
    if(pr&&pr.catch)pr.catch(e=>{dg("resume-fail:"+(e&&e.name));if(playing)pause()})},350)});
  document.addEventListener("freeze",()=>{if(playing)dg("page:freeze")});
