@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audio test</title>
+<style>
+:root{--bg:#0A2A36;--ink:#EAF6F8;--card:#0F3A4A;--line:#1d5568;--fill:#0f8a85;--muted:#9bc0c9}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,Roboto,sans-serif;padding:16px 16px 60px;max-width:680px;margin:0 auto}
+h1{font-size:1.3rem}
+p{color:var(--muted);line-height:1.45}
+.clip{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:14px 0}
+.clip b{display:block;margin-bottom:10px}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+button{min-height:52px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:1.1rem;font-weight:800}
+button.on{background:var(--fill);color:#fff;border-color:var(--fill)}
+#rev{width:100%;margin-top:6px;background:var(--fill);color:#fff}
+.names{font-size:.8rem;font-weight:600;display:block;color:var(--muted)}
+</style>
+</head>
+<body>
+<h1>Which one sounds best?</h1>
+<p>Each letter is the same recording saved a different way. Wear the headphones or use the car speaker you normally use. Tap a letter to hear it. Tell me which letters sound clean and natural, and which sound like another room, muffled or watery. Letters are the same in every box.</p>
+<div id="list"></div>
+<button id="rev">Show what each letter is</button>
+<script>
+const MAP={opus64:"A",mp3_32:"B",aac40:"C",opus28:"D",orig48:"E",opus40:"F",opus40v:"G"};
+const NAME={opus64:"Opus 64k",mp3_32:"MP3 32k (the old one)",aac40:"AAC 40k",opus28:"Opus 28k (the current one)",orig48:"Original 48k MP3",opus40:"Opus 40k",opus40v:"Opus 40k speech mode"};
+let a=new Audio(),shown=false,data=[];
+function draw(){
+ document.getElementById("list").innerHTML=data.map((c,ci)=>`<div class="clip"><b>${c.kind==="slow"?"Slow":c.kind==="en"?"English":"Spanish"}: ${c.text}</b><div class="row">${c.files.slice().sort((x,y)=>MAP[x[0]].localeCompare(MAP[y[0]])).map(f=>`<button data-f="${f[1]}">${MAP[f[0]]}${shown?`<span class="names">${NAME[f[0]]} ${Math.round(f[2]/1024)} KB</span>`:""}</button>`).join("")}</div></div>`).join("")}
+document.getElementById("list").onclick=e=>{
+ const b=e.target.closest("button");if(!b)return;
+ document.querySelectorAll("button.on").forEach(x=>x.classList.remove("on"));
+ b.classList.add("on");a.pause();a=new Audio("ab/"+b.dataset.f);a.onended=()=>b.classList.remove("on");a.play().catch(()=>{})};
+document.getElementById("rev").onclick=()=>{shown=!shown;draw()};
+fetch("ab/clips.json").then(r=>r.json()).then(d=>{data=d;draw()});
+</script>
+</body>
+</html>
