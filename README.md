@@ -69,6 +69,9 @@ The private topic is the repo secret `NTFY_TOPIC`. On the phone: install the ntf
 (Me > Daily push reminder helps). `.github/workflows/keepalive.yml` makes an empty commit monthly so GitHub does not
 pause the schedule after 60 inactive days.
 
+## Background playback
+Listen never leaves the audio element idle: every pause between clips (word gap, echo wait, pair gap) is played as a near-silent clip of the right length, so the phone keeps treating the app as a music player. It keeps running with the screen off or another app in front, shows the lock-screen and notification controls (play/pause, next, previous) with the phrase and its English, and no timer is needed to advance in the background.
+
 ## Offline
 The service worker caches the app and all normal audio on install, and the page downloads the slow and English audio
 in the background. Today shows "Fully offline" when everything is on the phone.

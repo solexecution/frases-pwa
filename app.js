@@ -102,7 +102,22 @@ function speak(text,lang){return new Promise(res=>{
  const v=lang==="en"?enVoice:esVoice;u.lang=v?v.lang:(lang==="en"?"en-US":"es-MX");if(v)u.voice=v;u.rate=.92;
  u.onend=res;u.onerror=res;try{speechSynthesis.cancel()}catch(e){}speechSynthesis.speak(u);
  setTimeout(res,12000)})}
-function playSrc(src,fb,lang){return new Promise(res=>{
+const SIL=new Map();let inGap=false;
+function silenceUrl(ms){
+ ms=Math.max(100,Math.round(ms/100)*100);
+ if(SIL.has(ms))return SIL.get(ms);
+ const sr=8000,n=Math.floor(sr*ms/1000),b=new ArrayBuffer(44+n*2),v=new DataView(b);
+ const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+ w(0,"RIFF");v.setUint32(4,36+n*2,true);w(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+ v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,n*2,true);
+ for(let i=0;i<n;i++)v.setInt16(44+i*2,Math.round(Math.sin(i*2*Math.PI*30/sr)*100),true);
+ const u=URL.createObjectURL(new Blob([b],{type:"audio/wav"}));SIL.set(ms,u);return u}
+function gap(ms){return new Promise(res=>{
+ inGap=true;
+ audio.onended=()=>res();audio.onerror=()=>setTimeout(res,ms);
+ audio.src=silenceUrl(ms);audio.defaultPlaybackRate=1;audio.playbackRate=1;audio.currentTime=0;
+ const pr=audio.play();if(pr&&pr.catch)pr.catch(e=>{if(e&&e.name==="AbortError")return;setTimeout(res,ms)})})}
+function playSrc(src,fb,lang){inGap=false;return new Promise(res=>{
  const bail=()=>{if(fb)speak(fb,lang||"es").then(res);else res()};
  if(!src){bail();return}
  audio.onended=()=>res();audio.onerror=bail;
@@ -264,21 +279,21 @@ function showCurrent(){const p=queue[qi];
  $("lPos").textContent=(qi+1)+" / "+queue.length;$("lProg").style.width=((qi+1)/queue.length*100)+"%";
  setMeta(p)}
 function setMeta(p){if("mediaSession" in navigator&&window.MediaMetadata){
- navigator.mediaSession.metadata=new MediaMetadata({title:p.es,artist:p.en,album:"Frases"})}}
+ navigator.mediaSession.metadata=new MediaMetadata({title:p.es,artist:p.en,album:"Frases",artwork:[{src:"icon-192.png",sizes:"192x192",type:"image/png"},{src:"icon-512.png",sizes:"512x512",type:"image/png"}]})}}
 function setPlayIcon(){$("lPlay").innerHTML=playing?SVG.pause:SVG.play;$("lPlay").setAttribute("aria-label",playing?"Pause":"Play");
  if("mediaSession" in navigator)navigator.mediaSession.playbackState=playing?"playing":"paused"}
 async function playLoop(){const my=++token;playing=true;lisT0=Date.now();setPlayIcon();keepAwake(true);
  while(playing&&token===my){const p=queue[qi];if(!p){playing=false;break}
   showCurrent();
-  if(opt.en){hlMode="en";lastGi=null;await sayEn(p.i);if(token!==my)return;await wait(200);if(token!==my)return}
+  if(opt.en){hlMode="en";lastGi=null;await sayEn(p.i);if(token!==my)return;await gap(200);if(token!==my)return}
   hlMode="es";lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return;
-  if(opt.echo){const d=(audio.duration||2)*1000/opt.rate;$("lCat").textContent="Your turn…";await wait(d*1.5+600);if(token!==my)return;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
-  if(opt.rep){await wait(300);if(token!==my)return;lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return}
+  if(opt.echo){const d=(audio.duration||2)*1000/opt.rate;$("lCat").textContent="Your turn…";await gap(d*1.5+600);if(token!==my)return;$("lCat").textContent=p.cat+(p.note?" · "+p.note:"")}
+  if(opt.rep){await gap(300);if(token!==my)return;lastGi=null;await sayPhrase(p.i,opt.slow);if(token!==my)return}
   const q=opt.pairs?partners(p.i)[0]:null;
-  if(q){await wait(400);if(token!==my)return;$("lPair").classList.add("on");hlMode="none";
-   if(opt.en){await sayEn(q[0]);if(token!==my)return;await wait(200);if(token!==my)return}
+  if(q){await gap(400);if(token!==my)return;$("lPair").classList.add("on");hlMode="none";
+   if(opt.en){await sayEn(q[0]);if(token!==my)return;await gap(200);if(token!==my)return}
    await sayPhrase(q[0],opt.slow);if(token!==my)return;$("lPair").classList.remove("on")}
-  await wait(GAPS[opt.gap]);if(token!==my)return;
+  await gap(GAPS[opt.gap]);if(token!==my)return;
   let nx=qi+1;
   if(nx>=queue.length){if(opt.loop)nx=0;else{playing=false;break}}
   qi=nx;warm=new Audio();warm.preload="auto";warm.src=srcFor(queue[qi].i,opt.slow)}
@@ -486,7 +501,7 @@ function wire(){
  $("lEs").addEventListener("click",tap);$("lEn").addEventListener("click",tap);
  $("lPair").onclick=()=>{if(playing||$("lPair").dataset.j==null)return;stopAudio();sayPhrase(+$("lPair").dataset.j,opt.slow)};
  audio.addEventListener("timeupdate",()=>{
-  if(st.tab!=="listen"||!playing||!cur||!audio.duration)return;
+  if(inGap||st.tab!=="listen"||!playing||!cur||!audio.duration)return;
   if(hlMode==="none")return;const seq=hlMode==="en"?cur.en:cur.es;if(!seq.length)return;
   const f=audio.currentTime/audio.duration;let gi=seq[seq.length-1].gi;
   for(const s of seq){if(f<s.c1){gi=s.gi;break}}
