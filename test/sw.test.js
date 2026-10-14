@@ -59,6 +59,7 @@ function makeEnv(net){
  assert(hits.length===0,"core file served from shell cache");
  hits.length=0;
  assert((await fetchEv("https://api.x.ai/v1/models"))===undefined,"cross-origin ignored");
+ assert((await fetchEv("https://x.test/app/audio/index.json"))===undefined,"audio manifest always from network");
  assert((await env.fire("fetch",{request:{method:"POST",url:"https://x.test/app/a",mode:"cors"}}))===undefined,"non-GET ignored");
 
  await env.fire("message",{data:"purge"});

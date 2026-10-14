@@ -367,6 +367,10 @@ let filling=false;
 const audCache=()=>caches.open("frases-audio-a"+AV);
 async function fillOffline(){if(filling||!window.caches||!P.length)return;filling=true;
  try{const c=await audCache();
+  let man=null;
+  try{const r=await fetch("audio/index.json",{cache:"no-cache"});if(r.ok)man=await r.json()}catch(e){}
+  const oldMan=store.get("frases-audioman",null);
+  if(man&&oldMan)for(const k of Object.keys(man))if(oldMan[k]&&oldMan[k]!==man[k])await c.delete(new URL("audio/"+k,location.href).href);
   const t=audioTiers(P.filter(p=>!p.my),MISS,SKL());const urls=[...t.base,...t.extra].map(u=>new URL(u,location.href).href);
   off.need=urls.length;
   for(let pass=0;pass<4;pass++){
@@ -379,6 +383,7 @@ async function fillOffline(){if(filling||!window.caches||!P.length)return;fillin
     if(!navigator.onLine)break;
     await Promise.all(todo.slice(i,i+4).map(u=>c.add(u).then(()=>{off.have++}).catch(()=>{})));
     if(st.tab==="today")offlineCard();await wait(30)}}
+  if(man&&off.have>=off.need)store.set("frases-audioman",man)
  }catch(e){}
  filling=false;if(st.tab==="today")offlineCard();
  if(off.need&&off.have>=off.need&&navigator.serviceWorker&&navigator.serviceWorker.controller)navigator.serviceWorker.controller.postMessage("purge")}
