@@ -6,10 +6,16 @@ const core=w=>w.replace(/^[¿¡"'(«]+|[?!.,…:;"')»]+$/g,"");
 
 function pickNew(pool,n){
  const g={};pool.forEach(p=>(g[p.cat]=g[p.cat]||[]).push(p));
- const order=RR.filter(c=>g[c]);const out=[];
+ const out=[],cw=g.Core||[];
+ while(out.length<Math.min(2,n)&&cw.length)out.push(cw.shift());
+ const order=RR.filter(c=>g[c]);
  while(out.length<n&&order.some(c=>g[c].length)){for(const c of order){if(out.length>=n)break;if(g[c].length)out.push(g[c].shift())}}
  return out}
-const unseenPool=cats=>P.filter(p=>!srs[p.i]&&!skipped(p)&&(cats?cats.includes(p.cat):(set.focus==="All"||p.cat===set.focus)));
+let ES_MAP=null;
+const esMap=()=>ES_MAP||(ES_MAP=byEs());
+const wordMet=es=>{const w=esMap().get(es);return !!(w&&srs[w.i]&&srs[w.i][0]>=2)};
+const coreItems=()=>P.filter(p=>CW.cloze[p.es]&&srs[p.i]&&!skipped(p));
+const unseenPool=cats=>P.filter(p=>!srs[p.i]&&!skipped(p)&&(!CW.needs[p.es]||wordMet(CW.needs[p.es]))&&(cats?cats.includes(p.cat):(set.focus==="All"||p.cat===set.focus)));
 
 function lev(a,b){
  if(Math.abs(a.length-b.length)>3)return 9;
@@ -58,6 +64,11 @@ function queueRetry(p,fmt){S.steps.splice(Math.min(S.i+6,S.steps.length),0,{k:fm
 const tagHtml=p=>p.note?`<div class="tag">${esc(p.note)}</div>`:"";
 
 function startSession(kind){
+ if(kind==="core"){
+  const it=shuffle(coreItems()).slice(0,8);
+  if(it.length<4){toast("The drill unlocks once you have met 4 Core sentences. Keep going with the daily session.");return}
+  M=null;S={kind,steps:it.map(p=>({k:"cloze",p})),i:0,first:{},failed:new Set(),retried:new Set(),fresh:0,waiting:0,practice:true,trials:0,scored:0,active:0,start:Date.now(),t0:0,slowTap:false,dueIds:[]};
+  openOv();nextStep();return}
  const t=today(),all=ids();let due=[],fresh=[],practice=false,waiting=0;
  if(kind==="extra"){
   practice=true;
@@ -90,7 +101,7 @@ function nextStep(){
  if(!s){finishSession();return}
  $("ovBar").style.width=(S.i/S.steps.length*100)+"%";$("ovFoot").innerHTML="";
  S.t0=performance.now();S.slowTap=false;
- ({intro:rIntro,listen:rListen,pickEs:rPickEs,build:rBuild,say:rSay})[s.k](s.p)}
+ ({intro:rIntro,listen:rListen,pickEs:rPickEs,build:rBuild,say:rSay,cloze:rCloze})[s.k](s.p)}
 function feedback(ok,p,ns){
  $("ovFoot").innerHTML=`<div class="fb ${ok?"ok":"bad"}">${ok?"Correct":ns?"No problem":"Not quite"}<small>${esc(p.es)} = ${esc(p.en)}${ok?"":"<br>Say it out loud once."}</small></div><button class="btn block" id="ovNext">Continue</button>`;
  $("ovNext").onclick=()=>{S.i++;nextStep()};
@@ -152,6 +163,13 @@ function rBuild(p){
   if(a){order=order.filter(x=>x!==+a.dataset.a);tick();draw()}
   else if(k&&!order.includes(+k.dataset.k)){order.push(+k.dataset.k);tick();draw()}};
  draw()}
+function rCloze(p){
+ const c=CW.cloze[p.es],m=c&&new RegExp("(^|[^\\p{L}])"+c.w+"(?![\\p{L}])","iu").exec(p.es);
+ if(!m){S.i++;nextStep();return}
+ const a=m.index+m[1].length,b=a+c.w.length,lead=/^[¿¡]*$/.test(p.es.slice(0,a));
+ const lab=w=>lead?w[0].toUpperCase()+w.slice(1):w;
+ setBody(`<div class="q">Which word fits?</div><div class="bigen">${esc(p.en)}</div><div class="big" lang="es">${esc(p.es.slice(0,a)+"_____"+p.es.slice(b))}</div><div class="ch" id="chs"></div>`);
+ renderChoices(c.o.map(lab),c.o.indexOf(c.w),(ok,ns)=>grade(ok,p,"cloze",ns))}
 function rSay(p){
  setBody(`<div class="q">Say it out loud</div><div class="big center">${esc(p.en)}</div>${tagHtml(p)}<div class="center say"><div class="mic">${SVG.mic}</div><div class="sub">Say it in Spanish out loud, then tap the button.</div></div><div id="sayAns" class="center" style="margin-top:14px"></div>`);
  $("ovFoot").innerHTML='<div class="row"><button class="btn sec" id="sSkip">Cannot speak now</button><button class="btn" id="sSaid">I said it</button></div>';

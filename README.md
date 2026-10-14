@@ -41,6 +41,9 @@ on later days, first-try accuracy, minutes, and days practised.
 
 The app shell and audio live in separate caches. A new version installs only the small app files (a second or two) and takes over straight away; audio sits in its own cache named by `AV`, so a release never re-downloads it, and the page fills any missing clips quietly in the background afterwards. The current version is shown on the Me tab icon.
 
+## Core words
+A group called Core holds 43 of the most common words (yo, tú, me, te, conmigo, soy, quiero, aquí, qué, porque...) each with two short sentences. Two Core items are introduced per day ahead of other groups. A sentence is only introduced after its word has reached box 2. Today > Core words drill is a fill-in-the-missing-word practice (never promotes, a miss reschedules like any other). Edit `CORE` in `build_core.py`, then run `python build_core.py`, `python build_pairs.py`, `python gen_audio.py`, `python build_align.py`.
+
 ## Add phrases
 In the app: Browse > Add phrase. Tap the round mic button (bottom right on every screen, top right in Listen) or long-press the app icon and choose Dictate a phrase, then say it in English, and it is transcribed (phone speech recognition, needs a connection), translated, saved and spoken back. Or type English; it is translated online (MyMemory), edit the Spanish if needed and save. The phrase lives in a group called Mine, is taught like any other, is spoken with the phone voice, and is included in the backup. Translating needs a connection; saving does not.
 

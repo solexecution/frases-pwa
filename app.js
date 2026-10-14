@@ -1,5 +1,5 @@
-const CATS=["All","Basics","Conversation","Understanding","Opinions","Plans","Social","Out & about","Work","Networking","Dating","Solar","Mine"];
-const FOCUS=["All","Basics","Networking","Dating","Solar","Social","Out & about","Conversation"];
+const CATS=["All","Basics","Core","Conversation","Understanding","Opinions","Plans","Social","Out & about","Work","Networking","Dating","Solar","Mine"];
+const FOCUS=["All","Basics","Core","Networking","Dating","Solar","Social","Out & about","Conversation"];
 const PREP=["Networking","Dating","Solar","Basics","Social"];
 const GAPS=[400,700,1200,2000];
 const POCKET=[
@@ -32,7 +32,7 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.
 const today=()=>SRS.dayNum(Date.now(),new Date().getTimezoneOffset());
 const dayStr=n=>new Date(n*864e5).toISOString().slice(0,10);
 
-let P=[],ALIGN=[],MISS=[],PAIRS=[],BASE=0,MINE=store.get("frases-mine",[]);
+let P=[],ALIGN=[],MISS=[],PAIRS=[],CW={needs:{},cloze:{},words:[]},BASE=0,MINE=store.get("frases-mine",[]);
 const MUST=new Set();
 let srs=store.get("frases-srs",{});
 let prof=Object.assign({sessions:0,missions:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},store.get("frases-prof",{}));
@@ -329,6 +329,7 @@ function renderToday(){const h=new Date().getHours();
  $("greetSub").textContent=pl.waiting>0?`${pl.waiting} waiting after this session, about ${clear} days to clear.`:`${pl.dueTotal} due today.`;
  const days=Object.keys(prof.newLog).filter(d=>+d>t-14),span=days.length?Math.min(14,t-Math.min(...days.map(Number))+1):0,perDay=days.length>=3?Math.max(1,days.reduce((a,d)=>a+prof.newLog[d],0)/span):3;
  $("paceLine").textContent=unseen?`At this pace the ${unseen} phrases you have not met are introduced in about ${Math.max(1,Math.ceil(unseen/perDay/7))} weeks.`:"All phrases have been introduced.";
+ const nc=coreItems().length;$("btnCore").querySelector("small").textContent=nc>=4?"fill in the missing word":"unlocks after you meet 4 Core sentences";
  $("btnTwo").hidden=!pl.dueTotal;$("btnExtra").hidden=kind==="extra";
  $("rows14").innerHTML=rowsHTML()+`<div class="sub" style="margin-top:8px">Practised ${practisedDays()} of the last 14 days.</div>`;
  renderPotd();$("chipsF").innerHTML=chipsHTML(FOCUS,set.focus);hud();offlineCard()}
@@ -467,6 +468,7 @@ function wire(){
  $("btnTwo").onclick=()=>startSession("two");
  $("btnExtra").onclick=()=>startSession("extra");
  $("btnPrep").onclick=()=>startSession("prep");
+ $("btnCore").onclick=()=>startSession("core");
  $("btnPocket").onclick=()=>go("pocket");
  $("pBack").onclick=()=>go("today");
  $("potd").onclick=e=>{const b=e.target.closest("button");if(!b)return;const i=+b.dataset.i;$("potdAns").textContent=P[i].es;tapSay(i,null)};
@@ -545,7 +547,8 @@ function wire(){
 
 async function boot(){
  const j=u=>fetch(u).then(r=>r.json());
- const [raw,al,ms,pr]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[])]);
+ const [raw,al,ms,pr,cw]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[]),j("core.json").catch(()=>null)]);
+ if(cw&&cw.needs&&cw.cloze)CW=cw;
  P=raw.map((d,i)=>({i,es:d[0],en:d[1],cat:d[2],note:d[3]||"",skip:d[4]==="x"}));BASE=P.length;loadMine();ALIGN=al;MISS=ms;PAIRS=pr;
  const m=byEs();POCKET.forEach(g=>g.l.forEach(es=>{const p=m.get(es);if(p)MUST.add(p.i)}));
  migrate();

@@ -190,6 +190,689 @@
    "Lo sé",
    "I know",
    "Basics"
+  ],
+  [
+   "Yo",
+   "I",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Yo trabajo en energía solar",
+   "I work in solar energy",
+   "Core"
+  ],
+  [
+   "Yo soy de Eslovaquia",
+   "I am from Slovakia",
+   "Core"
+  ],
+  [
+   "Tú",
+   "You",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Y tú de dónde eres?",
+   "And where are you from?",
+   "Core"
+  ],
+  [
+   "Tú hablas muy bien",
+   "You speak very well",
+   "Core"
+  ],
+  [
+   "Él",
+   "He",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Él es mi socio",
+   "He is my business partner",
+   "Core"
+  ],
+  [
+   "Él trabaja en una empresa grande",
+   "He works at a big company",
+   "Core"
+  ],
+  [
+   "Ella",
+   "She",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Ella es mi amiga",
+   "She is my friend",
+   "Core"
+  ],
+  [
+   "Ella vive en Mérida",
+   "She lives in Mérida",
+   "Core"
+  ],
+  [
+   "Nosotros",
+   "We",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Nosotros instalamos paneles solares",
+   "We install solar panels",
+   "Core"
+  ],
+  [
+   "Nosotros somos un buen equipo",
+   "We are a good team",
+   "Core"
+  ],
+  [
+   "Ellos",
+   "They",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Ellos quieren una cotización",
+   "They want a quote",
+   "Core"
+  ],
+  [
+   "Ellos llegan mañana",
+   "They arrive tomorrow",
+   "Core"
+  ],
+  [
+   "Ustedes",
+   "You all",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Ustedes son muy amables",
+   "You all are very kind",
+   "Core"
+  ],
+  [
+   "¿Ustedes ya comieron?",
+   "Have you all eaten yet?",
+   "Core"
+  ],
+  [
+   "Me",
+   "Me / to me",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Me puedes ayudar?",
+   "Can you help me?",
+   "Core"
+  ],
+  [
+   "¿Me escuchas?",
+   "Can you hear me?",
+   "Core"
+  ],
+  [
+   "Te",
+   "You / to you",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Te veo mañana",
+   "I'll see you tomorrow",
+   "Core"
+  ],
+  [
+   "Te llamo después",
+   "I'll call you later",
+   "Core"
+  ],
+  [
+   "Mi",
+   "My",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Mi trabajo es muy interesante",
+   "My job is very interesting",
+   "Core"
+  ],
+  [
+   "Mi familia vive en Eslovaquia",
+   "My family lives in Slovakia",
+   "Core"
+  ],
+  [
+   "Tu",
+   "Your",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Cuál es tu número?",
+   "What is your number?",
+   "Core"
+  ],
+  [
+   "Tu español es muy bueno",
+   "Your Spanish is very good",
+   "Core"
+  ],
+  [
+   "Conmigo",
+   "With me",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Quieres cenar conmigo?",
+   "Do you want to have dinner with me?",
+   "Core"
+  ],
+  [
+   "Habla conmigo, por favor",
+   "Talk to me, please",
+   "Core"
+  ],
+  [
+   "Contigo",
+   "With you",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Me gusta hablar contigo",
+   "I like talking with you",
+   "Core"
+  ],
+  [
+   "Quiero trabajar contigo",
+   "I want to work with you",
+   "Core"
+  ],
+  [
+   "Para mí",
+   "For me",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Para mí, un café",
+   "For me, a coffee",
+   "Core"
+  ],
+  [
+   "Esto es importante para mí",
+   "This is important to me",
+   "Core"
+  ],
+  [
+   "Para ti",
+   "For you",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Esto es para ti",
+   "This is for you",
+   "Core"
+  ],
+  [
+   "Tengo algo para ti",
+   "I have something for you",
+   "Core"
+  ],
+  [
+   "Soy",
+   "I am (who I am)",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Soy nuevo aquí",
+   "I am new here",
+   "Core"
+  ],
+  [
+   "Soy muy puntual",
+   "I am very punctual",
+   "Core"
+  ],
+  [
+   "Eres",
+   "You are",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Eres muy amable",
+   "You are very kind",
+   "Core"
+  ],
+  [
+   "¿Eres de aquí?",
+   "Are you from here?",
+   "Core"
+  ],
+  [
+   "Estoy",
+   "I am (how or where I am)",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Estoy en la oficina",
+   "I am at the office",
+   "Core"
+  ],
+  [
+   "Estoy muy contento",
+   "I am very happy",
+   "Core"
+  ],
+  [
+   "Tengo",
+   "I have",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Tengo una reunión hoy",
+   "I have a meeting today",
+   "Core"
+  ],
+  [
+   "Tengo hambre",
+   "I am hungry",
+   "Core"
+  ],
+  [
+   "Tienes",
+   "You have",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Tienes tiempo hoy?",
+   "Do you have time today?",
+   "Core"
+  ],
+  [
+   "¿Tienes hermanos?",
+   "Do you have siblings?",
+   "Core"
+  ],
+  [
+   "Quiero",
+   "I want",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Quiero un café, por favor",
+   "I want a coffee, please",
+   "Core"
+  ],
+  [
+   "Quiero conocerte mejor",
+   "I want to get to know you better",
+   "Core"
+  ],
+  [
+   "Quieres",
+   "You want",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Quieres un café?",
+   "Do you want a coffee?",
+   "Core"
+  ],
+  [
+   "¿Qué quieres hacer hoy?",
+   "What do you want to do today?",
+   "Core"
+  ],
+  [
+   "Necesito",
+   "I need",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Necesito tu ayuda",
+   "I need your help",
+   "Core"
+  ],
+  [
+   "Necesito más tiempo",
+   "I need more time",
+   "Core"
+  ],
+  [
+   "Puedo",
+   "I can",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Puedo sentarme aquí?",
+   "Can I sit here?",
+   "Core"
+  ],
+  [
+   "Hoy no puedo",
+   "I can't today",
+   "Core"
+  ],
+  [
+   "Puedes",
+   "You can",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Puedes repetirlo?",
+   "Can you repeat it?",
+   "Core"
+  ],
+  [
+   "¿Puedes hablar más despacio?",
+   "Can you speak more slowly?",
+   "Core"
+  ],
+  [
+   "Voy",
+   "I go / I am going",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Voy a la oficina",
+   "I am going to the office",
+   "Core"
+  ],
+  [
+   "Voy contigo",
+   "I am going with you",
+   "Core"
+  ],
+  [
+   "Hago",
+   "I do / I make",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Hago ejercicio por la mañana",
+   "I exercise in the morning",
+   "Core"
+  ],
+  [
+   "Hago cotizaciones de energía solar",
+   "I make solar quotes",
+   "Core"
+  ],
+  [
+   "Hay",
+   "There is / there are",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Hay un problema",
+   "There is a problem",
+   "Core"
+  ],
+  [
+   "¿Hay una cafetería cerca?",
+   "Is there a café nearby?",
+   "Core"
+  ],
+  [
+   "Aquí",
+   "Here",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Estoy aquí",
+   "I am here",
+   "Core"
+  ],
+  [
+   "Aquí está mi tarjeta",
+   "Here is my card",
+   "Core"
+  ],
+  [
+   "Allá",
+   "Over there",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Mi oficina está allá",
+   "My office is over there",
+   "Core"
+  ],
+  [
+   "Allá hace mucho calor",
+   "It is very hot over there",
+   "Core"
+  ],
+  [
+   "Esto",
+   "This",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Esto es muy bueno",
+   "This is very good",
+   "Core"
+  ],
+  [
+   "¿Cuánto cuesta esto?",
+   "How much is this?",
+   "Core"
+  ],
+  [
+   "Eso",
+   "That",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Eso es interesante",
+   "That is interesting",
+   "Core"
+  ],
+  [
+   "Eso me gusta",
+   "I like that",
+   "Core"
+  ],
+  [
+   "¿Qué?",
+   "What?",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Qué piensas de esto?",
+   "What do you think of this?",
+   "Core"
+  ],
+  [
+   "¿Qué necesitas?",
+   "What do you need?",
+   "Core"
+  ],
+  [
+   "¿Quién?",
+   "Who?",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Quién es ella?",
+   "Who is she?",
+   "Core"
+  ],
+  [
+   "¿Quién viene mañana?",
+   "Who is coming tomorrow?",
+   "Core"
+  ],
+  [
+   "¿Dónde?",
+   "Where?",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Dónde trabajas?",
+   "Where do you work?",
+   "Core"
+  ],
+  [
+   "¿Cuándo?",
+   "When?",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Cuándo llegas?",
+   "When do you arrive?",
+   "Core"
+  ],
+  [
+   "¿Cuándo nos vemos?",
+   "When do we meet?",
+   "Core"
+  ],
+  [
+   "¿Cómo?",
+   "How?",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Cómo llego allá?",
+   "How do I get there?",
+   "Core"
+  ],
+  [
+   "¿Cómo se dice esto?",
+   "How do you say this?",
+   "Core"
+  ],
+  [
+   "¿Por qué?",
+   "Why?",
+   "Core",
+   "Core word"
+  ],
+  [
+   "¿Por qué no?",
+   "Why not?",
+   "Core"
+  ],
+  [
+   "¿Por qué estás aquí?",
+   "Why are you here?",
+   "Core"
+  ],
+  [
+   "También",
+   "Also / too",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Yo también",
+   "Me too",
+   "Core"
+  ],
+  [
+   "Ella también viene",
+   "She is coming too",
+   "Core"
+  ],
+  [
+   "Pero",
+   "But",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Quiero ir, pero no puedo",
+   "I want to go, but I can't",
+   "Core"
+  ],
+  [
+   "Entiendo, pero hablo poco",
+   "I understand, but I speak little",
+   "Core"
+  ],
+  [
+   "Porque",
+   "Because",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Llego tarde porque hay tráfico",
+   "I am late because there is traffic",
+   "Core"
+  ],
+  [
+   "Porque tengo una reunión",
+   "Because I have a meeting",
+   "Core"
+  ],
+  [
+   "Muy",
+   "Very",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Estoy muy cansado",
+   "I am very tired",
+   "Core"
+  ],
+  [
+   "Es muy importante",
+   "It is very important",
+   "Core"
+  ],
+  [
+   "Con",
+   "With",
+   "Core",
+   "Core word"
+  ],
+  [
+   "Trabajo con una empresa solar",
+   "I work with a solar company",
+   "Core"
+  ],
+  [
+   "Café con leche",
+   "Coffee with milk",
+   "Core"
   ]
  ],
  "chains": [
@@ -1218,6 +1901,501 @@
    "No sé",
    "No sé cómo se dice",
    "with"
+  ],
+  [
+   "Yo",
+   "Yo trabajo en energía solar",
+   "with"
+  ],
+  [
+   "Yo",
+   "Yo soy de Eslovaquia",
+   "with"
+  ],
+  [
+   "Tú",
+   "¿Y tú de dónde eres?",
+   "with"
+  ],
+  [
+   "Tú",
+   "Tú hablas muy bien",
+   "with"
+  ],
+  [
+   "Él",
+   "Él es mi socio",
+   "with"
+  ],
+  [
+   "Él",
+   "Él trabaja en una empresa grande",
+   "with"
+  ],
+  [
+   "Ella",
+   "Ella es mi amiga",
+   "with"
+  ],
+  [
+   "Ella",
+   "Ella vive en Mérida",
+   "with"
+  ],
+  [
+   "Nosotros",
+   "Nosotros instalamos paneles solares",
+   "with"
+  ],
+  [
+   "Nosotros",
+   "Nosotros somos un buen equipo",
+   "with"
+  ],
+  [
+   "Ellos",
+   "Ellos quieren una cotización",
+   "with"
+  ],
+  [
+   "Ellos",
+   "Ellos llegan mañana",
+   "with"
+  ],
+  [
+   "Ustedes",
+   "Ustedes son muy amables",
+   "with"
+  ],
+  [
+   "Ustedes",
+   "¿Ustedes ya comieron?",
+   "with"
+  ],
+  [
+   "Me",
+   "¿Me puedes ayudar?",
+   "with"
+  ],
+  [
+   "Me",
+   "¿Me escuchas?",
+   "with"
+  ],
+  [
+   "Te",
+   "Te veo mañana",
+   "with"
+  ],
+  [
+   "Te",
+   "Te llamo después",
+   "with"
+  ],
+  [
+   "Mi",
+   "Mi trabajo es muy interesante",
+   "with"
+  ],
+  [
+   "Mi",
+   "Mi familia vive en Eslovaquia",
+   "with"
+  ],
+  [
+   "Tu",
+   "¿Cuál es tu número?",
+   "with"
+  ],
+  [
+   "Tu",
+   "Tu español es muy bueno",
+   "with"
+  ],
+  [
+   "Conmigo",
+   "¿Quieres cenar conmigo?",
+   "with"
+  ],
+  [
+   "Conmigo",
+   "Habla conmigo, por favor",
+   "with"
+  ],
+  [
+   "Contigo",
+   "Me gusta hablar contigo",
+   "with"
+  ],
+  [
+   "Contigo",
+   "Quiero trabajar contigo",
+   "with"
+  ],
+  [
+   "Para mí",
+   "Para mí, un café",
+   "with"
+  ],
+  [
+   "Para mí",
+   "Esto es importante para mí",
+   "with"
+  ],
+  [
+   "Para ti",
+   "Esto es para ti",
+   "with"
+  ],
+  [
+   "Para ti",
+   "Tengo algo para ti",
+   "with"
+  ],
+  [
+   "Soy",
+   "Soy nuevo aquí",
+   "with"
+  ],
+  [
+   "Soy",
+   "Soy muy puntual",
+   "with"
+  ],
+  [
+   "Eres",
+   "Eres muy amable",
+   "with"
+  ],
+  [
+   "Eres",
+   "¿Eres de aquí?",
+   "with"
+  ],
+  [
+   "Estoy",
+   "Estoy en la oficina",
+   "with"
+  ],
+  [
+   "Estoy",
+   "Estoy muy contento",
+   "with"
+  ],
+  [
+   "Tengo",
+   "Tengo una reunión hoy",
+   "with"
+  ],
+  [
+   "Tengo",
+   "Tengo hambre",
+   "with"
+  ],
+  [
+   "Tienes",
+   "¿Tienes tiempo hoy?",
+   "with"
+  ],
+  [
+   "Tienes",
+   "¿Tienes hermanos?",
+   "with"
+  ],
+  [
+   "Quiero",
+   "Quiero un café, por favor",
+   "with"
+  ],
+  [
+   "Quiero",
+   "Quiero conocerte mejor",
+   "with"
+  ],
+  [
+   "Quieres",
+   "¿Quieres un café?",
+   "with"
+  ],
+  [
+   "Quieres",
+   "¿Qué quieres hacer hoy?",
+   "with"
+  ],
+  [
+   "Necesito",
+   "Necesito tu ayuda",
+   "with"
+  ],
+  [
+   "Necesito",
+   "Necesito más tiempo",
+   "with"
+  ],
+  [
+   "Puedo",
+   "¿Puedo sentarme aquí?",
+   "with"
+  ],
+  [
+   "Puedo",
+   "Hoy no puedo",
+   "with"
+  ],
+  [
+   "Puedes",
+   "¿Puedes repetirlo?",
+   "with"
+  ],
+  [
+   "Puedes",
+   "¿Puedes hablar más despacio?",
+   "with"
+  ],
+  [
+   "Voy",
+   "Voy a la oficina",
+   "with"
+  ],
+  [
+   "Voy",
+   "Voy contigo",
+   "with"
+  ],
+  [
+   "Hago",
+   "Hago ejercicio por la mañana",
+   "with"
+  ],
+  [
+   "Hago",
+   "Hago cotizaciones de energía solar",
+   "with"
+  ],
+  [
+   "Hay",
+   "Hay un problema",
+   "with"
+  ],
+  [
+   "Hay",
+   "¿Hay una cafetería cerca?",
+   "with"
+  ],
+  [
+   "Aquí",
+   "Estoy aquí",
+   "with"
+  ],
+  [
+   "Aquí",
+   "Aquí está mi tarjeta",
+   "with"
+  ],
+  [
+   "Allá",
+   "Mi oficina está allá",
+   "with"
+  ],
+  [
+   "Allá",
+   "Allá hace mucho calor",
+   "with"
+  ],
+  [
+   "Esto",
+   "Esto es muy bueno",
+   "with"
+  ],
+  [
+   "Esto",
+   "¿Cuánto cuesta esto?",
+   "with"
+  ],
+  [
+   "Eso",
+   "Eso es interesante",
+   "with"
+  ],
+  [
+   "Eso",
+   "Eso me gusta",
+   "with"
+  ],
+  [
+   "¿Qué?",
+   "¿Qué piensas de esto?",
+   "with"
+  ],
+  [
+   "¿Qué?",
+   "¿Qué necesitas?",
+   "with"
+  ],
+  [
+   "¿Quién?",
+   "¿Quién es ella?",
+   "with"
+  ],
+  [
+   "¿Quién?",
+   "¿Quién viene mañana?",
+   "with"
+  ],
+  [
+   "¿Dónde?",
+   "¿Dónde vives?",
+   "with"
+  ],
+  [
+   "¿Dónde?",
+   "¿Dónde trabajas?",
+   "with"
+  ],
+  [
+   "¿Cuándo?",
+   "¿Cuándo llegas?",
+   "with"
+  ],
+  [
+   "¿Cuándo?",
+   "¿Cuándo nos vemos?",
+   "with"
+  ],
+  [
+   "¿Cómo?",
+   "¿Cómo llego allá?",
+   "with"
+  ],
+  [
+   "¿Cómo?",
+   "¿Cómo se dice esto?",
+   "with"
+  ],
+  [
+   "¿Por qué?",
+   "¿Por qué no?",
+   "with"
+  ],
+  [
+   "¿Por qué?",
+   "¿Por qué estás aquí?",
+   "with"
+  ],
+  [
+   "También",
+   "Yo también",
+   "with"
+  ],
+  [
+   "También",
+   "Ella también viene",
+   "with"
+  ],
+  [
+   "Pero",
+   "Quiero ir, pero no puedo",
+   "with"
+  ],
+  [
+   "Pero",
+   "Entiendo, pero hablo poco",
+   "with"
+  ],
+  [
+   "Porque",
+   "Llego tarde porque hay tráfico",
+   "with"
+  ],
+  [
+   "Porque",
+   "Porque tengo una reunión",
+   "with"
+  ],
+  [
+   "Muy",
+   "Estoy muy cansado",
+   "with"
+  ],
+  [
+   "Muy",
+   "Es muy importante",
+   "with"
+  ],
+  [
+   "Con",
+   "Trabajo con una empresa solar",
+   "with"
+  ],
+  [
+   "Con",
+   "Café con leche",
+   "with"
+  ],
+  [
+   "Yo",
+   "Tú",
+   "opp"
+  ],
+  [
+   "Él",
+   "Ella",
+   "opp"
+  ],
+  [
+   "Nosotros",
+   "Ellos",
+   "opp"
+  ],
+  [
+   "Me",
+   "Te",
+   "opp"
+  ],
+  [
+   "Mi",
+   "Tu",
+   "opp"
+  ],
+  [
+   "Conmigo",
+   "Contigo",
+   "opp"
+  ],
+  [
+   "Para mí",
+   "Para ti",
+   "opp"
+  ],
+  [
+   "Soy",
+   "Eres",
+   "opp"
+  ],
+  [
+   "Tengo",
+   "Tienes",
+   "opp"
+  ],
+  [
+   "Quiero",
+   "Quieres",
+   "opp"
+  ],
+  [
+   "Puedo",
+   "Puedes",
+   "opp"
+  ],
+  [
+   "Aquí",
+   "Allá",
+   "opp"
+  ],
+  [
+   "Esto",
+   "Eso",
+   "opp"
   ]
  ]
 }
