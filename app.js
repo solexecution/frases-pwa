@@ -102,6 +102,12 @@ function speak(text,lang){return new Promise(res=>{
  const v=lang==="en"?enVoice:esVoice;u.lang=v?v.lang:(lang==="en"?"en-US":"es-MX");if(v)u.voice=v;u.rate=.92;
  u.onend=res;u.onerror=res;try{speechSynthesis.cancel()}catch(e){}speechSynthesis.speak(u);
  setTimeout(res,12000)})}
+let DG=store.get("frases-diag",[]);
+if(!Array.isArray(DG))DG=[];
+function dg(ev){
+ DG.push([Date.now(),ev,(document.visibilityState||"?")[0],Math.round((audio.currentTime||0)*10)/10]);
+ if(DG.length>80)DG=DG.slice(-60);
+ store.set("frases-diag",DG)}
 const SIL=new Map();let inGap=false;
 function silenceUrl(ms){
  ms=Math.max(100,Math.round(ms/100)*100);
@@ -116,13 +122,13 @@ function gap(ms){return new Promise(res=>{
  inGap=true;
  audio.onended=()=>res();audio.onerror=()=>setTimeout(res,ms);
  audio.src=silenceUrl(ms);audio.defaultPlaybackRate=1;audio.playbackRate=1;audio.currentTime=0;
- const pr=audio.play();if(pr&&pr.catch)pr.catch(e=>{if(e&&e.name==="AbortError")return;setTimeout(res,ms)})})}
+ const pr=audio.play();if(pr&&pr.catch)pr.catch(e=>{if(e&&e.name==="AbortError")return;dg("gap-play-rej:"+(e&&e.name));setTimeout(res,ms)})})}
 function playSrc(src,fb,lang){inGap=false;return new Promise(res=>{
  const bail=()=>{if(fb)speak(fb,lang||"es").then(res);else res()};
  if(!src){bail();return}
  audio.onended=()=>res();audio.onerror=bail;
  audio.src=src;applyRate();audio.currentTime=0;
- const pr=audio.play();if(pr&&pr.catch)pr.catch(e=>{if(e&&e.name==="AbortError")return;bail()})})}
+ const pr=audio.play();if(pr&&pr.catch)pr.catch(e=>{if(e&&e.name==="AbortError")return;dg("play-rej:"+(e&&e.name));bail()})})}
 const srcFor=(i,slow)=>P[i]&&P[i].my?"":(slow?"audio/slow/":"audio/")+pad(i)+".mp3";
 const sayPhrase=(i,slow)=>playSrc(srcFor(i,slow),P[i].es);
 const sayEn=i=>playSrc(P[i].my?"":"audio/en/"+pad(i)+".mp3",P[i].en,"en");
@@ -391,12 +397,18 @@ function renderMe(){
  <div class="set"><span>Smart translation (Grok)</span><button class="btn sec" id="btnGrok">${grokKey()?"On":"Set up"}</button></div>
  <div class="set"><span>Daily push reminder</span><button class="btn sec" id="btnPush">Set up</button></div>
  <div class="set"><span>Install on this phone</span><button class="btn" id="btnInstall" ${standalone()?"disabled":""}>${standalone()?"Installed":"Install"}</button></div>
+ <div class="set"><span>Playback log</span><button class="btn sec" id="btnDiag">View</button></div>
  <div class="set"><span>Version ${VER}</span><button class="btn sec" id="btnUpd">Check for updates</button></div>
  <div class="set"><span>Reset all progress</span><button class="btn sec" id="btnReset">Reset</button></div>`}
 function pushModal(){const t=store.get("frases-topic","");
  modal(`<h3>Daily push reminder</h3><p>One reminder a day, even when the app is closed, comes from the free <b>ntfy</b> app. Install ntfy from Google Play or F-Droid, paste your private topic below, then tap Subscribe.</p><input type="text" id="topicIn" placeholder="your-private-topic" value="${esc(t)}" autocapitalize="off" autocomplete="off" spellcheck="false">`,
  [{t:"Close",cls:"sec"},{t:"Subscribe",fn:()=>{const v=$("topicIn").value.trim();if(!v){toast("Paste your topic first.");return}
   store.set("frases-topic",v);toast("If ntfy did not open, subscribe to the topic inside the ntfy app.");location.href="ntfy://ntfy.sh/"+encodeURIComponent(v)}}])}
+function diagModal(){
+ const f=t=>{const d=new Date(t);return [d.getHours(),d.getMinutes(),d.getSeconds()].map(x=>String(x).padStart(2,"0")).join(":")};
+ const rows=DG.slice(-40).map(r=>`${f(r[0])} ${r[2]} ${r[1]} ${r[3]}s`).join("\n")||"Nothing yet. Start Listen, open another app for a minute, come back, then open this again.";
+ modal(`<h3>Playback log</h3><p>Version ${esc(VER)}. Each line: time, v or h (screen showing or hidden), what happened, position in the clip.</p><pre style="white-space:pre-wrap;font-size:.8rem;max-height:46vh;overflow:auto;margin:8px 0">${esc(rows)}</pre>`,
+  [{t:"Close",cls:"sec"},{t:"Clear",cls:"bad",fn:()=>{DG=[];store.set("frases-diag",DG)}}])}
 async function checkNow(){
  if(!("serviceWorker" in navigator)){toast("Updates need a modern browser.");return}
  toast("Checking for updates...");
@@ -509,11 +521,21 @@ function wire(){
   for(const s of seq){if(f<s.c1){gi=s.gi;break}}
   if(gi!==lastGi){lastGi=gi;hlGroup(gi,$("s-listen"))}});
  if("mediaSession" in navigator){
-  navigator.mediaSession.setActionHandler("play",()=>{if(st.tab==="listen")play()});
-  navigator.mediaSession.setActionHandler("pause",pause);
+  navigator.mediaSession.setActionHandler("play",()=>{dg("ms:play");if(st.tab==="listen")play()});
+  navigator.mediaSession.setActionHandler("pause",()=>{dg("ms:pause");pause()});
   navigator.mediaSession.setActionHandler("nexttrack",()=>{if(st.tab==="listen")seek(1)});
   navigator.mediaSession.setActionHandler("previoustrack",()=>{if(st.tab==="listen")seek(-1)})}
- audio.addEventListener("pause",()=>{setTimeout(()=>{if(playing&&st.tab==="listen"&&audio.paused&&!audio.ended&&audio.currentTime>0)pause()},400)});
+ ["play","pause","ended","waiting","stalled","error","emptied"].forEach(ev=>audio.addEventListener(ev,()=>{if(playing)dg("audio:"+ev)}));
+ audio.addEventListener("pause",()=>{
+  if(!playing)return;
+  setTimeout(()=>{
+   if(!playing||!audio.paused||audio.ended)return;
+   dg("resume-try");
+   const pr=audio.play();
+   if(pr&&pr.catch)pr.catch(e=>{dg("resume-fail:"+(e&&e.name));if(playing)pause()})},350)});
+ document.addEventListener("freeze",()=>{if(playing)dg("page:freeze")});
+ document.addEventListener("resume",()=>{if(playing)dg("page:resume")});
+ document.addEventListener("visibilitychange",()=>{if(playing)dg("vis:"+document.visibilityState)});
  document.addEventListener("keydown",e=>{
   if(e.key==="Escape"&&!$("md").hidden){closeModal();return}
   if(e.key==="Enter"&&!$("md").hidden&&e.target.tagName!=="BUTTON"){const b=$("mdPanel").querySelector(".acts button:last-child");if(b){e.preventDefault();b.click()}return}
@@ -535,6 +557,7 @@ function wire(){
   if(e.target.closest("#btnGrok")){grokModal();return}
   if(e.target.closest("#btnInstall")){doInstall();return}
   if(e.target.closest("#btnUpd")){checkNow();return}
+  if(e.target.closest("#btnDiag")){diagModal();return}
   if(e.target.closest("#btnReset"))ask("Reset all progress?","This clears your review history and everything you have learned on this phone. Export a backup first if you want to keep it. It cannot be undone.","Reset",resetAll,"bad")};
  $("md").onclick=e=>{if(e.target===$("md"))closeModal()};
  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});

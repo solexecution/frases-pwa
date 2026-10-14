@@ -75,6 +75,8 @@ pause the schedule after 60 inactive days.
 ## Background playback
 Listen never leaves the audio element idle: every pause between clips (word gap, echo wait, pair gap) is played as a near-silent clip of the right length, so the phone keeps treating the app as a music player. It keeps running with the screen off or another app in front, shows the lock-screen and notification controls (play/pause, next, previous) with the phrase and its English, and no timer is needed to advance in the background.
 
+If the system pauses the audio (another app, a notification, Bluetooth), Listen tries to resume it instead of stopping; only the Pause button, the notification Pause, or a refused resume stops it. Me > Playback log shows the last 40 player events with whether the screen was showing, to diagnose phones that still stop.
+
 ## Offline
 The service worker caches the app and all normal audio on install, and the page downloads the slow and English audio
 in the background. Today shows "Fully offline" when everything is on the phone.
