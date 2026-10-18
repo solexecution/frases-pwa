@@ -39,10 +39,8 @@ let P=[],ALIGN=[],MISS=[],PAIRS=[],SK=[],STORIES=[],CW={needs:{},cloze:{},words:
 const MUST=new Set();
 let srs=store.get("frases-srs",{});
 let prof=Object.assign({sessions:0,missions:{},stories:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},store.get("frases-prof",{}));
-let set=Object.assign({budget:10,sound:true,focus:"All",talkTo:"both",lang:"en"},store.get("frases-set",{}));
-const MAN_ADDR=new Set(["¿Estás soltero?","¿Tienes novia?","Eres muy guapo","¿Vives solo?"]);
-const WOMAN_ADDR=new Set(["¿Estás soltera?","¿Tienes novio?","Eres muy guapa","¿Vives sola?"]);
-const skipped=p=>p.skip||(set.talkTo==="women"&&MAN_ADDR.has(p.es))||(set.talkTo==="men"&&WOMAN_ADDR.has(p.es));
+let set=Object.assign({budget:10,sound:true,focus:"All",lang:"en"},store.get("frases-set",{}));
+const skipped=p=>p.skip;
 const partners=i=>(PAIRS[i]||[]).filter(x=>!skipped(P[x[0]]));
 let opt=Object.assign({en:false,rep:false,loop:true,gap:1,slow:false,echo:false,pairs:false,rate:.85},store.get("frases-opt",{}));
 let LOG=store.get("frases-log",[]);
@@ -470,7 +468,6 @@ function renderMe(){
  $("settings").innerHTML=`<div class="lab">Settings</div>
  <div class="set"><span>Session length</span><div class="seg" id="segBud">${[6,10,15].map(n=>`<button data-n="${n}" aria-pressed="${set.budget===n}">${n} min</button>`).join("")}</div></div>
  <div class="set"><span>Translate from</span><div class="seg" id="segLang">${[["en","English"],["sk","Slovak"]].map(x=>`<button data-v="${x[0]}" aria-pressed="${set.lang===x[0]}">${x[1]}</button>`).join("")}</div></div>
- <div class="set"><span>Dating phrases for</span><div class="seg" id="segTalk">${[["women","Women"],["men","Men"],["both","Both"]].map(x=>`<button data-v="${x[0]}" aria-pressed="${set.talkTo===x[0]}">${x[1]}</button>`).join("")}</div></div>
  <div class="set"><span>Soft tick sounds</span><button class="tog" id="togSnd" aria-pressed="${set.sound}" style="padding:10px 16px">${set.sound?"On":"Off"}</button></div>
  <div class="set"><span>Smart translation (Grok)</span><button class="btn sec" id="btnGrok">${grokKey()?"On":"Set up"}</button></div>
  <div class="set"><span>Daily push reminder</span><button class="btn sec" id="btnPush">Set up</button></div>
@@ -635,8 +632,6 @@ function wire(){
   if(n){set.budget=+n.dataset.n;saveSet();renderMe();return}
   const lg=e.target.closest("#segLang button");
   if(lg){if(lg.dataset.v!==set.lang)switchLang();return}
-  const tk=e.target.closest("#segTalk button");
-  if(tk){set.talkTo=tk.dataset.v;saveSet();renderMe();hud();return}
   if(e.target.closest("#togSnd")){set.sound=!set.sound;saveSet();renderMe();return}
   if(e.target.closest("#btnPush")){pushModal();return}
   if(e.target.closest("#btnGrok")){grokModal();return}
