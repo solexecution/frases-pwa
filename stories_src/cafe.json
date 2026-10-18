@@ -1,0 +1,25 @@
+{
+ "id": "cafe",
+ "level": 1,
+ "title": {"es": "En el café", "en": "At the café", "sk": "V kaviarni"},
+ "sentences": [
+  {"es": "Marek está en un café.", "en": "Marek is in a café.", "sk": "Marek je v kaviarni.",
+   "w": [["Marek", "Marek", "Marek"], ["está", "is", "je"], ["en un", "in a", "v"], ["café.", "café.", "kaviarni."]]},
+  {"es": "Marek dice: Quiero un café, por favor.", "en": "Marek says: “I want a coffee, please.”", "sk": "Marek hovorí: „Chcem kávu, prosím.“",
+   "w": [["Marek", "Marek", "Marek"], ["dice:", "says:", "hovorí:"], ["Quiero", "I want", "Chcem"], ["un café,", "a coffee,", "kávu,"], ["por favor.", "please.", "prosím."]]},
+  {"es": "Marek también quiere un sándwich.", "en": "Marek also wants a sandwich.", "sk": "Marek chce aj sendvič.",
+   "w": [["Marek", "Marek", "Marek"], ["también", "also", "aj"], ["quiere", "wants", "chce"], ["un sándwich.", "a sandwich.", "sendvič."]]},
+  {"es": "Marek pregunta: ¿Cuánto es?", "en": "Marek asks: “How much is it?”", "sk": "Marek sa pýta: „Koľko to je?“",
+   "w": [["Marek", "Marek", "Marek"], ["pregunta:", "asks:", "sa pýta:"], ["¿Cuánto", "How much", "Koľko"], ["es?", "is it?", "to je?"]]},
+  {"es": "La mesera dice: Son ochenta pesos.", "en": "The waitress says: “It's eighty pesos.”", "sk": "Čašníčka hovorí: „Je to osemdesiat pesos.“",
+   "w": [["La mesera", "The waitress", "Čašníčka"], ["dice:", "says:", "hovorí:"], ["Son", "It's (lit. are)", "Je to (lit. sú)"], ["ochenta", "eighty", "osemdesiat"], ["pesos.", "pesos.", "pesos."]]},
+  {"es": "Marek paga ochenta pesos.", "en": "Marek pays eighty pesos.", "sk": "Marek platí osemdesiat pesos.",
+   "w": [["Marek", "Marek", "Marek"], ["paga", "pays", "platí"], ["ochenta", "eighty", "osemdesiat"], ["pesos.", "pesos.", "pesos."]]},
+  {"es": "Marek dice: Gracias.", "en": "Marek says: “Thank you.”", "sk": "Marek hovorí: „Ďakujem.“",
+   "w": [["Marek", "Marek", "Marek"], ["dice:", "says:", "hovorí:"], ["Gracias.", "Thank you.", "Ďakujem."]]},
+  {"es": "La mesera dice: De nada.", "en": "The waitress says: “You're welcome.”", "sk": "Čašníčka hovorí: „Nie je za čo.“",
+   "w": [["La mesera", "The waitress", "Čašníčka"], ["dice:", "says:", "hovorí:"], ["De nada.", "You're welcome.", "Nie je za čo."]]},
+  {"es": "Marek toma su café y está contento.", "en": "Marek drinks his coffee and is happy.", "sk": "Marek pije svoju kávu a je spokojný.",
+   "w": [["Marek", "Marek", "Marek"], ["toma", "drinks", "pije"], ["su café", "his coffee", "svoju kávu"], ["y", "and", "a"], ["está", "is", "je"], ["contento.", "happy.", "spokojný."]]}
+ ]
+}

@@ -1,0 +1,25 @@
+{
+ "id": "familia",
+ "level": 1,
+ "title": {"es": "Mi familia", "en": "My family", "sk": "Moja rodina"},
+ "sentences": [
+  {"es": "Mi familia vive en Bratislava.", "en": "My family lives in Bratislava.", "sk": "Moja rodina býva v Bratislave.",
+   "w": [["Mi", "My", "Moja"], ["familia", "family", "rodina"], ["vive", "lives", "býva"], ["en", "in", "v"], ["Bratislava.", "Bratislava.", "Bratislave."]]},
+  {"es": "Mi mamá trabaja en un banco.", "en": "My mom works at a bank.", "sk": "Moja mama pracuje v banke.",
+   "w": [["Mi", "My", "Moja"], ["mamá", "mom", "mama"], ["trabaja", "works", "pracuje"], ["en un", "at a", "v"], ["banco.", "bank.", "banke."]]},
+  {"es": "Mi papá trabaja en un hospital.", "en": "My dad works at a hospital.", "sk": "Môj tato pracuje v nemocnici.",
+   "w": [["Mi", "My", "Môj"], ["papá", "dad", "tato"], ["trabaja", "works", "pracuje"], ["en un", "at a", "v"], ["hospital.", "hospital.", "nemocnici."]]},
+  {"es": "Mi hermano tiene veinte años.", "en": "My brother is twenty years old.", "sk": "Môj brat má dvadsať rokov.",
+   "w": [["Mi", "My", "Môj"], ["hermano", "brother", "brat"], ["tiene", "has", "má"], ["veinte", "twenty", "dvadsať"], ["años.", "years.", "rokov."]]},
+  {"es": "Él estudia mucho.", "en": "He studies a lot.", "sk": "On veľa študuje.",
+   "w": [["Él", "He", "On"], ["estudia", "studies", "študuje"], ["mucho.", "a lot.", "veľa."]]},
+  {"es": "Mi hermana tiene quince años.", "en": "My sister is fifteen years old.", "sk": "Moja sestra má pätnásť rokov.",
+   "w": [["Mi", "My", "Moja"], ["hermana", "sister", "sestra"], ["tiene", "has", "má"], ["quince", "fifteen", "pätnásť"], ["años.", "years.", "rokov."]]},
+  {"es": "Ella va a la escuela.", "en": "She goes to school.", "sk": "Ona chodí do školy.",
+   "w": [["Ella", "She", "Ona"], ["va", "goes", "chodí"], ["a la", "to the", "do"], ["escuela.", "school.", "školy."]]},
+  {"es": "Mi abuela tiene ochenta años.", "en": "My grandmother is eighty years old.", "sk": "Moja stará mama má osemdesiat rokov.",
+   "w": [["Mi", "My", "Moja"], ["abuela", "grandmother", "stará mama"], ["tiene", "has", "má"], ["ochenta", "eighty", "osemdesiat"], ["años.", "years.", "rokov."]]},
+  {"es": "Estoy muy contento con mi familia.", "en": "I am very happy with my family.", "sk": "Som veľmi spokojný s mojou rodinou.",
+   "w": [["Estoy", "I am", "Som"], ["muy", "very", "veľmi"], ["contento", "happy", "spokojný"], ["con", "with", "s"], ["mi", "my", "mojou"], ["familia.", "family.", "rodinou."]]}
+ ]
+}

@@ -35,10 +35,10 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.
 const today=()=>SRS.dayNum(Date.now(),new Date().getTimezoneOffset());
 const dayStr=n=>new Date(n*864e5).toISOString().slice(0,10);
 
-let P=[],ALIGN=[],MISS=[],PAIRS=[],SK=[],CW={needs:{},cloze:{},words:[]},BASE=0,MINE=store.get("frases-mine",[]);
+let P=[],ALIGN=[],MISS=[],PAIRS=[],SK=[],STORIES=[],CW={needs:{},cloze:{},words:[]},BASE=0,MINE=store.get("frases-mine",[]);
 const MUST=new Set();
 let srs=store.get("frases-srs",{});
-let prof=Object.assign({sessions:0,missions:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},store.get("frases-prof",{}));
+let prof=Object.assign({sessions:0,missions:{},stories:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},store.get("frases-prof",{}));
 let set=Object.assign({budget:10,sound:true,focus:"All",talkTo:"both",lang:"en"},store.get("frases-set",{}));
 const MAN_ADDR=new Set(["¿Estás soltero?","¿Tienes novia?","Eres muy guapo","¿Vives solo?"]);
 const WOMAN_ADDR=new Set(["¿Estás soltera?","¿Tienes novio?","Eres muy guapa","¿Vives sola?"]);
@@ -156,8 +156,10 @@ function tick(){if(!set.sound)return;try{ac=ac||new (window.AudioContext||window
  const s=ac.currentTime;g.gain.setValueAtTime(.05,s);g.gain.exponentialRampToValueAtTime(.0001,s+.06);o.start(s);o.stop(s+.06)}catch(e){}}
 
 function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(()=>t.style.display="none",5500)}
-function closeModal(){$("md").hidden=true;$("mdPanel").onclick=null;if(modalOpener&&modalOpener.focus)modalOpener.focus();modalOpener=null}
-function modal(html,buttons){const p=$("mdPanel");p.onclick=null;p.innerHTML=html+'<div class="acts"></div>';
+let modalCloseFn=null;
+function runModalClose(){const f=modalCloseFn;modalCloseFn=null;if(f)f()}
+function closeModal(){runModalClose();$("md").hidden=true;$("mdPanel").onclick=null;if(modalOpener&&modalOpener.focus)modalOpener.focus();modalOpener=null}
+function modal(html,buttons){runModalClose();const p=$("mdPanel");p.onclick=null;p.innerHTML=html+'<div class="acts"></div>';
  const a=p.querySelector(".acts");
  buttons.forEach(b=>{const e=document.createElement("button");e.className="btn "+(b.cls||"");e.textContent=b.t;e.onclick=()=>{closeModal();if(b.fn)b.fn()};a.appendChild(e)});
  modalOpener=document.activeElement;$("md").hidden=false;const f=p.querySelector("input")||a.lastElementChild;if(f)f.focus()}
@@ -180,15 +182,23 @@ function renderList(){const f=filtered(true);
 const decode=s=>{const t=document.createElement("textarea");t.innerHTML=s;return t.value};
 const SWAPS=[["coche","carro"],["coches","carros"],["ordenador","computadora"],["ordenadores","computadoras"],["móvil","celular"],["móviles","celulares"],["aparcar","estacionar"],["aparcamiento","estacionamiento"],["zumo","jugo"],["patata","papa"],["patatas","papas"],["gafas","lentes"],["billete","boleto"],["conducir","manejar"],["conduzco","manejo"],["vosotros","ustedes"],["vosotras","ustedes"]];
 const swapMx=s=>SWAPS.reduce((x,[a,b])=>x.replace(new RegExp("(^|[^\\p{L}])"+a+"(?![\\p{L}])","giu"),(m,p)=>p+b),s);
-const fixMarks=s=>{if(/\?$/.test(s)&&!/^¿/.test(s))s="¿"+s;if(/!$/.test(s)&&!/^¡/.test(s))s="¡"+s;return s};
-async function myMemory(t){
- const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(t)+"&langpair="+(SKL()?"sk":"en")+"|es");
+const fixMarks=s=>{if(/\?$/.test(s)&&!/¿/.test(s))s="¿"+s;if(/!$/.test(s)&&!/¡/.test(s))s="¡"+s;return s};
+const dupKey=s=>norm(s).replace(/[¿¡?!.,…;:"'()]/g,"").replace(/\s+/g," ").trim();
+async function myMemory(t,from,to){
+ const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(t)+"&langpair="+from+"|"+to);
  const j=await r.json();let s=decode(String(j&&j.responseData&&j.responseData.translatedText||"")).trim();
  if(!s||/MYMEMORY|QUERY LENGTH|INVALID/i.test(s)||+j.responseStatus!==200)throw new Error("no");
  if(!/[.]$/.test(t)&&/[^.]\.$/.test(s))s=s.slice(0,-1);
- return fixMarks(swapMx(s))}
-const grokSys=()=>GROK_SYS.replace("an English phrase","a "+LN()+" phrase");
-const GROK_SYS="You help an adult male beginner learn Mexican Spanish for solar-industry networking and dating. The user message is an English phrase, possibly from speech recognition with mistakes; fix obvious mishearings using that context. Translate it into natural, everyday Mexican Spanish: tu form unless the English is clearly formal, carro/celular/computadora not Spain words, masculine forms when the speaker refers to himself. Keep it short, one phrase, correct punctuation including the opening question and exclamation marks. Reply with JSON only: {\"en\":\"corrected English\",\"es\":\"Spanish\"}.";
+ return to==="es"?fixMarks(swapMx(s)):s}
+const LANGS={en:"English",sk:"Slovak",es:"Spanish"};
+const myLang=()=>SKL()?"sk":"en";
+const ES_Q=/^(qu[eé]|qui[eé]n(es)?|d[oó]nde|cu[aá]ndo|c[oó]mo|cu[aá]nt[oa]s?|cu[aá]l(es)?|por qu[eé]|para qu[eé]|a d[oó]nde|de d[oó]nde)(?![\p{L}])/iu;
+function punctEs(t){
+ t=t.trim();if(!t)return t;
+ t=t[0].toUpperCase()+t.slice(1);
+ if(/[?!.…]$/.test(t))return fixMarks(t);
+ return ES_Q.test(t)?"¿"+t+"?":t}
+const GROK_SYS=from=>"You help an adult male beginner learn Mexican Spanish for solar-industry networking and dating. The user message is a "+LANGS[from]+" phrase, possibly from speech recognition with mistakes; fix obvious mishearings using that context. Produce natural, everyday Mexican Spanish (tu form unless the phrase is clearly formal, carro/celular/computadora not Spain words, masculine forms when the speaker refers to himself) and the English and Slovak versions of the same meaning. If the phrase is already Spanish, only correct real errors. Keep it short, one phrase, correct punctuation including the opening question and exclamation marks. Reply with JSON only: {\"es\":\"Spanish\",\"en\":\"English\",\"sk\":\"Slovak\"}.";
 const grokKey=()=>store.get("frases-grok","");
 async function grokModels(key){
  const r=await fetch("https://api.x.ai/v1/models",{headers:{Authorization:"Bearer "+key}});
@@ -197,27 +207,30 @@ async function grokModels(key){
  const j=await r.json();const ids=(j.data||[]).map(m=>m.id).filter(id=>!/image|imagine|video|embed|vision|aurora/i.test(id));
  const pick=[/fast.*non-reasoning/i,/non-reasoning/i,/mini/i,/^grok-\d/i].map(re=>ids.find(id=>re.test(id))).find(Boolean)||ids[0];
  if(!pick)throw new Error("net");store.set("frases-grokmodel",pick);return pick}
-async function grokCall(t,key){
- const c=new AbortController(),to=setTimeout(()=>c.abort(),8000);
+async function grokCall(t,key,from){
+ const c=new AbortController(),to=setTimeout(()=>c.abort(),9000);
  try{
   const r=await fetch("https://api.x.ai/v1/chat/completions",{method:"POST",signal:c.signal,headers:{"Content-Type":"application/json",Authorization:"Bearer "+key},
-   body:JSON.stringify({model:store.get("frases-grokmodel","grok-4-fast-non-reasoning"),temperature:0,max_tokens:200,messages:[{role:"system",content:grokSys()},{role:"user",content:t}]})});
+   body:JSON.stringify({model:store.get("frases-grokmodel","grok-4-fast-non-reasoning"),temperature:0,max_tokens:300,messages:[{role:"system",content:GROK_SYS(from)},{role:"user",content:t}]})});
   if(!r.ok){const e=new Error("http");e.status=r.status;throw e}
   const j=await r.json(),m=String(j.choices[0].message.content).match(/\{[\s\S]*\}/),o=JSON.parse(m[0]);
-  const es=String(o.es||"").trim(),en=String(o.en||"").trim();
-  if(!es||es.length>200)throw new Error("bad");
-  return {es:fixMarks(es),en:en&&en.length<200?en:""}}
+  const cl=v=>{v=String(v||"").trim();return v.length<200?v:""};
+  const es=cl(o.es),en=cl(o.en),sk=cl(o.sk);
+  if(!es)throw new Error("bad");
+  return {es:fixMarks(es),en,sk}}
  finally{clearTimeout(to)}}
-async function grokTranslate(t){
+async function grokTranslate(t,from){
  const key=grokKey();if(!key)throw new Error("nokey");
- try{return await grokCall(t,key)}
- catch(e){if(e.status===404||e.status===400){await grokModels(key);return await grokCall(t,key)}throw e}}
-async function translate(t){
- if(grokKey()){try{const r=await grokTranslate(t);r.src="Grok";return r}catch(e){}}
- if(window.Translator){try{
+ try{return await grokCall(t,key,from)}
+ catch(e){if(e.status===404||e.status===400){await grokModels(key);return await grokCall(t,key,from)}throw e}}
+async function translate(t,from){
+ if(grokKey()){try{const r=await grokTranslate(t,from);r.src="Grok";return r}catch(e){}}
+ const me=myLang(),src=grokKey()?"backup":"free";
+ if(from==="es"){const es=punctEs(t);return {es,en:me==="en"?await myMemory(es,"es","en"):"",sk:me==="sk"?await myMemory(es,"es","sk"):"",src}}
+ if(from==="en"&&window.Translator){try{
   const o={sourceLanguage:"en",targetLanguage:"es"};
-  if(await Translator.availability(o)==="available"){const tr=await Translator.create(o);const s=String(await tr.translate(t)).trim();if(s)return {es:fixMarks(swapMx(s)),src:"device"}}}catch(e){}}
- return {es:await myMemory(t),src:grokKey()?"backup":"free"}}
+  if(await Translator.availability(o)==="available"){const tr=await Translator.create(o);const s=String(await tr.translate(t)).trim();if(s)return {es:fixMarks(swapMx(s)),en:t,sk:"",src:"device"}}}catch(e){}}
+ return {es:await myMemory(t,from,"es"),en:from==="en"?t:"",sk:from==="sk"?t:"",src}}
 function grokModal(){
  const has=!!grokKey();
  modal(`<h3>Smart translation</h3><p>Paste your xAI (Grok) API key. It stays on this phone and is sent only to api.x.ai. Without it the free translator is used.</p><input type="password" id="gKey" autocomplete="off" placeholder="${has?"Key saved. Paste a new one to replace it":"xai-..."}"><p id="gMsg" role="status" style="font-size:.95rem;min-height:1.3em;margin:8px 0"></p><button class="btn block" id="gSave">Save and test</button>`,
@@ -236,32 +249,74 @@ function toastUndo(m,fn){const t=$("toast");t.textContent="";
  b.onclick=()=>{t.style.display="none";fn()};t.append(s,b);t.style.display="block";clearTimeout(t._h);t._h=setTimeout(()=>t.style.display="none",9000)}
 const getSR=()=>window.SpeechRecognition||window.webkitSpeechRecognition;
 function addModal(auto){
- modal(`<h3>Add a phrase</h3><p>Type it in ${LN()}. It is translated and kept in your list under Mine.</p><input type="text" id="aEn" placeholder="${LN()}" autocomplete="off" maxlength="120"><div class="row" style="margin:8px 0"><button class="btn sec" id="aMic" style="flex:1">Dictate</button><button class="btn sec" id="aGo" style="flex:1">Translate</button></div><input type="text" id="aEs" lang="es" placeholder="Spanish" autocomplete="off" maxlength="160"><p id="aMsg" role="status" style="font-size:.95rem;min-height:1.3em;margin:8px 0"></p><button class="btn block" id="aSave">Save phrase</button>`,[{t:"Cancel",cls:"sec"}]);
- const msg=m=>{$("aMsg").textContent=m};
- const go=async()=>{let t=$("aEn").value.trim();if(!t){msg("Type the "+LN()+" first.");return}
-  t=t[0].toUpperCase()+t.slice(1);if(!SKL()&&/^(who|what|when|where|why|how|which|do|does|did|can|could|is|are|will|would|should|may|have|has)/i.test(t)&&!/[?.!]$/.test(t))t+="?";$("aEn").value=t;
+ let mode=store.get("frases-inlang","my")==="es"?"es":"my",ex=null,rec=null,seq=0;
+ const inName=()=>mode==="es"?"Spanish":LN(),outName=()=>mode==="es"?LN():"Spanish";
+ const glossTag=()=>SKL()?"sk":"en";
+ modal(`<h3>Add a phrase</h3><div class="lab" style="margin-top:6px" id="aSegLab">I say it in</div><div class="seg" id="aSeg" role="group" aria-labelledby="aSegLab"><button data-v="my" aria-pressed="${mode==="my"}">${LN()}</button><button data-v="es" aria-pressed="${mode==="es"}">Spanish</button></div><input type="text" id="aIn" autocomplete="off" maxlength="160" style="margin-top:10px"><div class="row" style="margin:8px 0"><button class="btn sec" id="aMic" style="flex:1">Dictate</button><button class="btn sec" id="aGo" style="flex:1">Translate</button></div><div class="lab" id="aOutLab" style="margin-top:8px"></div><input type="text" id="aOut" autocomplete="off" maxlength="160"><p id="aMsg" role="status" style="font-size:.95rem;min-height:1.3em;margin:8px 0"></p><button class="btn block" id="aSave">Save phrase</button>`,[{t:"Cancel",cls:"sec"}]);
+ modalCloseFn=()=>{seq++;try{rec&&rec.abort()}catch(e){}};
+ const msg=m=>{const e=$("aMsg");if(e)e.textContent=m};
+ const labels=()=>{
+  $("aIn").placeholder=inName();$("aOut").placeholder=outName();
+  $("aIn").lang=mode==="es"?"es":glossTag();$("aOut").lang=mode==="es"?glossTag():"es";
+  $("aOutLab").textContent="Translation in "+outName()+" (you can edit it)";
+  [...$("aSeg").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===mode))};
+ labels();
+ const live=id=>id===seq&&!$("md").hidden&&!!$("aIn");
+ const go=async()=>{
+  let t=$("aIn").value.trim();if(!t){msg("Type the "+inName()+" first.");return false}
+  t=t[0].toUpperCase()+t.slice(1);
+  if(mode!=="es"&&!SKL()&&/^(who|what|when|where|why|how|which|do|does|did|can|could|is|are|will|would|should|may|have|has)\b/i.test(t)&&!/[?.!]$/.test(t))t+="?";
+  $("aIn").value=t;
   msg("Translating...");$("aGo").disabled=true;
-  try{const r=await translate(t);$("aEs").value=r.es;if(r.en)$("aEn").value=r.en;msg(r.src==="Grok"?"Translated by Grok. Check it, then save.":r.src==="device"?"Translated on this phone. Check it, then save.":r.src==="backup"?"Grok was unavailable, used the free translator. Check it, then save.":"Check the Spanish, change it if it sounds off, then save.")}
-  catch(e){msg("Could not translate (offline?). Type the Spanish yourself, then save.")}
-  $("aGo").disabled=false};
- const save=()=>{const en=$("aEn").value.trim(),es=$("aEs").value.trim();
-  if(!en||!es){msg("Fill in both "+LN()+" and Spanish.");return}
-  const n=norm(es);if(P.some(p=>!p.skip&&norm(p.es)===n)){msg("That phrase is already in your list.");return}
-  MINE.push(SKL()?[es,"",0,en]:[es,en,0,""]);saveMine();const np={i:BASE+MINE.length-1,es,en:"",en0:SKL()?"":en,sk:SKL()?en:"",cat:"Mine",note:"",skip:false,my:1};setGloss(np);P.push(np);
-  const ni=BASE+MINE.length-1;closeModal();st.cat="Mine";store.set("frases-cat","Mine");renderChips();renderList();hud();if(auto){toastUndo("Saved: "+es,()=>{MINE[ni-BASE][2]=1;P[ni].skip=true;saveMine();hud();renderList()});sayPhrase(ni,false)}else toast("Saved. It will come up in your next session.")};
+  const id=++seq,m=mode;
+  try{
+   const r=await translate(t,m==="es"?"es":myLang());
+   if(!live(id))return false;
+   ex=r;
+   if(m==="es"){$("aIn").value=r.es;$("aOut").value=(SKL()?r.sk:r.en)||""}
+   else{$("aOut").value=r.es;const c=SKL()?r.sk:r.en;if(c)$("aIn").value=c}
+   const how=r.src==="Grok"?"Translated by Grok.":r.src==="device"?"Translated on this phone.":r.src==="backup"?"Grok was unavailable, used the free translator.":"Used the free translator.";
+   msg(how+" Check it, then save.");
+   return true}
+  catch(e){if(live(id))msg("Could not translate (offline?). Type the "+outName()+" yourself, then save.");return false}
+  finally{const b=$("aGo");if(b)b.disabled=false}};
+ const save=()=>{
+  const a=$("aIn").value.trim(),b=$("aOut").value.trim();
+  const es=mode==="es"?a:b,gloss=mode==="es"?b:a;
+  if(!es||!gloss){msg("Fill in both "+LN()+" and Spanish.");return}
+  const n=dupKey(es);if(P.some(p=>!p.skip&&dupKey(p.es)===n)){msg("That phrase is already in your list.");return}
+  const same=ex&&ex.es===es;
+  const en=SKL()?(same?ex.en:""):gloss,sk=SKL()?gloss:(same?ex.sk:"");
+  MINE.push([es,en,0,sk]);saveMine();
+  const np={i:BASE+MINE.length-1,es,en:"",en0:en,sk,cat:"Mine",note:"",skip:false,my:1};setGloss(np);P.push(np);
+  const ni=np.i;closeModal();st.cat="Mine";store.set("frases-cat","Mine");renderChips();renderList();hud();
+  if(auto){toastUndo("Saved: "+es,()=>{MINE[ni-BASE][2]=1;P[ni].skip=true;saveMine();hud();renderList()});sayPhrase(ni,false)}
+  else toast("Saved. It will come up in your next session.")};
  const mic=()=>{
   const SR=getSR();if(!SR){msg("Dictation is not supported in this browser. Type it instead.");return}
-  const r=new SR();r.lang=SKL()?"sk-SK":"en-US";r.interimResults=false;r.maxAlternatives=1;
+  try{rec&&rec.abort()}catch(e){}
+  const r=new SR(),m=mode;rec=r;r.lang=m==="es"?"es-MX":SKL()?"sk-SK":"en-US";r.interimResults=false;r.maxAlternatives=1;
   let got=false,bad=false;
-  msg("Listening. Say the phrase in "+LN()+".");$("aMic").disabled=true;
-  r.onresult=async e=>{got=true;$("aEn").value=e.results[0][0].transcript.trim();await go();if(auto&&$("aEs").value)save()};
-  r.onerror=e=>{bad=true;msg(e.error==="not-allowed"||e.error==="service-not-allowed"?"The microphone is blocked. Allow it in the browser site settings.":e.error==="network"?"Dictation needs a connection.":"Did not catch that. Tap Dictate and try again.")};
-  r.onend=()=>{$("aMic").disabled=false;if(!got&&!bad)msg("Did not catch that. Tap Dictate and try again.")};
+  msg("Listening. Say the phrase in "+inName()+".");$("aMic").disabled=true;
+  r.onresult=async e=>{
+   got=true;if($("md").hidden||!$("aIn")||m!==mode||rec!==r)return;
+   $("aIn").value=e.results[0][0].transcript.trim();
+   const ok=await go();
+   if(ok&&auto&&$("aOut")&&$("aOut").value&&!$("md").hidden)save()};
+  r.onerror=e=>{bad=true;msg(e.error==="not-allowed"||e.error==="service-not-allowed"?"The microphone is blocked. Allow it in the browser site settings.":e.error==="network"?"Dictation needs a connection.":e.error==="aborted"?"":"Did not catch that. Tap Dictate and try again.")};
+  r.onend=()=>{const b=$("aMic");if(b)b.disabled=false;if(!got&&!bad&&rec===r)msg("Did not catch that. Tap Dictate and try again.")};
   try{r.start()}catch(x){$("aMic").disabled=false;msg("Could not start the microphone.")}};
+ $("aSeg").onclick=e=>{
+  const b=e.target.closest("button");if(!b||b.dataset.v===mode)return;
+  mode=b.dataset.v;store.set("frases-inlang",mode);ex=null;seq++;
+  try{rec&&rec.abort()}catch(x){}
+  const a=$("aIn").value;$("aIn").value=$("aOut").value;$("aOut").value=a;
+  labels();msg("");$("aGo").disabled=false;
+  if(auto)setTimeout(mic,150)};
  $("aMic").onclick=()=>{auto=false;mic()};
  if(auto)mic();
  $("aGo").onclick=go;$("aSave").onclick=save;
- [["aEn",go],["aEs",save]].forEach(([id,f])=>$(id).onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();e.stopPropagation();f()}})}
+ [["aIn",go],["aOut",save]].forEach(([id,f])=>$(id).onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();e.stopPropagation();f()}})}
 function tapSay(i,btn){stopAudio();document.querySelectorAll(".play").forEach(b=>b.classList.remove("play"));
  if(btn)btn.classList.add("play");
  sayPhrase(i,false).then(()=>{if(btn)btn.classList.remove("play")})}
@@ -371,7 +426,7 @@ async function fillOffline(){if(filling||!window.caches||!P.length)return;fillin
   try{const r=await fetch("audio/index.json",{cache:"no-cache"});if(r.ok)man=await r.json()}catch(e){}
   const oldMan=store.get("frases-audioman",null);
   if(man&&oldMan)for(const k of Object.keys(man))if(oldMan[k]&&oldMan[k]!==man[k])await c.delete(new URL("audio/"+k,location.href).href);
-  const t=audioTiers(P.filter(p=>!p.my),MISS,SKL());const urls=[...t.base,...t.extra].map(u=>new URL(u,location.href).href);
+  const t=audioTiers(P.filter(p=>!p.my),MISS,SKL(),STORIES);const urls=[...t.base,...t.extra].map(u=>new URL(u,location.href).href);
   off.need=urls.length;
   for(let pass=0;pass<4;pass++){
    const have=new Set((await c.keys()).map(k=>k.url));
@@ -454,7 +509,7 @@ function validBackup(d){
  if(!isObj(d)||d.v!==2||!isObj(d.srs))return "That is not a Frases backup.";
  for(const k of Object.keys(d.srs)){const e=d.srs[k];
   if(!/^\d+$/.test(k)||+k>=BASE+(Array.isArray(d.mine)?d.mine.length:0)||!Array.isArray(e)||e.length<4||e.length>8||!e.every(x=>x===null||Number.isFinite(x)))return "The backup has damaged schedule data."}
- if(d.mine!=null&&(!Array.isArray(d.mine)||d.mine.length>500||!d.mine.every(m=>Array.isArray(m)&&typeof m[0]==="string"&&typeof m[1]==="string"&&m[0].length<200&&m[1].length<200)))return "The backup has damaged custom phrases.";
+ if(d.mine!=null&&(!Array.isArray(d.mine)||d.mine.length>500||!d.mine.every(m=>Array.isArray(m)&&typeof m[0]==="string"&&typeof m[1]==="string"&&m[0].length<200&&m[1].length<200&&(m[3]===undefined||(typeof m[3]==="string"&&m[3].length<200)))))return "The backup has damaged custom phrases.";
  if(d.prof!=null&&!isObj(d.prof))return "The backup has damaged progress data.";
  if(d.set!=null&&!isObj(d.set))return "The backup has damaged settings.";
  if(d.opt!=null&&!isObj(d.opt))return "The backup has damaged options.";
@@ -462,7 +517,7 @@ function validBackup(d){
  return ""}
 function cleanProf(p){
  const o=Object.assign({sessions:0,missions:{},rev:{},lis:{},newLog:{},lastSess:-1,lastBackup:0,sess:[]},isObj(p)?p:{});
- ["missions","rev","lis","newLog"].forEach(k=>{if(!isObj(o[k]))o[k]={}});
+ ["missions","stories","rev","lis","newLog"].forEach(k=>{if(!isObj(o[k]))o[k]={}});
  Object.keys(o.missions).forEach(k=>{const v=Number(o.missions[k]);o.missions[k]=v>=1&&v<=3?Math.floor(v):0});
  o.sess=Array.isArray(o.sess)?o.sess.filter(Array.isArray).slice(-40):[];
  ["sessions","lastSess","lastBackup"].forEach(k=>{if(!Number.isFinite(o[k]))o[k]=k==="lastSess"?-1:0});
@@ -477,7 +532,7 @@ function importModal(){
    closeModal();
    ask("Replace progress?",`Backup from ${String(d.date||"").slice(0,10)} with ${Object.keys(d.srs).length} phrases tracked will replace what is on this phone. A copy of the current progress is kept first.`,"Replace",()=>{
     store.set("frases-backup-pre-import",{srs,prof,set,opt,log:LOG.slice(-2000)});
-    MINE=Array.isArray(d.mine)?d.mine.map(m=>[m[0],m[1],m[2]?1:0]):MINE;saveMine();srs=d.srs;prof=cleanProf(d.prof);set=Object.assign(set,d.set||{});if(d.opt)opt=Object.assign(opt,d.opt);LOG=d.log||[];
+    MINE=Array.isArray(d.mine)?d.mine.map(m=>[m[0],m[1],m[2]?1:0,typeof m[3]==="string"?m[3]:""]):MINE;saveMine();srs=d.srs;prof=cleanProf(d.prof);set=Object.assign(set,d.set||{});if(d.opt)opt=Object.assign(opt,d.opt);LOG=d.log||[];
     saveSrs();saveProf();saveSet();saveOpt();flushLog();store.set("frases-schema",2);location.reload()},"bad")};
   r.readAsText(f)}}
 
@@ -504,6 +559,7 @@ function wire(){
  $("btnExtra").onclick=()=>startSession("extra");
  $("btnPrep").onclick=()=>startSession("prep");
  $("btnCore").onclick=()=>startSession("core");
+ $("btnStories").onclick=()=>{go("missions");setTimeout(()=>{const h=$("stHead");if(h&&h.scrollIntoView)h.scrollIntoView({behavior:smooth()})},60)};
  $("btnPocket").onclick=()=>go("pocket");
  $("pBack").onclick=()=>go("today");
  $("potd").onclick=e=>{const b=e.target.closest("button");if(!b)return;const i=+b.dataset.i;$("potdAns").textContent=P[i].es;tapSay(i,null)};
@@ -614,7 +670,8 @@ function langUi(){
 function switchLang(){if(playing)pause();set.lang=SKL()?"en":"sk";saveSet();location.reload()}
 async function boot(){
  const j=u=>fetch(u).then(r=>r.json());
- const [raw,al,ms,pr,cw,sk,msk]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[]),j("core.json").catch(()=>null),j("sk.json").catch(()=>[]),j("sk_m.json").catch(()=>({}))]);
+ const [raw,al,ms,pr,cw,sk,msk,sto]=await Promise.all([j("phrases.json"),j("align.json").catch(()=>[]),j("missions.json").catch(()=>[]),j("pairs.json").catch(()=>[]),j("core.json").catch(()=>null),j("sk.json").catch(()=>[]),j("sk_m.json").catch(()=>({})),j("stories.json").catch(()=>[])]);
+ STORIES=Array.isArray(sto)?sto:[];
  if(cw&&cw.needs&&cw.cloze)CW=cw;
  SK=Array.isArray(sk)?sk:[];
  P=raw.map((d,i)=>({i,es:d[0],en:d[1],en0:d[1],sk:SK[i]||"",cat:d[2],note:d[3]||"",skip:d[4]==="x"}));BASE=P.length;loadMine();P.forEach(setGloss);ALIGN=al;MISS=ms;PAIRS=pr;if(SKL())skMissions(msk);

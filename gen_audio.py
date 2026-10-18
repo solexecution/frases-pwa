@@ -47,7 +47,7 @@ async def main():
     sk = json.loads((ROOT / "sk.json").read_text(encoding="utf-8"))
     for d in (AUDIO, SLOW, EN, SK):
         d.mkdir(parents=True, exist_ok=True)
-    done = json.loads(MANIFEST.read_text(encoding="utf-8")) if MANIFEST.exists() and not force else {}
+    done = json.loads(MANIFEST.read_text(encoding="utf-8")) if MANIFEST.exists() else {}
     jobs = []
     for i, row in enumerate(phrases):
         n = f"{i:03d}{EXT}"

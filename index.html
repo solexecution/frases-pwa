@@ -200,6 +200,27 @@ nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,v
 #md .acts{display:flex;gap:10px;margin-top:14px}
 #md .acts button{flex:1}
 #fab{position:fixed;right:16px;bottom:calc(90px + env(safe-area-inset-bottom,0px));z-index:7;width:60px;height:60px;border-radius:50%;border:0;background:var(--fill);color:#fff;display:grid;place-items:center;padding:0;box-shadow:0 6px 18px rgba(0,0,0,.3)}#fab svg{width:28px;height:28px}#fab:active{transform:scale(.94)}body.fit #fab{bottom:auto;top:12px}#fab[hidden]{display:none}
+.sn{padding:12px 14px;margin:8px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;cursor:pointer}
+.sn.cur{border-color:var(--turq);box-shadow:0 0 0 2px color-mix(in srgb,var(--turq) 35%,transparent)}
+.snEs{font-size:1.35rem;font-weight:800;line-height:1.55;letter-spacing:-.01em}
+.snTr{color:var(--muted);margin-top:6px;font-size:1.02rem;line-height:1.3}
+.wc{display:inline-flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:40px;min-height:44px;margin:0 .1em .1em 0;padding:0 .4em;border-radius:9px}
+.wc i{font-style:normal;font-size:.8rem;font-weight:600;color:var(--fill);line-height:1.15}
+#stBody.nogloss .wc i{display:none}
+.wc:active{background:color-mix(in srgb,var(--turq) 18%,transparent)}
+.snRes{margin-top:6px}
+.rr span{font-size:1.1rem;font-weight:700;margin-right:.3em}
+.rr .ok{color:#0B7A57}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wc i{color:var(--turq)}:root:not([data-theme="light"]) .rr .ok{color:var(--good)}}
+:root[data-theme="dark"] .wc i{color:var(--turq)}
+:root[data-theme="dark"] .rr .ok{color:var(--good)}
+#stHead{scroll-margin-top:70px}
+.btn:disabled{opacity:.45}
+.rr .miss{color:var(--bad);text-decoration:underline wavy}
+.stGloss{min-height:1.4em;max-height:2.9em;overflow:hidden;margin:0 0 8px;font-size:.95rem;line-height:1.4;color:var(--muted)}
+.stGloss b{color:var(--ink)}
+.stT{margin:0 0 2px;font-size:1.6rem;font-weight:800}
+.stTools{display:flex;gap:8px;margin:10px 0 6px;flex-wrap:wrap}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:40;max-width:648px;margin:0 auto;background:var(--ink);color:var(--bg);padding:13px 15px;border-radius:12px;font-size:.95rem;line-height:1.35;box-shadow:0 6px 24px rgba(0,0,0,.25);display:none}
 .dots{display:flex;gap:5px;margin-top:6px}
 .dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);display:block}
@@ -229,6 +250,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
     <div class="two">
       <button class="tile" id="btnTwo"><b>Just 2 minutes</b><small>5 reviews, counts as a day</small></button>
       <button class="tile" id="btnCore"><b>Core words drill</b><small>fill in the missing word</small></button>
+      <button class="tile" id="btnStories"><b>Story reading</b><small>read aloud, both languages</small></button>
       <button class="tile" id="btnPrep"><b>Event prep</b><small>3-minute mixer drill</small></button>
       <button class="tile" id="btnExtra"><b>Extra practice</b><small>weak phrases, no new ones</small></button>
       <button class="tile" id="btnPocket"><b>Pocket mode</b><small>tap-to-speak cheat sheet</small></button>
@@ -243,6 +265,9 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
     <div class="hi">Missions</div>
     <div class="sub">Real conversations. Listen, then pick the right reply.</div>
     <div id="mList"></div>
+    <div class="hi" id="stHead" style="margin-top:26px">Stories</div>
+    <div class="sub">Read aloud and see both languages at once. Tap a word for its meaning.</div>
+    <div id="stList"></div>
   </section>
 
   <section id="s-listen" class="screen" hidden>
@@ -316,5 +341,6 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
 <script src="srs.js"></script>
 <script src="app.js"></script>
 <script src="learn.js"></script>
+<script src="stories.js"></script>
 </body>
 </html>

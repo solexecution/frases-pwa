@@ -1,0 +1,25 @@
+{
+ "id": "doctor",
+ "level": 2,
+ "title": {"es": "Me duele la cabeza", "en": "My head hurts", "sk": "Bolí ma hlava"},
+ "sentences": [
+  {"es": "Hoy tengo un mal día.", "en": "Today I'm having a bad day.", "sk": "Dnes mám zlý deň.",
+   "w": [["Hoy", "Today", "Dnes"], ["tengo", "I have", "mám"], ["un mal", "a bad", "zlý"], ["día.", "day.", "deň."]]},
+  {"es": "Me duele la cabeza y me duele el estómago.", "en": "My head hurts and my stomach hurts.", "sk": "Bolí ma hlava a bolí ma žalúdok.",
+   "w": [["Me duele", "Hurts me", "Bolí ma"], ["la cabeza", "the head", "hlava"], ["y", "and", "a"], ["me duele", "hurts me", "bolí ma"], ["el estómago.", "the stomach.", "žalúdok."]]},
+  {"es": "También me duele la garganta y me duele la espalda.", "en": "Also, my throat hurts and my back hurts.", "sk": "Bolí ma aj hrdlo a bolí ma chrbát.",
+   "w": [["También", "Also", "Aj"], ["me duele", "hurts me", "bolí ma"], ["la garganta", "the throat", "hrdlo"], ["y", "and", "a"], ["me duele", "hurts me", "bolí ma"], ["la espalda.", "the back.", "chrbát."]]},
+  {"es": "Estoy cansado y necesito ir a la farmacia.", "en": "I'm tired and I need to go to the pharmacy.", "sk": "Som unavený a potrebujem ísť do lekárne.",
+   "w": [["Estoy", "I'm", "Som"], ["cansado", "tired", "unavený"], ["y", "and", "a"], ["necesito", "I need", "potrebujem"], ["ir", "to go", "ísť"], ["a la", "to the", "do"], ["farmacia.", "pharmacy.", "lekárne."]]},
+  {"es": "El farmacéutico pregunta: ¿Qué te duele?", "en": "The pharmacist asks: What hurts?", "sk": "Lekárnik sa pýta: Čo ťa bolí?",
+   "w": [["El farmacéutico", "The pharmacist", "Lekárnik"], ["pregunta:", "asks:", "sa pýta:"], ["¿Qué", "what", "čo"], ["te duele?", "hurts you?", "ťa bolí?"]]},
+  {"es": "Me duele todo, señor.", "en": "Everything hurts, sir.", "sk": "Bolí ma všetko, pane.",
+   "w": [["Me duele", "Hurts me", "Bolí ma"], ["todo,", "everything,", "všetko,"], ["señor.", "sir.", "pane."]]},
+  {"es": "El farmacéutico dice: Necesitas tomar mucha agua.", "en": "The pharmacist says: You need to drink a lot of water.", "sk": "Lekárnik hovorí: Potrebuješ piť veľa vody.",
+   "w": [["El farmacéutico", "The pharmacist", "Lekárnik"], ["dice:", "says:", "hovorí:"], ["Necesitas", "you need", "potrebuješ"], ["tomar", "to drink", "piť"], ["mucha agua.", "a lot of water.", "veľa vody."]]},
+  {"es": "También necesitas descansar en casa.", "en": "You also need to rest at home.", "sk": "Tiež potrebuješ odpočívať doma.",
+   "w": [["También", "Also", "Tiež"], ["necesitas", "you need", "potrebuješ"], ["descansar", "to rest", "odpočívať"], ["en casa.", "at home.", "doma."]]},
+  {"es": "Gracias, voy a tomar agua y a descansar.", "en": "Thanks, I'm going to drink water and rest.", "sk": "Ďakujem, budem piť vodu a odpočívať.",
+   "w": [["Gracias,", "Thanks,", "Ďakujem,"], ["voy a", "I'm going to", "budem"], ["tomar", "drink", "piť"], ["agua", "water", "vodu"], ["y a", "and (to)", "a"], ["descansar.", "rest.", "odpočívať."]]}
+ ]
+}

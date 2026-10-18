@@ -1,0 +1,25 @@
+{
+ "id": "semana",
+ "level": 1,
+ "title": {"es": "La semana", "en": "The week", "sk": "Týždeň"},
+ "sentences": [
+  {"es": "Hoy es lunes.", "en": "Today is Monday.", "sk": "Dnes je pondelok.",
+   "w": [["Hoy", "Today", "Dnes"], ["es", "is", "je"], ["lunes.", "Monday.", "pondelok."]]},
+  {"es": "Es octubre y hace calor.", "en": "It is October and it is hot.", "sk": "Je október a je horúco.",
+   "w": [["Es", "It is", "Je"], ["octubre", "October", "október"], ["y", "and", "a"], ["hace calor.", "it is hot.", "je horúco."]]},
+  {"es": "Hace sol en la ciudad.", "en": "It is sunny in the city.", "sk": "V meste je slnečno.",
+   "w": [["Hace sol", "It is sunny", "Je slnečno"], ["en la ciudad.", "in the city.", "v meste."]]},
+  {"es": "Hoy Marek trabaja.", "en": "Today Marek works.", "sk": "Dnes Marek pracuje.",
+   "w": [["Hoy", "Today", "Dnes"], ["Marek", "Marek", "Marek"], ["trabaja.", "works.", "pracuje."]]},
+  {"es": "El miércoles Marek va al gimnasio.", "en": "On Wednesday Marek goes to the gym.", "sk": "V stredu ide Marek do posilňovne.",
+   "w": [["El miércoles", "On Wednesday", "V stredu"], ["Marek", "Marek", "Marek"], ["va", "goes", "ide"], ["al gimnasio.", "to the gym.", "do posilňovne."]]},
+  {"es": "El sábado Marek no trabaja.", "en": "On Saturday Marek does not work.", "sk": "V sobotu Marek nepracuje.",
+   "w": [["El sábado", "On Saturday", "V sobotu"], ["Marek", "Marek", "Marek"], ["no trabaja.", "does not work.", "nepracuje."]]},
+  {"es": "Va a la playa con un amigo.", "en": "He goes to the beach with a friend.", "sk": "Ide na pláž s kamarátom.",
+   "w": [["Va", "He goes", "Ide"], ["a la", "to the", "na"], ["playa", "beach", "pláž"], ["con un amigo.", "with a friend.", "s kamarátom."]]},
+  {"es": "En la playa hace sol y calor.", "en": "At the beach it is sunny and hot.", "sk": "Na pláži je slnečno a horúco.",
+   "w": [["En la playa", "At the beach", "Na pláži"], ["hace sol", "it is sunny", "je slnečno"], ["y", "and", "a"], ["calor.", "(it is) hot.", "(je) horúco."]]},
+  {"es": "Marek está muy contento.", "en": "Marek is very happy.", "sk": "Marek je veľmi spokojný.",
+   "w": [["Marek", "Marek", "Marek"], ["está", "is", "je"], ["muy", "very", "veľmi"], ["contento.", "happy.", "spokojný."]]}
+ ]
+}

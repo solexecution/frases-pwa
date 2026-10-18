@@ -1,0 +1,25 @@
+{
+ "id": "merida",
+ "level": 2,
+ "title": {"es": "Un día en Mérida", "en": "A day in Mérida", "sk": "Deň v Meride"},
+ "sentences": [
+  {"es": "Marek está en el centro de Mérida.", "en": "Marek is in the center of Mérida.", "sk": "Marek je v centre Méridy.",
+   "w": [["Marek", "Marek", "Marek"], ["está", "is", "je"], ["en el centro", "in the center", "v centre"], ["de Mérida.", "of Mérida.", "Méridy."]]},
+  {"es": "Quiere ir al restaurante Casa Luna.", "en": "He wants to go to the restaurant Casa Luna.", "sk": "Chce ísť do reštaurácie Casa Luna.",
+   "w": [["Quiere", "He wants", "Chce"], ["ir", "to go", "ísť"], ["al restaurante", "to the restaurant", "do reštaurácie"], ["Casa Luna.", "Casa Luna.", "Casa Luna."]]},
+  {"es": "Marek pregunta a una señora: ¿Dónde está el restaurante, por favor?", "en": "Marek asks a lady: Where is the restaurant, please?", "sk": "Marek sa pýta jednej pani: Kde je reštaurácia, prosím?",
+   "w": [["Marek", "Marek", "Marek"], ["pregunta", "asks", "sa pýta"], ["a una señora:", "a lady:", "jednej pani:"], ["¿Dónde", "where", "kde"], ["está", "is", "je"], ["el restaurante,", "the restaurant,", "reštaurácia,"], ["por favor?", "please?", "prosím?"]]},
+  {"es": "La señora dice: Siga todo derecho.", "en": "The lady says: Keep going straight ahead.", "sk": "Pani hovorí: Pokračujte stále rovno.",
+   "w": [["La señora", "The lady", "Pani"], ["dice:", "says:", "hovorí:"], ["Siga", "keep going", "pokračujte"], ["todo derecho.", "straight ahead.", "stále rovno."]]},
+  {"es": "Luego dé vuelta a la izquierda y después a la derecha.", "en": "Then turn to the left and after that to the right.", "sk": "Potom zahnite doľava a potom doprava.",
+   "w": [["Luego", "Then", "Potom"], ["dé vuelta", "turn", "zahnite"], ["a la izquierda", "to the left", "doľava"], ["y", "and", "a"], ["después", "after that", "potom"], ["a la derecha.", "to the right.", "doprava."]]},
+  {"es": "Marek está cansado y dice: Voy a tomar un taxi.", "en": "Marek is tired and says: I am going to take a taxi.", "sk": "Marek je unavený a hovorí: Zoberiem si taxík.",
+   "w": [["Marek", "Marek", "Marek"], ["está", "is", "je"], ["cansado", "tired", "unavený"], ["y", "and", "a"], ["dice:", "says:", "hovorí:"], ["Voy a tomar", "I am going to take", "zoberiem si"], ["un taxi.", "a taxi.", "taxík."]]},
+  {"es": "Marek pregunta al taxista: ¿Cuánto cuesta el viaje al restaurante?", "en": "Marek asks the taxi driver: How much does the ride to the restaurant cost?", "sk": "Marek sa pýta taxikára: Koľko stojí jazda do reštaurácie?",
+   "w": [["Marek", "Marek", "Marek"], ["pregunta", "asks", "sa pýta"], ["al taxista:", "the taxi driver:", "taxikára:"], ["¿Cuánto", "how much", "koľko"], ["cuesta", "does it cost", "stojí"], ["el viaje", "the ride", "jazda"], ["al restaurante?", "to the restaurant?", "do reštaurácie?"]]},
+  {"es": "El taxista dice: Son ochenta pesos.", "en": "The taxi driver says: It is eighty pesos.", "sk": "Taxikár hovorí: Je to osemdesiat pesos.",
+   "w": [["El taxista", "The taxi driver", "Taxikár"], ["dice:", "says:", "hovorí:"], ["Son", "it is", "je to"], ["ochenta", "eighty", "osemdesiat"], ["pesos.", "pesos.", "pesos."]]},
+  {"es": "Marek llega al restaurante, paga al taxista y dice: ¡Muchas gracias!", "en": "Marek arrives at the restaurant, pays the taxi driver and says: Thank you very much!", "sk": "Marek prichádza k reštaurácii, platí taxikárovi a hovorí: Ďakujem pekne!",
+   "w": [["Marek", "Marek", "Marek"], ["llega", "arrives", "prichádza"], ["al restaurante,", "at the restaurant,", "k reštaurácii,"], ["paga al taxista", "pays the taxi driver", "platí taxikárovi"], ["y", "and", "a"], ["dice:", "says:", "hovorí:"], ["¡Muchas gracias!", "thank you very much!", "Ďakujem pekne!"]]}
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "id": "intro",
+ "level": 1,
+ "title": {"es": "Yo soy Marek", "en": "I am Marek", "sk": "Ja som Marek"},
+ "sentences": [
+  {"es": "Hola, yo soy Marek.", "en": "Hello, I am Marek.", "sk": "Ahoj, ja som Marek.",
+   "w": [["Hola,", "Hello,", "Ahoj,"], ["yo soy", "I am", "ja som"], ["Marek.", "Marek.", "Marek."]]},
+  {"es": "Soy de Eslovaquia.", "en": "I am from Slovakia.", "sk": "Som zo Slovenska.",
+   "w": [["Soy", "I am", "Som"], ["de", "from", "zo"], ["Eslovaquia.", "Slovakia.", "Slovenska."]]},
+  {"es": "Ahora vivo en Mérida.", "en": "Now I live in Mérida.", "sk": "Teraz bývam v Méride.",
+   "w": [["Ahora", "Now", "Teraz"], ["vivo", "I live", "bývam"], ["en", "in", "v"], ["Mérida.", "Mérida.", "Méride."]]},
+  {"es": "Trabajo con energía solar.", "en": "I work with solar energy.", "sk": "Pracujem so slnečnou energiou.",
+   "w": [["Trabajo", "I work", "Pracujem"], ["con", "with", "so"], ["energía solar.", "solar energy.", "slnečnou energiou."]]},
+  {"es": "Me gusta mi trabajo.", "en": "I like my job.", "sk": "Baví ma moja práca.",
+   "w": [["Me gusta", "I like", "Baví ma"], ["mi", "my", "moja"], ["trabajo.", "job.", "práca."]]},
+  {"es": "Aprendo español cada día.", "en": "I learn Spanish every day.", "sk": "Učím sa španielčinu každý deň.",
+   "w": [["Aprendo", "I learn", "Učím sa"], ["español", "Spanish", "španielčinu"], ["cada día.", "every day.", "každý deň."]]},
+  {"es": "Estoy contento de conocerte.", "en": "I am happy to meet you.", "sk": "Som rád, že ťa spoznávam.",
+   "w": [["Estoy", "I am", "Som"], ["contento", "happy", "rád,"], ["de conocerte.", "to meet you.", "že ťa spoznávam."]]},
+  {"es": "¡Mucho gusto, amigo!", "en": "Nice to meet you, friend!", "sk": "Teší ma, kamaráte!",
+   "w": [["¡Mucho gusto,", "Nice to meet you,", "Teší ma,"], ["amigo!", "friend!", "kamaráte!"]]}
+ ]
+}
