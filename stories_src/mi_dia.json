@@ -1,25 +1,215 @@
 {
  "id": "mi_dia",
  "level": 1,
- "title": {"es": "El día de Marek", "en": "Marek's day", "sk": "Marekov deň"},
+ "group": "Marek en Mérida",
+ "title": {
+  "es": "El día de Marek",
+  "en": "Marek's day",
+  "sk": "Marekov deň"
+ },
  "sentences": [
-  {"es": "Marek se despierta a las siete.", "en": "Marek wakes up at seven.", "sk": "Marek sa zobúdza o siedmej.",
-   "w": [["Marek", "Marek", "Marek"], ["se despierta", "wakes up", "sa zobúdza"], ["a las siete.", "at seven.", "o siedmej."]]},
-  {"es": "Toma café en casa.", "en": "He drinks coffee at home.", "sk": "Pije kávu doma.",
-   "w": [["Toma", "He drinks", "Pije"], ["café", "coffee", "kávu"], ["en casa.", "at home.", "doma."]]},
-  {"es": "A las nueve trabaja con paneles solares.", "en": "At nine he works with solar panels.", "sk": "O deviatej pracuje so solárnymi panelmi.",
-   "w": [["A las nueve", "At nine", "O deviatej"], ["trabaja", "he works", "pracuje"], ["con", "with", "so"], ["paneles solares.", "solar panels.", "solárnymi panelmi."]]},
-  {"es": "Le gusta su trabajo.", "en": "He likes his work.", "sk": "Páči sa mu jeho práca.",
-   "w": [["Le gusta", "He likes", "Páči sa mu"], ["su", "his", "jeho"], ["trabajo.", "work.", "práca."]]},
-  {"es": "A las dos come tacos.", "en": "At two he eats tacos.", "sk": "O druhej obeduje tacos.",
-   "w": [["A las dos", "At two", "O druhej"], ["come", "he eats", "obeduje"], ["tacos.", "tacos.", "tacos."]]},
-  {"es": "A las ocho estudia español.", "en": "At eight he studies Spanish.", "sk": "O ôsmej sa učí španielsky.",
-   "w": [["A las ocho", "At eight", "O ôsmej"], ["estudia", "he studies", "sa učí"], ["español.", "Spanish.", "španielsky."]]},
-  {"es": "Está cansado, pero contento.", "en": "He is tired, but happy.", "sk": "Je unavený, ale spokojný.",
-   "w": [["Está", "He is", "Je"], ["cansado,", "tired,", "unavený,"], ["pero", "but", "ale"], ["contento.", "happy.", "spokojný."]]},
-  {"es": "A las diez, Marek se acuesta.", "en": "At ten, Marek goes to bed.", "sk": "O desiatej Marek ide spať.",
-   "w": [["A las diez,", "At ten,", "O desiatej"], ["Marek", "Marek", "Marek"], ["se acuesta.", "goes to bed.", "ide spať."]]},
-  {"es": "Buenas noches, Marek.", "en": "Good night, Marek.", "sk": "Dobrú noc, Marek.",
-   "w": [["Buenas noches,", "Good night,", "Dobrú noc,"], ["Marek.", "Marek.", "Marek."]]}
+  {
+   "es": "Marek se despierta a las siete.",
+   "en": "Marek wakes up at seven.",
+   "sk": "Marek sa zobúdza o siedmej.",
+   "w": [
+    [
+     "Marek",
+     "Marek",
+     "Marek"
+    ],
+    [
+     "se despierta",
+     "wakes up",
+     "sa zobúdza"
+    ],
+    [
+     "a las siete.",
+     "at seven.",
+     "o siedmej."
+    ]
+   ]
+  },
+  {
+   "es": "Toma café en casa.",
+   "en": "He drinks coffee at home.",
+   "sk": "Pije kávu doma.",
+   "w": [
+    [
+     "Toma",
+     "He drinks",
+     "Pije"
+    ],
+    [
+     "café",
+     "coffee",
+     "kávu"
+    ],
+    [
+     "en casa.",
+     "at home.",
+     "doma."
+    ]
+   ]
+  },
+  {
+   "es": "A las nueve trabaja con paneles solares.",
+   "en": "At nine he works with solar panels.",
+   "sk": "O deviatej pracuje so solárnymi panelmi.",
+   "w": [
+    [
+     "A las nueve",
+     "At nine",
+     "O deviatej"
+    ],
+    [
+     "trabaja",
+     "he works",
+     "pracuje"
+    ],
+    [
+     "con",
+     "with",
+     "so"
+    ],
+    [
+     "paneles solares.",
+     "solar panels.",
+     "solárnymi panelmi."
+    ]
+   ]
+  },
+  {
+   "es": "Le gusta su trabajo.",
+   "en": "He likes his work.",
+   "sk": "Páči sa mu jeho práca.",
+   "w": [
+    [
+     "Le gusta",
+     "He likes",
+     "Páči sa mu"
+    ],
+    [
+     "su",
+     "his",
+     "jeho"
+    ],
+    [
+     "trabajo.",
+     "work.",
+     "práca."
+    ]
+   ]
+  },
+  {
+   "es": "A las dos come tacos.",
+   "en": "At two he eats tacos.",
+   "sk": "O druhej obeduje tacos.",
+   "w": [
+    [
+     "A las dos",
+     "At two",
+     "O druhej"
+    ],
+    [
+     "come",
+     "he eats",
+     "obeduje"
+    ],
+    [
+     "tacos.",
+     "tacos.",
+     "tacos."
+    ]
+   ]
+  },
+  {
+   "es": "A las ocho estudia español.",
+   "en": "At eight he studies Spanish.",
+   "sk": "O ôsmej sa učí španielsky.",
+   "w": [
+    [
+     "A las ocho",
+     "At eight",
+     "O ôsmej"
+    ],
+    [
+     "estudia",
+     "he studies",
+     "sa učí"
+    ],
+    [
+     "español.",
+     "Spanish.",
+     "španielsky."
+    ]
+   ]
+  },
+  {
+   "es": "Está cansado, pero contento.",
+   "en": "He is tired, but happy.",
+   "sk": "Je unavený, ale spokojný.",
+   "w": [
+    [
+     "Está",
+     "He is",
+     "Je"
+    ],
+    [
+     "cansado,",
+     "tired,",
+     "unavený,"
+    ],
+    [
+     "pero",
+     "but",
+     "ale"
+    ],
+    [
+     "contento.",
+     "happy.",
+     "spokojný."
+    ]
+   ]
+  },
+  {
+   "es": "A las diez, Marek se acuesta.",
+   "en": "At ten, Marek goes to bed.",
+   "sk": "O desiatej Marek ide spať.",
+   "w": [
+    [
+     "A las diez,",
+     "At ten,",
+     "O desiatej"
+    ],
+    [
+     "Marek",
+     "Marek",
+     "Marek"
+    ],
+    [
+     "se acuesta.",
+     "goes to bed.",
+     "ide spať."
+    ]
+   ]
+  },
+  {
+   "es": "Buenas noches, Marek.",
+   "en": "Good night, Marek.",
+   "sk": "Dobrú noc, Marek.",
+   "w": [
+    [
+     "Buenas noches,",
+     "Good night,",
+     "Dobrú noc,"
+    ],
+    [
+     "Marek.",
+     "Marek.",
+     "Marek."
+    ]
+   ]
+  }
  ]
 }

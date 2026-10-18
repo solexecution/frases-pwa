@@ -1,0 +1,372 @@
+{
+ "id": "milpa",
+ "level": 1,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "El maíz y la milpa",
+  "en": "Maize and the Milpa",
+  "sk": "Kukurica a milpa"
+ },
+ "sentences": [
+  {
+   "es": "En Yucatán, los campesinos mayas llaman kool a la milpa.",
+   "en": "In Yucatán, Maya farmers call the milpa kool.",
+   "sk": "V Yucatáne mayskí roľníci nazývajú milpu kool.",
+   "w": [
+    [
+     "En",
+     "In",
+     "V"
+    ],
+    [
+     "Yucatán,",
+     "Yucatán,",
+     "Yucatáne,"
+    ],
+    [
+     "los campesinos mayas",
+     "the Maya farmers",
+     "mayskí roľníci"
+    ],
+    [
+     "llaman",
+     "call",
+     "nazývajú"
+    ],
+    [
+     "kool",
+     "kool (Maya word for milpa)",
+     "kool (mayské slovo pre milpu)"
+    ],
+    [
+     "a la milpa.",
+     "the milpa (maize field).",
+     "milpu (kukuričné pole)."
+    ]
+   ]
+  },
+  {
+   "es": "En la milpa, maíz, frijol y calabaza se ayudan.",
+   "en": "In the milpa, maize, beans and squash help each other.",
+   "sk": "V milpe si kukurica, fazuľa a tekvica navzájom pomáhajú.",
+   "w": [
+    [
+     "En la milpa,",
+     "In the milpa,",
+     "V milpe,"
+    ],
+    [
+     "maíz,",
+     "maize,",
+     "kukurica,"
+    ],
+    [
+     "frijol",
+     "beans",
+     "fazuľa"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "calabaza",
+     "squash",
+     "tekvica"
+    ],
+    [
+     "se ayudan.",
+     "help each other.",
+     "si navzájom pomáhajú."
+    ]
+   ]
+  },
+  {
+   "es": "Primero cortan y queman el monte con cuidado.",
+   "en": "First they carefully cut and burn the brush.",
+   "sk": "Najprv opatrne vyrubujú a pália porast.",
+   "w": [
+    [
+     "Primero",
+     "First",
+     "Najprv"
+    ],
+    [
+     "cortan",
+     "they cut",
+     "vyrubujú"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "queman",
+     "burn",
+     "pália"
+    ],
+    [
+     "el monte",
+     "the brush (wild bush land)",
+     "porast (divoká zeleň)"
+    ],
+    [
+     "con cuidado.",
+     "carefully.",
+     "opatrne."
+    ]
+   ]
+  },
+  {
+   "es": "La ceniza da fuerza a la tierra.",
+   "en": "The ash gives strength to the soil.",
+   "sk": "Popol dáva pôde silu.",
+   "w": [
+    [
+     "La ceniza",
+     "The ash",
+     "Popol"
+    ],
+    [
+     "da",
+     "gives",
+     "dáva"
+    ],
+    [
+     "fuerza",
+     "strength",
+     "silu"
+    ],
+    [
+     "a la tierra.",
+     "to the soil.",
+     "pôde."
+    ]
+   ]
+  },
+  {
+   "es": "Cuando llega la lluvia, siembran con un palo, el xul.",
+   "en": "When the rain comes, they plant with a stick, the xul.",
+   "sk": "Keď príde dážď, sejú palicou, ktorú volajú xul.",
+   "w": [
+    [
+     "Cuando",
+     "When",
+     "Keď"
+    ],
+    [
+     "llega",
+     "comes",
+     "príde"
+    ],
+    [
+     "la lluvia,",
+     "the rain,",
+     "dážď,"
+    ],
+    [
+     "siembran",
+     "they plant",
+     "sejú"
+    ],
+    [
+     "con un palo,",
+     "with a stick,",
+     "palicou,"
+    ],
+    [
+     "el xul.",
+     "the xul (Maya word for planting stick).",
+     "ktorú volajú xul."
+    ]
+   ]
+  },
+  {
+   "es": "Después de la cosecha, la milpa descansa y el monte crece.",
+   "en": "After the harvest, the milpa rests and the forest grows.",
+   "sk": "Po zbere úrody milpa odpočíva a les rastie.",
+   "w": [
+    [
+     "Después de",
+     "After",
+     "Po"
+    ],
+    [
+     "la cosecha,",
+     "the harvest,",
+     "zbere úrody"
+    ],
+    [
+     "la milpa",
+     "the milpa",
+     "milpa"
+    ],
+    [
+     "descansa",
+     "rests",
+     "odpočíva"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "el monte",
+     "the forest (wild bush land)",
+     "les (divoká zeleň)"
+    ],
+    [
+     "crece.",
+     "grows.",
+     "rastie."
+    ]
+   ]
+  },
+  {
+   "es": "Con el maíz, la familia hace masa y waaj, las tortillas.",
+   "en": "From the maize, the family makes dough and waaj, the tortillas.",
+   "sk": "Z kukurice rodina pripravuje cesto a waaj, čiže tortilly.",
+   "w": [
+    [
+     "Con el maíz,",
+     "From the maize,",
+     "Z kukurice,"
+    ],
+    [
+     "la familia",
+     "the family",
+     "rodina"
+    ],
+    [
+     "hace",
+     "makes",
+     "pripravuje"
+    ],
+    [
+     "masa",
+     "dough (masa)",
+     "cesto (masa)"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "waaj,",
+     "waaj (Maya word for tortilla),",
+     "waaj (mayské slovo pre tortillu),"
+    ],
+    [
+     "las tortillas.",
+     "the tortillas.",
+     "tortilly."
+    ]
+   ]
+  },
+  {
+   "es": "El Popol Vuh es un libro maya de Guatemala.",
+   "en": "The Popol Vuh is a Maya book from Guatemala.",
+   "sk": "Popol Vuh je mayská kniha z Guatemaly.",
+   "w": [
+    [
+     "El Popol Vuh",
+     "The Popol Vuh",
+     "Popol Vuh"
+    ],
+    [
+     "es",
+     "is",
+     "je"
+    ],
+    [
+     "un libro",
+     "a book",
+     "kniha"
+    ],
+    [
+     "maya",
+     "Maya",
+     "mayská"
+    ],
+    [
+     "de Guatemala.",
+     "from Guatemala.",
+     "z Guatemaly."
+    ]
+   ]
+  },
+  {
+   "es": "Según este libro, los dioses hacen a las personas de maíz.",
+   "en": "According to this book, the gods make people from maize.",
+   "sk": "Podľa tejto knihy bohovia vytvárajú ľudí z kukurice.",
+   "w": [
+    [
+     "Según este libro,",
+     "According to this book,",
+     "Podľa tejto knihy"
+    ],
+    [
+     "los dioses",
+     "the gods",
+     "bohovia"
+    ],
+    [
+     "hacen",
+     "make",
+     "vytvárajú"
+    ],
+    [
+     "a las personas",
+     "people",
+     "ľudí"
+    ],
+    [
+     "de maíz.",
+     "from maize.",
+     "z kukurice."
+    ]
+   ]
+  },
+  {
+   "es": "Algunos campesinos piden permiso y dan gracias a la tierra.",
+   "en": "Some farmers ask permission and give thanks to the land.",
+   "sk": "Niektorí roľníci prosia o dovolenie a ďakujú zemi.",
+   "w": [
+    [
+     "Algunos campesinos",
+     "Some farmers",
+     "Niektorí roľníci"
+    ],
+    [
+     "piden",
+     "ask for",
+     "prosia o"
+    ],
+    [
+     "permiso",
+     "permission",
+     "dovolenie"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "dan gracias",
+     "give thanks",
+     "ďakujú"
+    ],
+    [
+     "a la tierra.",
+     "to the land.",
+     "zemi."
+    ]
+   ]
+  }
+ ]
+}

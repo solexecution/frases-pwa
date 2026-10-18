@@ -17,11 +17,16 @@ function numWords(n){
 const heardTokens=s=>s.split(/\s+/).map(t=>t.replace(/[^\p{L}\p{N}]/gu,"")).filter(Boolean)
  .flatMap(t=>/^\d+$/.test(t)?(numWords(+t)||[t]):[t]).map(wordKey).filter(Boolean);
 
+const STORY_GROUPS={"Marek en Mérida":"Marek in Mérida","Leyendas mayas":"Maya legends from the villages"};
 function renderStories(){
  const el=$("stList");if(!el)return;
- el.innerHTML=STORIES.length?STORIES.map(s=>{
+ if(!STORIES.length){el.innerHTML='<div class="sub" style="margin-top:10px">Stories are not available yet.</div>';return}
+ let last=null;
+ el.innerHTML=STORIES.map(s=>{
+  const g=s.group||"",head=g!==last?`<div class="lab" style="margin:20px 0 4px">${esc(STORY_GROUPS[g]||g)}</div>`:"";
+  last=g;
   const r=prof.stories&&prof.stories[s.id];
-  return `<button class="mcard" data-sid="${esc(s.id)}"><span class="mt"><b lang="es">${esc(s.title.es)}</b><span class="sub">${esc(stTr(s.title))} · ${s.sentences.length} sentences</span><br><span class="tag">Beginner ${s.level}</span>${r&&r.n?` <span class="tag">Read ${r.n} time${r.n===1?"":"s"}</span>`:""}</span></button>`}).join(""):'<div class="sub" style="margin-top:10px">Stories are not available yet.</div>'}
+  return head+`<button class="mcard" data-sid="${esc(s.id)}"><span class="mt"><b lang="es">${esc(s.title.es)}</b><span class="sub">${esc(stTr(s.title))} · ${s.sentences.length} sentences</span><br><span class="tag">Beginner ${s.level}</span>${r&&r.n?` <span class="tag">Read ${r.n} time${r.n===1?"":"s"}</span>`:""}</span></button>`}).join("")}
 
 function openStory(id){
  const s=STORIES.find(x=>x.id===id);if(!s)return;

@@ -1,0 +1,147 @@
+{
+ "id": "cenote",
+ "level": 1,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "Los cenotes",
+  "en": "The cenotes",
+  "sk": "Cenoty"
+ },
+ "sentences": [
+  {
+   "es": "Un cenote, o ts'ono'ot en maya, es un hoyo con agua.",
+   "en": "A cenote, or ts'ono'ot in Maya, is a hole with water.",
+   "sk": "Cenote, alebo v mayčine ts'ono'ot, je diera s vodou.",
+   "w": [
+    ["Un cenote,", "A cenote,", "Cenote,"],
+    ["o", "or", "alebo"],
+    ["ts'ono'ot", "ts'ono'ot (Maya word for cenote)", "ts'ono'ot (mayské slovo pre cenote)"],
+    ["en maya,", "in Maya,", "v mayčine,"],
+    ["es", "is", "je"],
+    ["un hoyo", "a hole", "diera"],
+    ["con agua.", "with water.", "s vodou."]
+   ]
+  },
+  {
+   "es": "En Yucatán hay miles de cenotes, pero casi no hay ríos.",
+   "en": "In Yucatán there are thousands of cenotes, but almost no rivers.",
+   "sk": "Na Yucatáne sú tisíce cenotov, ale takmer žiadne rieky.",
+   "w": [
+    ["En Yucatán", "In Yucatán", "Na Yucatáne"],
+    ["hay", "there are", "sú"],
+    ["miles de", "thousands of", "tisíce"],
+    ["cenotes,", "cenotes,", "cenotov,"],
+    ["pero", "but", "ale"],
+    ["casi no hay", "there are almost no", "takmer žiadne"],
+    ["ríos.", "rivers.", "rieky."]
+   ]
+  },
+  {
+   "es": "Por eso el cenote da agua a la gente.",
+   "en": "That is why the cenote gives water to the people.",
+   "sk": "Preto cenote dáva ľuďom vodu.",
+   "w": [
+    ["Por eso", "That is why", "Preto"],
+    ["el cenote", "the cenote", "cenote"],
+    ["da", "gives", "dáva"],
+    ["agua", "water", "vodu"],
+    ["a la gente.", "to the people.", "ľuďom."]
+   ]
+  },
+  {
+   "es": "Para los antiguos mayas, muchos cenotes son sagrados.",
+   "en": "For the ancient Maya, many cenotes are sacred.",
+   "sk": "Pre starých Mayov sú mnohé cenoty posvätné.",
+   "w": [
+    ["Para", "For", "Pre"],
+    ["los antiguos", "the ancient", "starých"],
+    ["mayas,", "Maya,", "Mayov,"],
+    ["muchos", "many", "mnohé"],
+    ["cenotes", "cenotes", "cenoty"],
+    ["son", "are", "sú"],
+    ["sagrados.", "sacred.", "posvätné."]
+   ]
+  },
+  {
+   "es": "Dicen que son puertas a Xibalbá, el mundo de abajo.",
+   "en": "They say they are doors to Xibalbá, the world below.",
+   "sk": "Hovorí sa, že sú to brány do Xibalbá, podsvetia.",
+   "w": [
+    ["Dicen que", "They say that", "Hovorí sa, že"],
+    ["son", "they are", "sú to"],
+    ["puertas", "doors", "brány"],
+    ["a", "to", "do"],
+    ["Xibalbá,", "Xibalbá (the Maya underworld),", "Xibalbá (mayské podsvetie),"],
+    ["el mundo", "the world", "svet"],
+    ["de abajo.", "below (the underworld).", "dole (podsvetie)."]
+   ]
+  },
+  {
+   "es": "En Chichén Itzá hay un cenote sagrado muy grande.",
+   "en": "In Chichén Itzá there is a very big sacred cenote.",
+   "sk": "V Chichén Itzá je veľmi veľký posvätný cenote.",
+   "w": [
+    ["En", "In", "V"],
+    ["Chichén Itzá", "Chichén Itzá (Maya city)", "Chichén Itzá (mayské mesto)"],
+    ["hay", "there is", "je"],
+    ["un cenote", "a cenote", "cenote"],
+    ["sagrado", "sacred", "posvätný"],
+    ["muy grande.", "very big.", "veľmi veľký."]
+   ]
+  },
+  {
+   "es": "Allí los antiguos mayas dejaban copal para pedir lluvia a Chaac.",
+   "en": "There the ancient Maya used to leave copal (incense) to ask Chaac for rain.",
+   "sk": "Tam starí Mayovia nechávali kopál (kadidlo), aby prosili Chaaca o dážď.",
+   "w": [
+    ["Allí", "There", "Tam"],
+    ["los antiguos mayas", "the ancient Maya", "starí Mayovia"],
+    ["dejaban", "they used to leave", "nechávali"],
+    ["copal", "copal (incense resin)", "kopál (živicové kadidlo)"],
+    ["para pedir", "to ask for", "aby prosili o"],
+    ["lluvia", "rain", "dážď"],
+    ["a Chaac.", "from Chaac (rain god).", "Chaaca (boha dažďa)."]
+   ]
+  },
+  {
+   "es": "Hoy mucha gente nada en los cenotes.",
+   "en": "Today many people swim in the cenotes.",
+   "sk": "Dnes v cenotoch pláva veľa ľudí.",
+   "w": [
+    ["Hoy", "Today", "Dnes"],
+    ["mucha gente", "many people", "veľa ľudí"],
+    ["nada", "swim (verb nadar, not 'nothing')", "pláva (sloveso nadar, nie 'nič')"],
+    ["en los", "in the", "v"],
+    ["cenotes.", "cenotes.", "cenotoch."]
+   ]
+  },
+  {
+   "es": "En muchos cenotes hay que ducharse primero y cuidar el agua.",
+   "en": "In many cenotes you have to shower first and take care of the water.",
+   "sk": "V mnohých cenotoch sa treba najprv osprchovať a chrániť vodu.",
+   "w": [
+    ["En muchos cenotes", "In many cenotes", "V mnohých cenotoch"],
+    ["hay que", "you have to", "treba"],
+    ["ducharse", "shower", "sa osprchovať"],
+    ["primero", "first", "najprv"],
+    ["y", "and", "a"],
+    ["cuidar", "take care of", "chrániť"],
+    ["el agua.", "the water.", "vodu."]
+   ]
+  },
+  {
+   "es": "En algunas comunidades piden permiso a los aluxes antes de entrar.",
+   "en": "In some communities, people ask the aluxes for permission before entering.",
+   "sk": "V niektorých komunitách žiadajú aluxov o dovolenie pred vstupom.",
+   "w": [
+    ["En algunas", "In some", "V niektorých"],
+    ["comunidades", "communities", "komunitách"],
+    ["piden", "they ask for", "žiadajú"],
+    ["permiso", "permission", "o dovolenie"],
+    ["a los aluxes", "from the aluxes (small guardian spirits)", "aluxov (malých duchov-strážcov)"],
+    ["antes de", "before", "pred"],
+    ["entrar.", "entering.", "vstupom."]
+   ]
+  }
+ ]
+}

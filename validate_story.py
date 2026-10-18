@@ -15,6 +15,8 @@ def check(path):
         return errs
     if not re.fullmatch(r"[a-z0-9_]+", d["id"]):
         errs.append("id must be lowercase letters/digits/underscore")
+    if "group" in d and (not isinstance(d["group"], str) or not d["group"].strip()):
+        errs.append("group must be a non-empty string")
     if d["level"] not in (1, 2):
         errs.append("level must be 1 or 2")
     for l in ("es", "en", "sk"):

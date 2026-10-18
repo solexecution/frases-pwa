@@ -1,0 +1,126 @@
+{
+ "id": "ceiba",
+ "level": 1,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "La ceiba",
+  "en": "The ceiba",
+  "sk": "Ceiba"
+ },
+ "sentences": [
+  {
+   "es": "En muchos pueblos mayas hay una ceiba muy alta.",
+   "en": "In many Maya villages there is a very tall ceiba.",
+   "sk": "V mnohých mayských dedinách je veľmi vysoká ceiba.",
+   "w": [
+    ["En muchos", "In many", "V mnohých"],
+    ["pueblos mayas", "Maya villages", "mayských dedinách"],
+    ["hay", "there is", "je"],
+    ["una ceiba", "a ceiba (kapok tree)", "ceiba (kapokovník)"],
+    ["muy alta.", "very tall.", "veľmi vysoká."]
+   ]
+  },
+  {
+   "es": "Está en el centro de la plaza.",
+   "en": "It is in the center of the plaza.",
+   "sk": "Je v strede námestia.",
+   "w": [
+    ["Está", "It is", "Je"],
+    ["en el centro", "in the center", "v strede"],
+    ["de la plaza.", "of the plaza.", "námestia."]
+   ]
+  },
+  {
+   "es": "Los niños juegan a la sombra de la ceiba.",
+   "en": "The children play in the shade of the ceiba.",
+   "sk": "Deti sa hrajú v tieni ceiby.",
+   "w": [
+    ["Los niños", "The children", "Deti"],
+    ["juegan", "play", "sa hrajú"],
+    ["a la sombra", "in the shade", "v tieni"],
+    ["de la ceiba.", "of the ceiba.", "ceiby."]
+   ]
+  },
+  {
+   "es": "\"La ceiba se llama ya'axche' en maya\", dice la abuela.",
+   "en": "\"The ceiba is called ya'axche' in Maya,\" says the grandmother.",
+   "sk": "„Ceiba sa po maysky volá ya'axche',“ hovorí stará mama.",
+   "w": [
+    ["\"La ceiba", "The ceiba", "Ceiba"],
+    ["se llama", "is called", "sa volá"],
+    ["ya'axche'", "ya'axche' (Maya name of the ceiba)", "ya'axche' (mayský názov ceiby)"],
+    ["en maya\",", "in Maya,", "po maysky,"],
+    ["dice", "says", "hovorí"],
+    ["la abuela.", "the grandmother.", "stará mama."]
+   ]
+  },
+  {
+   "es": "Ya'axche' quiere decir árbol verde, o primer árbol.",
+   "en": "Ya'axche' means green tree, or first tree.",
+   "sk": "Ya'axche' znamená zelený strom alebo prvý strom.",
+   "w": [
+    ["Ya'axche'", "ya'axche' (Maya name of the ceiba)", "ya'axche' (mayský názov ceiby)"],
+    ["quiere decir", "means", "znamená"],
+    ["árbol verde,", "green tree,", "zelený strom"],
+    ["o", "or", "alebo"],
+    ["primer árbol.", "first tree.", "prvý strom."]
+   ]
+  },
+  {
+   "es": "Dicen que las raíces llegan al inframundo.",
+   "en": "They say the roots reach the underworld.",
+   "sk": "Hovoria, že korene siahajú do podsvetia.",
+   "w": [
+    ["Dicen que", "They say that", "Hovoria, že"],
+    ["las raíces", "the roots", "korene"],
+    ["llegan", "reach", "siahajú"],
+    ["al inframundo.", "to the underworld.", "do podsvetia."]
+   ]
+  },
+  {
+   "es": "El tronco está en la tierra, donde vivimos todos.",
+   "en": "The trunk is on the earth, where we all live.",
+   "sk": "Kmeň je na zemi, kde žijeme všetci.",
+   "w": [
+    ["El tronco", "The trunk", "Kmeň"],
+    ["está", "is", "je"],
+    ["en la tierra,", "on the earth,", "na zemi,"],
+    ["donde", "where", "kde"],
+    ["vivimos todos.", "we all live.", "žijeme všetci."]
+   ]
+  },
+  {
+   "es": "Las ramas llegan al cielo.",
+   "en": "The branches reach the sky.",
+   "sk": "Konáre siahajú k nebu.",
+   "w": [
+    ["Las ramas", "The branches", "Konáre"],
+    ["llegan", "reach", "siahajú"],
+    ["al cielo.", "to the sky.", "k nebu."]
+   ]
+  },
+  {
+   "es": "Por eso mucha gente cree que es un árbol sagrado.",
+   "en": "That is why many people believe it is a sacred tree.",
+   "sk": "Preto mnoho ľudí verí, že je to posvätný strom.",
+   "w": [
+    ["Por eso", "That is why", "Preto"],
+    ["mucha gente", "many people", "mnoho ľudí"],
+    ["cree que", "believe that", "verí, že"],
+    ["es", "it is", "je to"],
+    ["un árbol sagrado.", "a sacred tree.", "posvätný strom."]
+   ]
+  },
+  {
+   "es": "Antes de cortar una ceiba, dan las gracias al árbol.",
+   "en": "Before cutting a ceiba, people thank the tree.",
+   "sk": "Pred zoťatím ceiby ľudia ďakujú stromu.",
+   "w": [
+    ["Antes de cortar", "Before cutting", "Pred zoťatím"],
+    ["una ceiba,", "a ceiba,", "ceiby"],
+    ["dan las gracias", "they give thanks", "ďakujú"],
+    ["al árbol.", "to the tree.", "stromu."]
+   ]
+  }
+ ]
+}

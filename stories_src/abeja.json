@@ -1,0 +1,135 @@
+{
+ "id": "abeja",
+ "level": 1,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "La abeja melipona",
+  "en": "The Melipona Bee",
+  "sk": "Včela melipona"
+ },
+ "sentences": [
+  {
+   "es": "Don Pedro vive en un pueblo de Yucatán.",
+   "en": "Don Pedro lives in a village in Yucatán.",
+   "sk": "Don Pedro býva v dedine v Yucatáne.",
+   "w": [
+    ["Don Pedro", "Don Pedro (respectful title)", "Don Pedro (úctivé oslovenie)"],
+    ["vive", "lives", "býva"],
+    ["en un pueblo", "in a village", "v dedine"],
+    ["de Yucatán.", "in Yucatán", "v Yucatáne"]
+   ]
+  },
+  {
+   "es": "En su patio hay jobones, troncos huecos con abejas.",
+   "en": "In his yard there are jobones, hollow logs with bees.",
+   "sk": "Na jeho dvore sú jobones, duté kmene so včelami.",
+   "w": [
+    ["En su patio", "In his yard", "Na jeho dvore"],
+    ["hay", "there are", "sú"],
+    ["jobones,", "jobones (log hives)", "jobones (úle z kmeňov)"],
+    ["troncos huecos", "hollow logs", "duté kmene"],
+    ["con abejas.", "with bees", "so včelami"]
+   ]
+  },
+  {
+   "es": "Las abejas se llaman Xunan Kab, señora abeja en maya.",
+   "en": "The bees are called Xunan Kab, lady bee in Maya.",
+   "sk": "Včely sa volajú Xunan Kab, v mayčine pani včela.",
+   "w": [
+    ["Las abejas", "The bees", "Včely"],
+    ["se llaman", "are called", "sa volajú"],
+    ["Xunan Kab,", "Xunan Kab (Maya stingless bee)", "Xunan Kab (mayská včela bez žihadla)"],
+    ["señora abeja", "lady bee", "pani včela"],
+    ["en maya.", "in Maya", "v mayčine"]
+   ]
+  },
+  {
+   "es": "No tienen aguijón, pero muerden si las molestan.",
+   "en": "They have no stinger, but they bite if someone bothers them.",
+   "sk": "Nemajú žihadlo, ale hryzú, ak ich niekto ruší.",
+   "w": [
+    ["No tienen", "They do not have", "Nemajú"],
+    ["aguijón,", "stinger", "žihadlo"],
+    ["pero", "but", "ale"],
+    ["muerden", "they bite", "hryzú"],
+    ["si", "if", "ak"],
+    ["las molestan.", "someone bothers them", "ich niekto ruší"]
+   ]
+  },
+  {
+   "es": "Don Pedro saca poca miel y deja el resto.",
+   "en": "Don Pedro takes out a little honey and leaves the rest.",
+   "sk": "Don Pedro vyberá málo medu a zvyšok necháva.",
+   "w": [
+    ["Don Pedro", "Don Pedro (respectful title)", "Don Pedro (úctivé oslovenie)"],
+    ["saca", "takes out", "vyberá"],
+    ["poca miel", "little honey", "málo medu"],
+    ["y", "and", "a"],
+    ["deja", "leaves", "necháva"],
+    ["el resto.", "the rest", "zvyšok"]
+   ]
+  },
+  {
+   "es": "Dicen que esta miel es buena para la garganta.",
+   "en": "They say this honey is good for the throat.",
+   "sk": "Hovoria, že tento med je dobrý na hrdlo.",
+   "w": [
+    ["Dicen que", "They say that", "Hovoria, že"],
+    ["esta miel", "this honey", "tento med"],
+    ["es buena", "is good", "je dobrý"],
+    ["para", "for", "na"],
+    ["la garganta.", "the throat", "hrdlo"]
+   ]
+  },
+  {
+   "es": "Dicen que el dios Ah Muzen Cab cuida a las abejas.",
+   "en": "They say the god Ah Muzen Cab looks after the bees.",
+   "sk": "Hovoria, že boh Ah Muzen Cab sa stará o včely.",
+   "w": [
+    ["Dicen que", "They say that", "Hovoria, že"],
+    ["el dios", "the god", "boh"],
+    ["Ah Muzen Cab", "Ah Muzen Cab (Maya god of bees)", "Ah Muzen Cab (mayský boh včiel)"],
+    ["cuida", "looks after", "sa stará o"],
+    ["a las abejas.", "the bees (personal 'a', not translated)", "včely ('a' sa neprekladá)"]
+   ]
+  },
+  {
+   "es": "Algunas familias agradecen a las abejas con la ceremonia U Jaanli Kab.",
+   "en": "Some families thank the bees with the ceremony U Jaanli Kab.",
+   "sk": "Niektoré rodiny ďakujú včelám obradom U Jaanli Kab.",
+   "w": [
+    ["Algunas familias", "Some families", "Niektoré rodiny"],
+    ["agradecen", "thank", "ďakujú"],
+    ["a las abejas", "to the bees", "včelám"],
+    ["con la ceremonia", "with the ceremony", "obradom"],
+    ["U Jaanli Kab.", "U Jaanli Kab (the bees' meal)", "U Jaanli Kab (jedlo včiel)"]
+   ]
+  },
+  {
+   "es": "Hoy hay muchos menos jobones que antes.",
+   "en": "Today there are many fewer jobones than before.",
+   "sk": "Dnes je oveľa menej jobones ako predtým.",
+   "w": [
+    ["Hoy", "Today", "Dnes"],
+    ["hay", "there are", "je"],
+    ["muchos menos", "many fewer", "oveľa menej"],
+    ["jobones", "jobones (log hives)", "jobones (úle z kmeňov)"],
+    ["que antes.", "than before", "ako predtým"]
+   ]
+  },
+  {
+   "es": "Por eso su familia cuida los árboles y planta flores.",
+   "en": "That is why his family cares for the trees and plants flowers.",
+   "sk": "Preto sa jeho rodina stará o stromy a sadí kvety.",
+   "w": [
+    ["Por eso", "That is why", "Preto"],
+    ["su familia", "his family", "jeho rodina"],
+    ["cuida", "cares for", "sa stará o"],
+    ["los árboles", "the trees", "stromy"],
+    ["y", "and", "a"],
+    ["planta", "plants", "sadí"],
+    ["flores.", "flowers", "kvety"]
+   ]
+  }
+ ]
+}

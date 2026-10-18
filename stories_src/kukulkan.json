@@ -1,0 +1,139 @@
+{
+ "id": "kukulkan",
+ "level": 2,
+ "group": "Leyendas mayas",
+ "title": {"es": "Kukulkán", "en": "Kukulkan", "sk": "Kukulkán"},
+ "sentences": [
+  {
+   "es": "Kukulkán es la serpiente emplumada de los mayas yucatecos.",
+   "en": "Kukulkan is the feathered serpent of the Yucatec Maya.",
+   "sk": "Kukulkán je operený had Mayov z Yucatánu.",
+   "w": [
+    ["Kukulkán", "Kukulkan", "Kukulkán"],
+    ["es", "is", "je"],
+    ["la serpiente emplumada", "the feathered serpent", "operený had"],
+    ["de los mayas", "of the Maya", "Mayov"],
+    ["yucatecos.", "Yucatec.", "z Yucatánu."]
+   ]
+  },
+  {
+   "es": "En maya yucateco, k'uk' es pluma y kan es serpiente.",
+   "en": "In Yucatec Maya, k'uk' is feather and kan is snake.",
+   "sk": "V yucatánskej mayčine je k'uk' pero a kan je had.",
+   "w": [
+    ["En maya yucateco,", "In Yucatec Maya,", "V yucatánskej mayčine"],
+    ["k'uk'", "k'uk' (Maya word: feather)", "k'uk' (mayské slovo: pero)"],
+    ["es", "is", "je"],
+    ["pluma", "feather", "pero"],
+    ["y", "and", "a"],
+    ["kan", "kan (Maya word: snake)", "kan (mayské slovo: had)"],
+    ["es", "is", "je"],
+    ["serpiente.", "snake.", "had."]
+   ]
+  },
+  {
+   "es": "Su pirámide, El Castillo, está en Chichén Itzá.",
+   "en": "His pyramid, El Castillo, is in Chichen Itza.",
+   "sk": "Jeho pyramída, El Castillo, je v Chichén Itzá.",
+   "w": [
+    ["Su", "His", "Jeho"],
+    ["pirámide,", "pyramid,", "pyramída,"],
+    ["El Castillo,", "El Castillo (the Castle),", "El Castillo (Hrad),"],
+    ["está", "is (located)", "je"],
+    ["en", "in", "v"],
+    ["Chichén Itzá.", "Chichen Itza (Maya city).", "Chichén Itzá (mayské mesto)."]
+   ]
+  },
+  {
+   "es": "Dicen que hay unos 365 escalones, como los días del año.",
+   "en": "They say there are about 365 steps, like the days of the year.",
+   "sk": "Vraj je tam asi 365 schodov, toľko ako dní v roku.",
+   "w": [
+    ["Dicen que", "They say that", "Vraj"],
+    ["hay unos", "there are about", "je tam asi"],
+    ["365", "365", "365"],
+    ["escalones,", "steps,", "schodov,"],
+    ["como", "like", "toľko ako"],
+    ["los días", "the days", "dní (dni)"],
+    ["del año.", "of the year.", "v roku."]
+   ]
+  },
+  {
+   "es": "En los equinoccios de primavera y de otoño, pasa algo especial.",
+   "en": "At the spring and autumn equinoxes, something special happens.",
+   "sk": "Pri jarnej a jesennej rovnodennosti sa deje niečo výnimočné.",
+   "w": [
+    ["En los", "At the", "Pri"],
+    ["equinoccios", "equinoxes", "rovnodennosti"],
+    ["de primavera", "of spring", "jarnej (jar)"],
+    ["y de otoño,", "and of autumn,", "a jesennej (jeseň)"],
+    ["pasa", "happens", "sa deje"],
+    ["algo especial.", "something special.", "niečo výnimočné."]
+   ]
+  },
+  {
+   "es": "Por la tarde, la sombra parece una serpiente que baja despacio.",
+   "en": "In the afternoon, the shadow looks like a serpent that goes down slowly.",
+   "sk": "Popoludní vyzerá tieň ako had, ktorý pomaly zostupuje.",
+   "w": [
+    ["Por la tarde,", "In the afternoon,", "Popoludní"],
+    ["la sombra", "the shadow", "tieň"],
+    ["parece", "looks like", "vyzerá ako"],
+    ["una serpiente", "a serpent", "had"],
+    ["que baja", "that goes down", "ktorý zostupuje"],
+    ["despacio.", "slowly.", "pomaly."]
+   ]
+  },
+  {
+   "es": "Baja por la escalera hasta la cabeza de serpiente de piedra.",
+   "en": "It goes down the stairway to the head of the stone serpent.",
+   "sk": "Zostupuje po schodisku až k hlave hada z kameňa.",
+   "w": [
+    ["Baja", "It goes down", "Zostupuje"],
+    ["por", "along", "po"],
+    ["la escalera", "the stairway", "schodisku"],
+    ["hasta", "as far as", "až k"],
+    ["la cabeza", "the head", "hlave"],
+    ["de serpiente", "of a serpent", "hada"],
+    ["de piedra.", "made of stone.", "z kameňa."]
+   ]
+  },
+  {
+   "es": "Muchos creen que Kukulkán baja para ayudar a la tierra.",
+   "en": "Many believe that Kukulkan comes down to help the land.",
+   "sk": "Mnohí veria, že Kukulkán zostupuje, aby pomohol zemi.",
+   "w": [
+    ["Muchos creen que", "Many believe that", "Mnohí veria, že"],
+    ["Kukulkán", "Kukulkan", "Kukulkán"],
+    ["baja", "comes down", "zostupuje"],
+    ["para ayudar a", "in order to help", "aby pomohol"],
+    ["la tierra.", "the land.", "zemi."]
+   ]
+  },
+  {
+   "es": "Cada año, miles de personas vienen a ver la serpiente.",
+   "en": "Every year, thousands of people come to see the serpent.",
+   "sk": "Každý rok prichádzajú tisíce ľudí pozrieť si hada.",
+   "w": [
+    ["Cada año,", "Every year,", "Každý rok"],
+    ["miles de personas", "thousands of people", "tisíce ľudí"],
+    ["vienen", "come", "prichádzajú"],
+    ["a ver", "to see", "pozrieť si"],
+    ["la serpiente.", "the serpent.", "hada."]
+   ]
+  },
+  {
+   "es": "En Yucatán, la gente todavía cuenta historias de Kukulkán.",
+   "en": "In Yucatan, people still tell stories about Kukulkan.",
+   "sk": "Na Yucatáne ľudia stále rozprávajú príbehy o Kukulkánovi.",
+   "w": [
+    ["En Yucatán,", "In Yucatan,", "Na Yucatáne"],
+    ["la gente", "the people", "ľudia"],
+    ["todavía", "still", "stále"],
+    ["cuenta", "tell (sing. verb: la gente is singular)", "rozprávajú (v španielčine jednotné číslo)"],
+    ["historias", "stories", "príbehy"],
+    ["de Kukulkán.", "about Kukulkan.", "o Kukulkánovi."]
+   ]
+  }
+ ]
+}

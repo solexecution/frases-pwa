@@ -1,0 +1,138 @@
+{
+ "id": "tunkuluchu",
+ "level": 2,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "El tunkuluchú",
+  "en": "The Tunkuluchú",
+  "sk": "Tunkuluchú"
+ },
+ "sentences": [
+  {
+   "es": "La abuela habla del tunkuluchú, un tecolote pequeño de la noche.",
+   "en": "The grandmother talks about the tunkuluchú, a small owl of the night.",
+   "sk": "Babička rozpráva o tunkuluchú, malej nočnej sove.",
+   "w": [
+    ["La abuela", "the grandmother", "babička"],
+    ["habla del", "talks about the", "rozpráva o"],
+    ["tunkuluchú,", "tunkuluchú (Maya name for an owl),", "tunkuluchú (mayský názov sovy),"],
+    ["un tecolote", "an owl", "sova"],
+    ["pequeño", "small", "malá"],
+    ["de la noche.", "of the night.", "nočná."]
+   ]
+  },
+  {
+   "es": "Según la leyenda de Yucatán, el tunkuluchú es sabio y tranquilo.",
+   "en": "According to the legend from Yucatán, the tunkuluchú is wise and calm.",
+   "sk": "Podľa legendy z Yucatánu je tunkuluchú múdra a pokojná.",
+   "w": [
+    ["Según la leyenda", "according to the legend", "podľa legendy"],
+    ["de Yucatán,", "from Yucatán,", "z Yucatánu,"],
+    ["el tunkuluchú", "the tunkuluchú", "tunkuluchú"],
+    ["es", "is", "je"],
+    ["sabio", "wise", "múdra"],
+    ["y", "and", "a"],
+    ["tranquilo.", "calm.", "pokojná."]
+   ]
+  },
+  {
+   "es": "Un día, los pájaros lo invitan a una fiesta.",
+   "en": "One day, the birds invite it to a party.",
+   "sk": "Jedného dňa ju vtáci pozývajú na oslavu.",
+   "w": [
+    ["Un día,", "one day,", "jedného dňa"],
+    ["los pájaros", "the birds", "vtáci"],
+    ["lo invitan", "invite it", "ju pozývajú"],
+    ["a una fiesta.", "to a party.", "na oslavu."]
+   ]
+  },
+  {
+   "es": "Allí toma una bebida maya especial y se marea.",
+   "en": "There it drinks a special Maya drink and gets dizzy.",
+   "sk": "Tam pije špeciálny mayský nápoj a točí sa jej hlava.",
+   "w": [
+    ["Allí", "there", "tam"],
+    ["toma", "it drinks", "pije"],
+    ["una bebida", "a drink", "nápoj"],
+    ["maya", "Maya", "mayský"],
+    ["especial", "special", "špeciálny"],
+    ["y", "and", "a"],
+    ["se marea.", "gets dizzy.", "točí sa jej hlava."]
+   ]
+  },
+  {
+   "es": "Un invitado grosero se burla de él y le jala una pluma.",
+   "en": "A rude guest makes fun of it and pulls one of its feathers.",
+   "sk": "Nezdvorilý hosť sa jej posmieva a vytrháva jej pero.",
+   "w": [
+    ["Un invitado", "a guest", "hosť"],
+    ["grosero", "rude", "nezdvorilý"],
+    ["se burla de", "makes fun of", "sa posmieva"],
+    ["él", "it", "jej"],
+    ["y", "and", "a"],
+    ["le jala", "pulls from it", "jej vytrháva"],
+    ["una pluma.", "a feather.", "pero."]
+   ]
+  },
+  {
+   "es": "Los pájaros se ríen y el tunkuluchú siente vergüenza.",
+   "en": "The birds laugh and the tunkuluchú feels ashamed.",
+   "sk": "Vtáci sa smejú a tunkuluchú sa hanbí.",
+   "w": [
+    ["Los pájaros", "the birds", "vtáci"],
+    ["se ríen", "laugh", "sa smejú"],
+    ["y", "and", "a"],
+    ["el tunkuluchú", "the tunkuluchú", "tunkuluchú"],
+    ["siente vergüenza.", "feels ashamed.", "sa hanbí."]
+   ]
+  },
+  {
+   "es": "Entonces el tunkuluchú jura venganza.",
+   "en": "Then the tunkuluchú swears revenge.",
+   "sk": "Vtedy tunkuluchú prisahá pomstu.",
+   "w": [
+    ["Entonces", "then", "vtedy"],
+    ["el tunkuluchú", "the tunkuluchú", "tunkuluchú"],
+    ["jura", "swears", "prisahá"],
+    ["venganza.", "revenge.", "pomstu."]
+   ]
+  },
+  {
+   "es": "Desde entonces, dicen que su canto anuncia noticias tristes.",
+   "en": "Since then, people say its song announces sad news.",
+   "sk": "Odvtedy hovoria, že jej spev oznamuje smutné správy.",
+   "w": [
+    ["Desde entonces,", "since then,", "odvtedy"],
+    ["dicen que", "people say that", "hovoria, že"],
+    ["su canto", "its song", "jej spev"],
+    ["anuncia", "announces", "oznamuje"],
+    ["noticias tristes.", "sad news.", "smutné správy."]
+   ]
+  },
+  {
+   "es": "En algunos pueblos, hay personas que tienen miedo cuando lo escuchan.",
+   "en": "In some villages, there are people who are afraid when they hear it.",
+   "sk": "V niektorých dedinách sú ľudia, ktorí majú strach, keď ju počujú.",
+   "w": [
+    ["En algunos pueblos,", "in some villages,", "v niektorých dedinách"],
+    ["hay personas", "there are people", "sú ľudia"],
+    ["que tienen miedo", "who are afraid", "ktorí majú strach,"],
+    ["cuando", "when", "keď"],
+    ["lo escuchan.", "they hear it.", "ju počujú."]
+   ]
+  },
+  {
+   "es": "Pero otras personas dicen que los tecolotes no son malos.",
+   "en": "But other people say that owls are not bad.",
+   "sk": "Ale iní ľudia hovoria, že sovy nie sú zlé.",
+   "w": [
+    ["Pero", "but", "ale"],
+    ["otras personas", "other people", "iní ľudia"],
+    ["dicen que", "say that", "hovoria, že"],
+    ["los tecolotes", "the owls", "sovy"],
+    ["no son", "are not", "nie sú"],
+    ["malos.", "bad.", "zlé."]
+   ]
+  }
+ ]
+}

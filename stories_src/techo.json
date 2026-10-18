@@ -1,25 +1,290 @@
 {
  "id": "techo",
  "level": 2,
- "title": {"es": "El techo", "en": "The roof", "sk": "Strecha"},
+ "group": "Marek en Mérida",
+ "title": {
+  "es": "El techo",
+  "en": "The roof",
+  "sk": "Strecha"
+ },
  "sentences": [
-  {"es": "Marek va a la casa de un cliente.", "en": "Marek goes to a client's house.", "sk": "Marek ide do domu jedného klienta.",
-   "w": [["Marek", "Marek", "Marek"], ["va", "goes", "ide"], ["a la casa", "to the house", "do domu"], ["de un cliente.", "of a client.", "jedného klienta."]]},
-  {"es": "Marek quiere ver el techo.", "en": "Marek wants to see the roof.", "sk": "Marek chce vidieť strechu.",
-   "w": [["Marek", "Marek", "Marek"], ["quiere", "wants", "chce"], ["ver", "to see", "vidieť"], ["el techo.", "the roof.", "strechu."]]},
-  {"es": "El techo tiene mucho sol.", "en": "The roof gets a lot of sun.", "sk": "Strecha má veľa slnka.",
-   "w": [["El techo", "The roof", "Strecha"], ["tiene", "has", "má"], ["mucho", "a lot of", "veľa"], ["sol.", "sun.", "slnka."]]},
-  {"es": "Marek pregunta: ¿Cuánto paga de luz cada mes?", "en": "Marek asks: How much do you pay for electricity each month?", "sk": "Marek sa pýta: Koľko platíte za elektrinu každý mesiac?",
-   "w": [["Marek", "Marek", "Marek"], ["pregunta:", "asks:", "sa pýta:"], ["¿Cuánto", "how much", "koľko"], ["paga", "you pay", "platíte"], ["de luz", "for electricity", "za elektrinu"], ["cada mes?", "each month?", "každý mesiac?"]]},
-  {"es": "El cliente paga mucho de luz.", "en": "The client pays a lot for electricity.", "sk": "Klient platí veľa za elektrinu.",
-   "w": [["El cliente", "The client", "Klient"], ["paga", "pays", "platí"], ["mucho", "a lot", "veľa"], ["de luz.", "for electricity.", "za elektrinu."]]},
-  {"es": "Marek dice: Con paneles solares puede ahorrar mucho dinero.", "en": "Marek says: With solar panels you can save a lot of money.", "sk": "Marek hovorí: So solárnymi panelmi môžete ušetriť veľa peňazí.",
-   "w": [["Marek", "Marek", "Marek"], ["dice:", "says:", "hovorí:"], ["Con paneles solares", "with solar panels", "so solárnymi panelmi"], ["puede", "you can", "môžete"], ["ahorrar", "to save", "ušetriť"], ["mucho", "a lot of", "veľa"], ["dinero.", "money.", "peňazí."]]},
-  {"es": "Marek dice: Puedo dar una cotización gratis.", "en": "Marek says: I can give a free quote.", "sk": "Marek hovorí: Môžem dať cenovú ponuku zadarmo.",
-   "w": [["Marek", "Marek", "Marek"], ["dice:", "says:", "hovorí:"], ["Puedo", "I can", "môžem"], ["dar", "to give", "dať"], ["una cotización", "a quote", "cenovú ponuku"], ["gratis.", "for free.", "zadarmo."]]},
-  {"es": "El cliente dice: Voy a pensarlo.", "en": "The client says: I'm going to think about it.", "sk": "Klient hovorí: Rozmyslím si to.",
-   "w": [["El cliente", "The client", "Klient"], ["dice:", "says:", "hovorí:"], ["Voy a pensarlo.", "I'm going to think about it.", "Rozmyslím si to."]]},
-  {"es": "Marek está contento y espera.", "en": "Marek is happy and waits.", "sk": "Marek je spokojný a čaká.",
-   "w": [["Marek", "Marek", "Marek"], ["está", "is", "je"], ["contento", "happy", "spokojný"], ["y", "and", "a"], ["espera.", "waits.", "čaká."]]}
+  {
+   "es": "Marek va a la casa de un cliente.",
+   "en": "Marek goes to a client's house.",
+   "sk": "Marek ide do domu jedného klienta.",
+   "w": [
+    [
+     "Marek",
+     "Marek",
+     "Marek"
+    ],
+    [
+     "va",
+     "goes",
+     "ide"
+    ],
+    [
+     "a la casa",
+     "to the house",
+     "do domu"
+    ],
+    [
+     "de un cliente.",
+     "of a client.",
+     "jedného klienta."
+    ]
+   ]
+  },
+  {
+   "es": "Marek quiere ver el techo.",
+   "en": "Marek wants to see the roof.",
+   "sk": "Marek chce vidieť strechu.",
+   "w": [
+    [
+     "Marek",
+     "Marek",
+     "Marek"
+    ],
+    [
+     "quiere",
+     "wants",
+     "chce"
+    ],
+    [
+     "ver",
+     "to see",
+     "vidieť"
+    ],
+    [
+     "el techo.",
+     "the roof.",
+     "strechu."
+    ]
+   ]
+  },
+  {
+   "es": "El techo tiene mucho sol.",
+   "en": "The roof gets a lot of sun.",
+   "sk": "Strecha má veľa slnka.",
+   "w": [
+    [
+     "El techo",
+     "The roof",
+     "Strecha"
+    ],
+    [
+     "tiene",
+     "has",
+     "má"
+    ],
+    [
+     "mucho",
+     "a lot of",
+     "veľa"
+    ],
+    [
+     "sol.",
+     "sun.",
+     "slnka."
+    ]
+   ]
+  },
+  {
+   "es": "Marek pregunta: ¿Cuánto paga de luz cada mes?",
+   "en": "Marek asks: How much do you pay for electricity each month?",
+   "sk": "Marek sa pýta: Koľko platíte za elektrinu každý mesiac?",
+   "w": [
+    [
+     "Marek",
+     "Marek",
+     "Marek"
+    ],
+    [
+     "pregunta:",
+     "asks:",
+     "sa pýta:"
+    ],
+    [
+     "¿Cuánto",
+     "how much",
+     "koľko"
+    ],
+    [
+     "paga",
+     "you pay",
+     "platíte"
+    ],
+    [
+     "de luz",
+     "for electricity",
+     "za elektrinu"
+    ],
+    [
+     "cada mes?",
+     "each month?",
+     "každý mesiac?"
+    ]
+   ]
+  },
+  {
+   "es": "El cliente paga mucho de luz.",
+   "en": "The client pays a lot for electricity.",
+   "sk": "Klient platí veľa za elektrinu.",
+   "w": [
+    [
+     "El cliente",
+     "The client",
+     "Klient"
+    ],
+    [
+     "paga",
+     "pays",
+     "platí"
+    ],
+    [
+     "mucho",
+     "a lot",
+     "veľa"
+    ],
+    [
+     "de luz.",
+     "for electricity.",
+     "za elektrinu."
+    ]
+   ]
+  },
+  {
+   "es": "Marek dice: Con paneles solares puede ahorrar mucho dinero.",
+   "en": "Marek says: With solar panels you can save a lot of money.",
+   "sk": "Marek hovorí: So solárnymi panelmi môžete ušetriť veľa peňazí.",
+   "w": [
+    [
+     "Marek",
+     "Marek",
+     "Marek"
+    ],
+    [
+     "dice:",
+     "says:",
+     "hovorí:"
+    ],
+    [
+     "Con paneles solares",
+     "with solar panels",
+     "so solárnymi panelmi"
+    ],
+    [
+     "puede",
+     "you can",
+     "môžete"
+    ],
+    [
+     "ahorrar",
+     "to save",
+     "ušetriť"
+    ],
+    [
+     "mucho",
+     "a lot of",
+     "veľa"
+    ],
+    [
+     "dinero.",
+     "money.",
+     "peňazí."
+    ]
+   ]
+  },
+  {
+   "es": "Marek dice: Puedo dar una cotización gratis.",
+   "en": "Marek says: I can give a free quote.",
+   "sk": "Marek hovorí: Môžem dať cenovú ponuku zadarmo.",
+   "w": [
+    [
+     "Marek",
+     "Marek",
+     "Marek"
+    ],
+    [
+     "dice:",
+     "says:",
+     "hovorí:"
+    ],
+    [
+     "Puedo",
+     "I can",
+     "môžem"
+    ],
+    [
+     "dar",
+     "to give",
+     "dať"
+    ],
+    [
+     "una cotización",
+     "a quote",
+     "cenovú ponuku"
+    ],
+    [
+     "gratis.",
+     "for free.",
+     "zadarmo."
+    ]
+   ]
+  },
+  {
+   "es": "El cliente dice: Voy a pensarlo.",
+   "en": "The client says: I'm going to think about it.",
+   "sk": "Klient hovorí: Rozmyslím si to.",
+   "w": [
+    [
+     "El cliente",
+     "The client",
+     "Klient"
+    ],
+    [
+     "dice:",
+     "says:",
+     "hovorí:"
+    ],
+    [
+     "Voy a pensarlo.",
+     "I'm going to think about it.",
+     "Rozmyslím si to."
+    ]
+   ]
+  },
+  {
+   "es": "Marek está contento y espera.",
+   "en": "Marek is happy and waits.",
+   "sk": "Marek je spokojný a čaká.",
+   "w": [
+    [
+     "Marek",
+     "Marek",
+     "Marek"
+    ],
+    [
+     "está",
+     "is",
+     "je"
+    ],
+    [
+     "contento",
+     "happy",
+     "spokojný"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "espera.",
+     "waits.",
+     "čaká."
+    ]
+   ]
+  }
  ]
 }

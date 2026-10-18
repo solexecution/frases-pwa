@@ -1,4 +1,4 @@
-const VER="v40";
+const VER="v41";
 const AV="2";
 const CORE=["./","index.html","app.js","learn.js","ver.js","srs.js","phrases.json","align.json","missions.json","pairs.json","core.json","sk.json","sk_m.json","stories.json","stories.js","manifest.webmanifest","icon.svg","icon-180.png","icon-192.png","icon-512.png"];
 const pad3=i=>String(i).padStart(3,"0");

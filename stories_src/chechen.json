@@ -1,0 +1,147 @@
+{
+ "id": "chechen",
+ "level": 2,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "Chechén y Chacá",
+  "en": "Chechén and Chacá",
+  "sk": "Chechén a Chacá"
+ },
+ "sentences": [
+  {
+   "es": "En Yucatán crecen dos árboles famosos: el chechén y el chacá.",
+   "en": "Two famous trees grow in Yucatán: the chechén and the chacá.",
+   "sk": "Na Yucatáne rastú dva slávne stromy: chechén a chacá.",
+   "w": [
+    ["En", "In", "Na"],
+    ["Yucatán", "Yucatán", "Yucatáne"],
+    ["crecen", "grow", "rastú"],
+    ["dos", "two", "dva"],
+    ["árboles famosos:", "famous trees:", "slávne stromy:"],
+    ["el chechén", "the chechén (black poisonwood tree)", "chechén (jedovatý strom)"],
+    ["y", "and", "a"],
+    ["el chacá.", "the chacá (gumbo-limbo tree).", "chacá (strom s červenkastou kôrou)."]
+   ]
+  },
+  {
+   "es": "Según la leyenda, hay dos hermanos: Kinich y Tizic.",
+   "en": "According to the legend, there are two brothers: Kinich and Tizic.",
+   "sk": "Podľa legendy sú dvaja bratia: Kinich a Tizic.",
+   "w": [
+    ["Según la leyenda,", "According to the legend,", "Podľa legendy"],
+    ["hay", "there are", "sú"],
+    ["dos", "two", "dvaja"],
+    ["hermanos:", "brothers:", "bratia:"],
+    ["Kinich", "Kinich", "Kinich"],
+    ["y", "and", "a"],
+    ["Tizic.", "Tizic.", "Tizic."]
+   ]
+  },
+  {
+   "es": "Kinich es amable, pero Tizic es orgulloso.",
+   "en": "Kinich is kind, but Tizic is proud.",
+   "sk": "Kinich je láskavý, ale Tizic je pyšný.",
+   "w": [
+    ["Kinich", "Kinich", "Kinich"],
+    ["es", "is", "je"],
+    ["amable,", "kind,", "láskavý,"],
+    ["pero", "but", "ale"],
+    ["Tizic", "Tizic", "Tizic"],
+    ["es", "is", "je"],
+    ["orgulloso.", "proud.", "pyšný."]
+   ]
+  },
+  {
+   "es": "Los dos están enamorados de una joven, Nicté-Ha, y discuten.",
+   "en": "Both are in love with a young woman, Nicté-Ha, and they quarrel.",
+   "sk": "Obaja sú zamilovaní do mladej ženy Nicté-Hy a hádajú sa.",
+   "w": [
+    ["Los dos", "Both", "Obaja"],
+    ["están", "are", "sú"],
+    ["enamorados de", "in love with", "zamilovaní do"],
+    ["una joven,", "a young woman,", "mladej ženy"],
+    ["Nicté-Ha,", "Nicté-Ha,", "Nicté-Hy"],
+    ["y", "and", "a"],
+    ["discuten.", "they quarrel.", "hádajú sa."]
+   ]
+  },
+  {
+   "es": "Los dioses, tristes por la pelea, los convierten en árboles.",
+   "en": "The gods, sad about the fight, turn them into trees.",
+   "sk": "Bohovia, smutní kvôli hádke, ich premieňajú na stromy.",
+   "w": [
+    ["Los dioses,", "The gods,", "Bohovia,"],
+    ["tristes", "sad", "smutní"],
+    ["por la pelea,", "about the fight,", "kvôli hádke,"],
+    ["los convierten en", "turn them into", "ich premieňajú na"],
+    ["árboles.", "trees.", "stromy."]
+   ]
+  },
+  {
+   "es": "Ahora Tizic es el chechén y Kinich es el chacá.",
+   "en": "Now Tizic is the chechén and Kinich is the chacá.",
+   "sk": "Teraz je Tizic chechén a Kinich je chacá.",
+   "w": [
+    ["Ahora", "Now", "Teraz"],
+    ["Tizic", "Tizic", "Tizic"],
+    ["es", "is", "je"],
+    ["el chechén", "the chechén", "chechén"],
+    ["y", "and", "a"],
+    ["Kinich", "Kinich", "Kinich"],
+    ["es", "is", "je"],
+    ["el chacá.", "the chacá.", "chacá."]
+   ]
+  },
+  {
+   "es": "Los dos árboles tienen que estar juntos.",
+   "en": "The two trees have to stay together.",
+   "sk": "Oba stromy musia byť spolu.",
+   "w": [
+    ["Los dos", "The two", "Oba"],
+    ["árboles", "trees", "stromy"],
+    ["tienen que", "have to", "musia"],
+    ["estar", "be (stay)", "byť"],
+    ["juntos.", "together.", "spolu."]
+   ]
+  },
+  {
+   "es": "No debemos tocar el chechén: su savia puede quemar la piel.",
+   "en": "We must not touch the chechén: its sap can burn the skin.",
+   "sk": "Nesmieme sa dotýkať chechénu: jeho miazga môže páliť kožu.",
+   "w": [
+    ["No debemos", "We must not", "Nesmieme sa"],
+    ["tocar", "touch", "dotýkať"],
+    ["el chechén:", "the chechén:", "chechénu:"],
+    ["su savia", "its sap", "jeho miazga"],
+    ["puede quemar", "can burn", "môže páliť"],
+    ["la piel.", "the skin.", "kožu."]
+   ]
+  },
+  {
+   "es": "Dicen que el chacá es el remedio contra el chechén.",
+   "en": "They say the chacá is the remedy against the chechén.",
+   "sk": "Hovoria, že chacá je liek proti chechénu.",
+   "w": [
+    ["Dicen que", "They say that", "Hovoria, že"],
+    ["el chacá", "the chacá", "chacá"],
+    ["es", "is", "je"],
+    ["el remedio", "the remedy", "liek"],
+    ["contra el chechén.", "against the chechén.", "proti chechénu."]
+   ]
+  },
+  {
+   "es": "Por eso, donde hay veneno, la cura está cerca.",
+   "en": "That is why, where there is poison, the cure is near.",
+   "sk": "Preto tam, kde je jed, je liek blízko.",
+   "w": [
+    ["Por eso,", "That is why,", "Preto"],
+    ["donde", "where", "tam, kde"],
+    ["hay", "there is", "je"],
+    ["veneno,", "poison,", "jed,"],
+    ["la cura", "the cure", "liek"],
+    ["está", "is", "je"],
+    ["cerca.", "near.", "blízko."]
+   ]
+  }
+ ]
+}

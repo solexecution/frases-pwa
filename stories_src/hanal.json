@@ -1,0 +1,140 @@
+{
+ "id": "hanal",
+ "level": 2,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "Hanal Pixán - comida de las almas",
+  "en": "Hanal Pixán - Food of the Souls",
+  "sk": "Hanal Pixán - jedlo duší"
+ },
+ "sentences": [
+  {
+   "es": "\"Hanal Pixán significa comida de las almas\", dice la abuela.",
+   "en": "\"Hanal Pixán means food of the souls,\" says the grandmother.",
+   "sk": "„Hanal Pixán znamená jedlo duší,“ hovorí stará mama.",
+   "w": [
+    ["\"Hanal Pixán", "Hanal Pixán (Day of the Dead of the Yucatec Maya)", "Hanal Pixán (Deň mŕtvych Mayov z Yucatánu)"],
+    ["significa", "means", "znamená"],
+    ["comida", "food", "jedlo"],
+    ["de las almas\",", "of the souls", "duší"],
+    ["dice", "says", "hovorí"],
+    ["la abuela.", "the grandmother", "stará mama"]
+   ]
+  },
+  {
+   "es": "En la nueva ortografía maya se escribe Janal Pixán.",
+   "en": "In the new Maya spelling, it is written Janal Pixán.",
+   "sk": "V novom mayskom pravopise sa píše Janal Pixán.",
+   "w": [
+    ["En la nueva", "in the new", "v novom"],
+    ["ortografía maya", "Maya spelling", "mayskom pravopise"],
+    ["se escribe", "it is written", "sa píše"],
+    ["Janal Pixán.", "Janal Pixán (newer Maya spelling)", "Janal Pixán (novší mayský pravopis)"]
+   ]
+  },
+  {
+   "es": "La abuela cree que las almas visitan a su familia.",
+   "en": "The grandmother believes that the souls visit their family.",
+   "sk": "Stará mama verí, že duše navštevujú svoju rodinu.",
+   "w": [
+    ["La abuela", "the grandmother", "stará mama"],
+    ["cree que", "believes that", "verí, že"],
+    ["las almas", "the souls", "duše"],
+    ["visitan", "visit", "navštevujú"],
+    ["a su familia.", "their family", "svoju rodinu"]
+   ]
+  },
+  {
+   "es": "La familia limpia la casa y pone un altar con fotos.",
+   "en": "The family cleans the house and sets up an altar with photos.",
+   "sk": "Rodina upratuje dom a stavia oltár s fotkami.",
+   "w": [
+    ["La familia", "the family", "rodina"],
+    ["limpia", "cleans", "upratuje"],
+    ["la casa", "the house", "dom"],
+    ["y", "and", "a"],
+    ["pone", "sets up", "stavia"],
+    ["un altar", "an altar (a table with offerings)", "oltár (stôl s obetnými darmi)"],
+    ["con fotos.", "with photos", "s fotkami"]
+   ]
+  },
+  {
+   "es": "Las velas y flores xpujuc sirven para guiar a las almas.",
+   "en": "The candles and xpujuc flowers are there to guide the souls.",
+   "sk": "Sviečky a kvety xpujuc majú viesť duše.",
+   "w": [
+    ["Las velas", "the candles", "sviečky"],
+    ["y", "and", "a"],
+    ["flores", "flowers", "kvety"],
+    ["xpujuc", "xpujuc (Maya name for cempasúchil, the yellow-orange marigold)", "xpujuc (mayský názov pre cempasúchil, žltooranžová aksamietnica)"],
+    ["sirven para guiar", "are there to guide", "majú viesť"],
+    ["a las almas.", "the souls", "duše"]
+   ]
+  },
+  {
+   "es": "Algunas familias cocinan mucbipollo, un tamal grande, bajo la tierra.",
+   "en": "Some families cook mucbipollo, a big tamal, under the ground.",
+   "sk": "Niektoré rodiny pečú mucbipollo, veľký tamal, pod zemou.",
+   "w": [
+    ["Algunas familias", "some families", "niektoré rodiny"],
+    ["cocinan", "cook", "pečú"],
+    ["mucbipollo,", "mucbipollo ('buried chicken')", "mucbipollo („zakopané kura“)"],
+    ["un tamal", "a tamal (corn dough with filling, wrapped in leaves)", "tamal (kukuričné cesto s plnkou, zabalené v listoch)"],
+    ["grande,", "big", "veľký"],
+    ["bajo la tierra.", "under the ground (in the píib oven)", "pod zemou (v peci píib)"]
+   ]
+  },
+  {
+   "es": "El 31 de octubre es para las almas de los niños.",
+   "en": "31 October is for the souls of the children.",
+   "sk": "31. októbra je pre duše detí.",
+   "w": [
+    ["El 31", "on the 31st", "31."],
+    ["de octubre", "of October", "októbra"],
+    ["es para", "is for", "je pre"],
+    ["las almas", "the souls", "duše"],
+    ["de los niños.", "of the children (u hanal palal = children's meal)", "detí (u hanal palal = jedlo detí)"]
+   ]
+  },
+  {
+   "es": "El 1 de noviembre es para las almas de los adultos.",
+   "en": "1 November is for the souls of the adults.",
+   "sk": "1. novembra je pre duše dospelých.",
+   "w": [
+    ["El 1", "on the 1st", "1."],
+    ["de noviembre", "of November", "novembra"],
+    ["es para", "is for", "je pre"],
+    ["las almas", "the souls", "duše"],
+    ["de los adultos.", "of the adults (u hanal nucuch uinicoob = adults' meal)", "dospelých (u hanal nucuch uinicoob = jedlo dospelých)"]
+   ]
+  },
+  {
+   "es": "Dicen que las almas comen primero; luego, todos comparten la comida.",
+   "en": "They say the souls eat first; then everyone shares the food.",
+   "sk": "Hovorí sa, že duše jedia najprv; potom sa všetci delia o jedlo.",
+   "w": [
+    ["Dicen que", "they say that", "hovorí sa, že"],
+    ["las almas", "the souls", "duše"],
+    ["comen", "eat", "jedia"],
+    ["primero;", "first", "najprv"],
+    ["luego,", "then", "potom"],
+    ["todos", "everyone", "všetci"],
+    ["comparten", "share", "sa delia o"],
+    ["la comida.", "the food", "jedlo"]
+   ]
+  },
+  {
+   "es": "Es una celebración para recordar con amor, no con miedo.",
+   "en": "It is a celebration to remember with love, not with fear.",
+   "sk": "Je to oslava, pri ktorej spomíname s láskou, nie so strachom.",
+   "w": [
+    ["Es", "it is", "je to"],
+    ["una celebración", "a celebration", "oslava"],
+    ["para recordar", "to remember", "spomínať"],
+    ["con amor,", "with love", "s láskou"],
+    ["no con", "not with", "nie so"],
+    ["miedo.", "fear", "strachom"]
+   ]
+  }
+ ]
+}

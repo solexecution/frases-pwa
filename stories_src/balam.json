@@ -1,0 +1,147 @@
+{
+ "id": "balam",
+ "level": 2,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "El Balam",
+  "en": "The Balam",
+  "sk": "Balam"
+ },
+ "sentences": [
+  {
+   "es": "La abuela dice: los balamoob cuidan el pueblo y la milpa.",
+   "en": "The grandmother says: the balamoob protect the village and the milpa.",
+   "sk": "Babka hovorí: balamoob chránia dedinu a milpu.",
+   "w": [
+    ["La abuela", "The grandmother", "Babka"],
+    ["dice:", "says:", "hovorí:"],
+    ["los balamoob", "the balamoob (guardian spirits; balam = jaguar)", "balamoob (strážni duchovia; balam = jaguár)"],
+    ["cuidan", "protect", "chránia"],
+    ["el pueblo", "the village", "dedinu"],
+    ["y", "and", "a"],
+    ["la milpa.", "the milpa (maize field)", "milpu (kukuričné pole)"]
+   ]
+  },
+  {
+   "es": "Según ella, hay cuatro balamoob, uno en cada esquina del pueblo.",
+   "en": "According to her, there are four balamoob, one at each corner of the village.",
+   "sk": "Podľa nej sú štyria balamoob, jeden v každom rohu dediny.",
+   "w": [
+    ["Según ella,", "According to her,", "Podľa nej"],
+    ["hay", "there are", "sú"],
+    ["cuatro", "four", "štyria"],
+    ["balamoob,", "balamoob, (guardian spirits)", "balamoob, (strážni duchovia)"],
+    ["uno", "one", "jeden"],
+    ["en", "at", "v"],
+    ["cada esquina", "each corner", "každom rohu"],
+    ["del pueblo.", "of the village.", "dediny."]
+   ]
+  },
+  {
+   "es": "Algunos dicen que el balam es un viejito pequeño.",
+   "en": "Some say that the balam is a small old man.",
+   "sk": "Niektorí hovoria, že balam je malý starček.",
+   "w": [
+    ["Algunos", "Some", "Niektorí"],
+    ["dicen que", "say that", "hovoria, že"],
+    ["el balam", "the balam (one guardian)", "balam (jeden strážca)"],
+    ["es", "is", "je"],
+    ["un viejito", "a little old man", "starček"],
+    ["pequeño.", "small.", "malý."]
+   ]
+  },
+  {
+   "es": "Otros dicen que es un gran jaguar: balam significa jaguar.",
+   "en": "Others say it is a great jaguar: balam means jaguar.",
+   "sk": "Iní hovoria, že je to veľký jaguár: balam znamená jaguár.",
+   "w": [
+    ["Otros", "Others", "Iní"],
+    ["dicen que", "say that", "hovoria, že"],
+    ["es", "it is", "je to"],
+    ["un gran", "a great", "veľký"],
+    ["jaguar:", "jaguar:", "jaguár:"],
+    ["balam", "balam (Maya word for jaguar)", "balam (mayské slovo pre jaguára)"],
+    ["significa", "means", "znamená"],
+    ["jaguar.", "jaguar.", "jaguár."]
+   ]
+  },
+  {
+   "es": "Algunos campesinos ponen saka' en las cuatro esquinas de la milpa.",
+   "en": "Some farmers put saka' at the four corners of the milpa.",
+   "sk": "Niektorí roľníci kladú saka' do štyroch rohov milpy.",
+   "w": [
+    ["Algunos", "Some", "Niektorí"],
+    ["campesinos", "farmers", "roľníci"],
+    ["ponen", "put", "kladú"],
+    ["saka'", "saka' (unfermented corn drink)", "saka' (nekvasený kukuričný nápoj)"],
+    ["en", "at", "do"],
+    ["las cuatro", "the four", "štyroch"],
+    ["esquinas", "corners", "rohov"],
+    ["de la milpa.", "of the milpa.", "milpy."]
+   ]
+  },
+  {
+   "es": "Así dan las gracias a los balamoob.",
+   "en": "This is how they thank the balamoob.",
+   "sk": "Takto ďakujú balamoobom.",
+   "w": [
+    ["Así", "This way", "Takto"],
+    ["dan las gracias", "they give thanks", "ďakujú"],
+    ["a los balamoob.", "to the balamoob.", "balamoobom."]
+   ]
+  },
+  {
+   "es": "Dicen que de noche el balam silba y cuida el pueblo.",
+   "en": "They say that at night the balam whistles and protects the village.",
+   "sk": "Hovoria, že v noci balam píska a chráni dedinu.",
+   "w": [
+    ["Dicen que", "They say that", "Hovoria, že"],
+    ["de noche", "at night", "v noci"],
+    ["el balam", "the balam", "balam"],
+    ["silba", "whistles", "píska"],
+    ["y", "and", "a"],
+    ["cuida", "protects", "chráni"],
+    ["el pueblo.", "the village.", "dedinu."]
+   ]
+  },
+  {
+   "es": "El Cha Chaac es una ceremonia para pedir lluvia.",
+   "en": "The Cha Chaac is a ceremony to ask for rain.",
+   "sk": "Cha Chaac je obrad na vyprosenie dažďa.",
+   "w": [
+    ["El Cha Chaac", "The Cha Chaac (rain ceremony)", "Cha Chaac (obrad za dážď)"],
+    ["es", "is", "je"],
+    ["una ceremonia", "a ceremony", "obrad"],
+    ["para pedir", "to ask for", "na vyprosenie"],
+    ["lluvia.", "rain.", "dažďa."]
+   ]
+  },
+  {
+   "es": "A veces el h-men llama a los chaacs y a los balamoob.",
+   "en": "Sometimes the h-men calls the chaacs and the balamoob.",
+   "sk": "Niekedy h-men volá chaacov a balamoobov.",
+   "w": [
+    ["A veces", "Sometimes", "Niekedy"],
+    ["el h-men", "the h-men (Maya ceremony leader)", "h-men (mayský vedúci obradov)"],
+    ["llama", "calls", "volá"],
+    ["a los chaacs", "the chaacs (rain gods)", "chaacov (dažďových bohov)"],
+    ["y", "and", "a"],
+    ["a los balamoob.", "the balamoob.", "balamoobov."]
+   ]
+  },
+  {
+   "es": "La gente pide lluvia y una buena cosecha en la milpa.",
+   "en": "The people ask for rain and a good harvest in the milpa.",
+   "sk": "Ľudia prosia o dážď a dobrú úrodu na milpe.",
+   "w": [
+    ["La gente", "The people", "Ľudia"],
+    ["pide", "ask for", "prosia o"],
+    ["lluvia", "rain", "dážď"],
+    ["y", "and", "a"],
+    ["una buena cosecha", "a good harvest", "dobrú úrodu"],
+    ["en", "in", "na"],
+    ["la milpa.", "the milpa.", "milpe."]
+   ]
+  }
+ ]
+}

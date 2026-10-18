@@ -1,0 +1,151 @@
+{
+ "id": "xtabay",
+ "level": 2,
+ "group": "Leyendas mayas",
+ "title": {
+  "es": "La Xtabay",
+  "en": "The Xtabay",
+  "sk": "Xtabay"
+ },
+ "sentences": [
+  {
+   "es": "Dicen que en un pueblo de Yucatán viven dos mujeres.",
+   "en": "They say that two women live in a village in Yucatán.",
+   "sk": "Hovorí sa, že v jednej dedine na Yucatáne žijú dve ženy.",
+   "w": [
+    ["Dicen que", "They say that", "Hovorí sa, že"],
+    ["en", "in", "v"],
+    ["un pueblo", "a village", "jednej dedine"],
+    ["de Yucatán", "of Yucatán", "na Yucatáne"],
+    ["viven", "live", "žijú"],
+    ["dos mujeres.", "two women.", "dve ženy."]
+   ]
+  },
+  {
+   "es": "Xkeban ayuda a los pobres, pero la gente la ve mal.",
+   "en": "Xkeban helps the poor, but people look down on her.",
+   "sk": "Xkeban pomáha chudobným, ale ľudia na ňu pozerajú zvysoka.",
+   "w": [
+    ["Xkeban", "Xkeban", "Xkeban"],
+    ["ayuda a", "helps", "pomáha"],
+    ["los pobres,", "the poor,", "chudobným,"],
+    ["pero", "but", "ale"],
+    ["la gente", "people", "ľudia"],
+    ["la ve mal.", "look down on her (lit. sees her badly).", "pozerajú na ňu zvysoka (dosl. vidia ju zle)."]
+   ]
+  },
+  {
+   "es": "Todos admiran a Utz-Colel, pero ella es fría y orgullosa.",
+   "en": "Everyone admires Utz-Colel, but she is cold and proud.",
+   "sk": "Všetci obdivujú Utz-Colel, ale ona je chladná a pyšná.",
+   "w": [
+    ["Todos", "Everyone", "Všetci"],
+    ["admiran a", "admire", "obdivujú"],
+    ["Utz-Colel,", "Utz-Colel,", "Utz-Colel,"],
+    ["pero", "but", "ale"],
+    ["ella es", "she is", "ona je"],
+    ["fría", "cold", "chladná"],
+    ["y", "and", "a"],
+    ["orgullosa.", "proud.", "pyšná."]
+   ]
+  },
+  {
+   "es": "Cuando Xkeban muere, su tumba huele dulce y crece el xtabentún.",
+   "en": "When Xkeban dies, her grave smells sweet and the xtabentún grows.",
+   "sk": "Keď Xkeban zomrie, jej hrob sladko vonia a rastie xtabentún.",
+   "w": [
+    ["Cuando", "When", "Keď"],
+    ["Xkeban", "Xkeban", "Xkeban"],
+    ["muere,", "dies,", "zomrie,"],
+    ["su tumba", "her grave", "jej hrob"],
+    ["huele dulce", "smells sweet", "sladko vonia"],
+    ["y", "and", "a"],
+    ["crece", "grows", "rastie"],
+    ["el xtabentún.", "xtabentún (fragrant white flower).", "xtabentún (voňavý biely kvet)."]
+   ]
+  },
+  {
+   "es": "Cuando Utz-Colel muere, su tumba huele mal y crece el tzacam.",
+   "en": "When Utz-Colel dies, her grave smells bad and the tzacam grows.",
+   "sk": "Keď Utz-Colel zomrie, jej hrob zle zapácha a rastie tzacam.",
+   "w": [
+    ["Cuando", "When", "Keď"],
+    ["Utz-Colel", "Utz-Colel", "Utz-Colel"],
+    ["muere,", "dies,", "zomrie,"],
+    ["su tumba", "her grave", "jej hrob"],
+    ["huele mal", "smells bad", "zle zapácha"],
+    ["y", "and", "a"],
+    ["crece", "grows", "rastie"],
+    ["el tzacam.", "tzacam (thorny cactus).", "tzacam (tŕnistý kaktus)."]
+   ]
+  },
+  {
+   "es": "Por envidia de Xkeban, Utz-Colel vuelve como la Xtabay, muy bonita.",
+   "en": "Out of envy for Xkeban, Utz-Colel returns as the Xtabay, very beautiful.",
+   "sk": "Zo závisti voči Xkeban sa Utz-Colel vracia ako Xtabay, veľmi krásna.",
+   "w": [
+    ["Por envidia", "Out of envy", "Zo závisti"],
+    ["de Xkeban,", "for Xkeban,", "voči Xkeban"],
+    ["Utz-Colel", "Utz-Colel", "Utz-Colel"],
+    ["vuelve", "returns", "sa vracia"],
+    ["como", "as", "ako"],
+    ["la Xtabay,", "the Xtabay (legendary woman of the forest paths),", "Xtabay (legendárna žena lesných chodníkov),"],
+    ["muy bonita.", "very beautiful.", "veľmi krásna."]
+   ]
+  },
+  {
+   "es": "Cuentan que de noche espera bajo la ceiba, vestida de blanco.",
+   "en": "Legend has it that at night she waits under the ceiba, dressed in white.",
+   "sk": "Rozprávajú, že v noci čaká pod ceibou, oblečená v bielom.",
+   "w": [
+    ["Cuentan que", "Legend has it that", "Rozprávajú, že"],
+    ["de noche", "at night", "v noci"],
+    ["espera", "she waits", "čaká"],
+    ["bajo", "under", "pod"],
+    ["la ceiba,", "the ceiba (sacred Maya tree),", "ceibou (posvätný mayský strom),"],
+    ["vestida de", "dressed in", "oblečená v"],
+    ["blanco.", "white.", "bielom."]
+   ]
+  },
+  {
+   "es": "Se peina con espinas de tzacam y llama a la gente.",
+   "en": "She combs her hair with tzacam thorns and calls to people.",
+   "sk": "Češe si vlasy tŕňmi z kaktusu tzacam a volá ľudí.",
+   "w": [
+    ["Se peina", "She combs her hair", "Češe si vlasy"],
+    ["con espinas", "with thorns", "tŕňmi"],
+    ["de tzacam", "of tzacam (thorny cactus)", "z kaktusu tzacam"],
+    ["y", "and", "a"],
+    ["llama a", "calls to", "volá"],
+    ["la gente.", "the people.", "ľudí."]
+   ]
+  },
+  {
+   "es": "Los abuelos advierten: quien la sigue se pierde en el monte.",
+   "en": "The grandparents warn: whoever follows her gets lost in the forest.",
+   "sk": "Starí rodičia varujú: kto ju nasleduje, stratí sa v lese.",
+   "w": [
+    ["Los abuelos", "The grandparents", "Starí rodičia"],
+    ["advierten:", "warn:", "varujú:"],
+    ["quien", "whoever", "kto"],
+    ["la sigue", "follows her", "ju nasleduje"],
+    ["se pierde", "gets lost", "stratí sa"],
+    ["en el", "in the", "v"],
+    ["monte.", "forest (monte = wild bush).", "lese (monte = divočina)."]
+   ]
+  },
+  {
+   "es": "La leyenda enseña que la bondad vale más que la fama.",
+   "en": "The legend teaches that kindness is worth more than reputation.",
+   "sk": "Legenda učí, že dobrota má väčšiu cenu ako povesť.",
+   "w": [
+    ["La leyenda", "The legend", "Legenda"],
+    ["enseña que", "teaches that", "učí, že"],
+    ["la bondad", "kindness", "dobrota"],
+    ["vale más", "is worth more", "má väčšiu cenu"],
+    ["que", "than", "ako"],
+    ["la fama.", "reputation.", "povesť."]
+   ]
+  }
+ ]
+}

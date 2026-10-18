@@ -8,16 +8,20 @@ SRC = ROOT / "stories_src"
 OUT = ROOT / "audio" / "st"
 MANIFEST = ROOT / "audio" / "index.json"
 SLOW_RATE = "-25%"
-ORDER = ["intro", "mi_dia", "cafe", "familia", "semana", "feria", "cita", "techo", "doctor", "merida"]
+ORDER = ["aluxes", "chaac", "chechen", "ceiba", "xtabay", "balam", "milpa", "abeja", "cenote", "hanal", "tunkuluchu", "kukulkan", "toh",
+         "intro", "mi_dia", "cafe", "familia", "semana", "feria", "cita", "techo", "doctor", "merida"]
 
 
 def load():
-    stories = []
-    for sid in ORDER:
-        p = SRC / (sid + ".json")
-        if not p.exists():
-            raise SystemExit("missing story source " + str(p))
-        stories.append(json.loads(p.read_text(encoding="utf-8")))
+    have = {p.stem for p in SRC.glob("*.json")}
+    ordered = [s for s in ORDER if s in have] + sorted(have - set(ORDER))
+    stories = [json.loads((SRC / (s + ".json")).read_text(encoding="utf-8")) for s in ordered]
+    published = ROOT / "stories.json"
+    if published.exists():
+        old = {s["id"] for s in json.loads(published.read_text(encoding="utf-8"))}
+        lost = old - {s["id"] for s in stories}
+        if lost:
+            raise SystemExit("stories missing from stories_src: " + ", ".join(sorted(lost)))
     return stories
 
 
