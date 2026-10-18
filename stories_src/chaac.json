@@ -13,11 +13,31 @@
    "en": "Chaac is the Maya god of rain.",
    "sk": "Chaac je mayský boh dažďa.",
    "w": [
-    ["Chaac", "Chaac (pron. chak; Maya rain god)", "Chaac (čítaj čák; mayský boh dažďa)"],
-    ["es", "is", "je"],
-    ["el dios", "the god", "boh"],
-    ["maya", "Maya", "mayský"],
-    ["de la lluvia.", "of the rain", "dažďa"]
+    [
+     "Chaac",
+     "Chaac (pron. chak; Maya rain god)",
+     "Chaac (čítaj čák; mayský boh dažďa)"
+    ],
+    [
+     "es",
+     "is",
+     "je"
+    ],
+    [
+     "el dios",
+     "the god",
+     "boh"
+    ],
+    [
+     "maya",
+     "Maya",
+     "mayský"
+    ],
+    [
+     "de la lluvia.",
+     "of the rain",
+     "dažďa"
+    ]
    ]
   },
   {
@@ -25,12 +45,36 @@
    "en": "They say he has fangs and a long nose.",
    "sk": "Hovorí sa, že má tesáky a dlhý nos.",
    "w": [
-    ["Dicen que", "they say that", "hovorí sa, že"],
-    ["tiene", "he has", "má"],
-    ["colmillos", "fangs", "tesáky"],
-    ["y", "and", "a"],
-    ["una nariz", "a nose", "nos"],
-    ["larga.", "long", "dlhý"]
+    [
+     "Dicen que",
+     "they say that",
+     "hovorí sa, že"
+    ],
+    [
+     "tiene",
+     "he has",
+     "má"
+    ],
+    [
+     "colmillos",
+     "fangs",
+     "tesáky"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "una nariz",
+     "a nose",
+     "nos"
+    ],
+    [
+     "larga.",
+     "long",
+     "dlhý"
+    ]
    ]
   },
   {
@@ -38,12 +82,36 @@
    "en": "According to tradition, his axe hits the clouds: it thunders and it rains!",
    "sk": "Podľa tradície jeho sekera udiera do oblakov: hrmí a prší!",
    "w": [
-    ["Según la tradición,", "according to tradition,", "podľa tradície"],
-    ["su hacha", "his axe", "jeho sekera"],
-    ["golpea las nubes:", "hits the clouds", "udiera do oblakov"],
-    ["¡truena", "it thunders", "hrmí"],
-    ["y", "and", "a"],
-    ["llueve!", "it rains", "prší"]
+    [
+     "Según la tradición,",
+     "according to tradition,",
+     "podľa tradície"
+    ],
+    [
+     "su hacha",
+     "his axe",
+     "jeho sekera"
+    ],
+    [
+     "golpea las nubes:",
+     "hits the clouds",
+     "udiera do oblakov"
+    ],
+    [
+     "¡truena",
+     "it thunders",
+     "hrmí"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "llueve!",
+     "it rains",
+     "prší"
+    ]
    ]
   },
   {
@@ -51,15 +119,56 @@
    "en": "There are four Chaacs, one per direction: red, white, black and yellow.",
    "sk": "Sú štyria Chaacovia, jeden na každej svetovej strane: červený, biely, čierny a žltý.",
    "w": [
-    ["Hay", "there is / there are", "je / sú"],
-    ["cuatro", "four", "štyria"],
-    ["Chaacs,", "Chaacs", "Chaacovia"],
-    ["uno por dirección:", "one per direction", "jeden na každej svetovej strane"],
-    ["rojo,", "red", "červený"],
-    ["blanco,", "white", "biely"],
-    ["negro", "black", "čierny"],
-    ["y", "and", "a"],
-    ["amarillo.", "yellow", "žltý"]
+    [
+     "Hay",
+     "there is / there are",
+     "je / sú"
+    ],
+    [
+     "cuatro",
+     "four",
+     "štyria"
+    ],
+    [
+     "Chaacs,",
+     "Chaacs",
+     "Chaacovia"
+    ],
+    [
+     "uno",
+     "one",
+     "jeden"
+    ],
+    [
+     "por dirección:",
+     "per direction",
+     "na každej strane"
+    ],
+    [
+     "rojo,",
+     "red",
+     "červený"
+    ],
+    [
+     "blanco,",
+     "white",
+     "biely"
+    ],
+    [
+     "negro",
+     "black",
+     "čierny"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "amarillo.",
+     "yellow",
+     "žltý"
+    ]
    ]
   },
   {
@@ -67,11 +176,31 @@
    "en": "The farmers ask for rain for the milpa.",
    "sk": "Roľníci prosia o dážď pre milpu.",
    "w": [
-    ["Los campesinos", "the farmers", "roľníci"],
-    ["piden", "they ask for", "prosia o"],
-    ["lluvia", "rain", "dážď"],
-    ["para la", "for the", "pre"],
-    ["milpa.", "milpa (maize field)", "milpa (kukuričné pole)"]
+    [
+     "Los campesinos",
+     "the farmers",
+     "roľníci"
+    ],
+    [
+     "piden",
+     "they ask for",
+     "prosia o"
+    ],
+    [
+     "lluvia",
+     "rain",
+     "dážď"
+    ],
+    [
+     "para la",
+     "for the",
+     "pre"
+    ],
+    [
+     "milpa.",
+     "milpa (maize field)",
+     "milpa (kukuričné pole)"
+    ]
    ]
   },
   {
@@ -79,13 +208,41 @@
    "en": "If the rain comes late, the harvest is bad.",
    "sk": "Ak dážď príde neskoro, úroda je zlá.",
    "w": [
-    ["Si", "if", "ak"],
-    ["la lluvia", "the rain", "dážď"],
-    ["llega", "comes", "príde"],
-    ["tarde,", "late", "neskoro"],
-    ["la cosecha", "the harvest", "úroda"],
-    ["es", "is", "je"],
-    ["mala.", "bad", "zlá"]
+    [
+     "Si",
+     "if",
+     "ak"
+    ],
+    [
+     "la lluvia",
+     "the rain",
+     "dážď"
+    ],
+    [
+     "llega",
+     "comes",
+     "príde"
+    ],
+    [
+     "tarde,",
+     "late",
+     "neskoro"
+    ],
+    [
+     "la cosecha",
+     "the harvest",
+     "úroda"
+    ],
+    [
+     "es",
+     "is",
+     "je"
+    ],
+    [
+     "mala.",
+     "bad",
+     "zlá"
+    ]
    ]
   },
   {
@@ -93,13 +250,41 @@
    "en": "In some villages in Yucatán, they still hold the Cha Chaac ceremony.",
    "sk": "V niektorých dedinách na Yucatáne stále konajú obrad Cha Chaac.",
    "w": [
-    ["En algunos", "in some", "v niektorých"],
-    ["pueblos", "villages", "dedinách"],
-    ["de Yucatán", "in Yucatán", "na Yucatáne"],
-    ["todavía", "still", "stále"],
-    ["hacen", "they do (hold)", "robia (konajú)"],
-    ["la ceremonia", "the ceremony", "obrad"],
-    ["Cha Chaac.", "Cha Chaac (calling the rain)", "Cha Chaac (volanie dažďa)"]
+    [
+     "En algunos",
+     "in some",
+     "v niektorých"
+    ],
+    [
+     "pueblos",
+     "villages",
+     "dedinách"
+    ],
+    [
+     "de Yucatán",
+     "in Yucatán",
+     "na Yucatáne"
+    ],
+    [
+     "todavía",
+     "still",
+     "stále"
+    ],
+    [
+     "hacen",
+     "they do (hold)",
+     "robia (konajú)"
+    ],
+    [
+     "la ceremonia",
+     "the ceremony",
+     "obrad"
+    ],
+    [
+     "Cha Chaac.",
+     "Cha Chaac (calling the rain)",
+     "Cha Chaac (volanie dažďa)"
+    ]
    ]
   },
   {
@@ -107,13 +292,41 @@
    "en": "The h-men, a Maya priest, prays and leads the ceremony.",
    "sk": "H-men, mayský kňaz, sa modlí a vedie obrad.",
    "w": [
-    ["El h-men,", "the h-men (Maya priest)", "h-men (mayský kňaz)"],
-    ["un sacerdote", "a priest", "kňaz"],
-    ["maya,", "Maya", "mayský"],
-    ["reza", "prays", "sa modlí"],
-    ["y", "and", "a"],
-    ["dirige", "leads", "vedie"],
-    ["la ceremonia.", "the ceremony", "obrad"]
+    [
+     "El h-men,",
+     "the h-men (Maya priest)",
+     "h-men (mayský kňaz)"
+    ],
+    [
+     "un sacerdote",
+     "a priest",
+     "kňaz"
+    ],
+    [
+     "maya,",
+     "Maya",
+     "mayský"
+    ],
+    [
+     "reza",
+     "prays",
+     "sa modlí"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "dirige",
+     "leads",
+     "vedie"
+    ],
+    [
+     "la ceremonia.",
+     "the ceremony",
+     "obrad"
+    ]
    ]
   },
   {
@@ -121,12 +334,36 @@
    "en": "Among the offerings are balché, noj wajes and cho k'ob broth.",
    "sk": "Medzi obetnými darmi sú balché, noj wajes a vývar cho k'ob.",
    "w": [
-    ["Entre las ofrendas", "among the offerings", "medzi obetnými darmi"],
-    ["hay", "there are", "sú"],
-    ["balché,", "balché (fermented honey and bark drink)", "balché (kvasený nápoj z medu a kôry)"],
-    ["noj wajes", "noj wajes (big ritual maize breads)", "noj wajes (veľké obradné kukuričné chleby)"],
-    ["y", "and", "a"],
-    ["caldo cho k'ob.", "cho k'ob broth (thick, shared)", "vývar cho k'ob (hustý, spoločný)"]
+    [
+     "Entre las ofrendas",
+     "among the offerings",
+     "medzi obetnými darmi"
+    ],
+    [
+     "hay",
+     "there are",
+     "sú"
+    ],
+    [
+     "balché,",
+     "balché (fermented honey and bark drink)",
+     "balché (kvasený nápoj z medu a kôry)"
+    ],
+    [
+     "noj wajes",
+     "noj wajes (big ritual maize breads)",
+     "noj wajes (veľké obradné kukuričné chleby)"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "caldo cho k'ob.",
+     "cho k'ob broth (thick, shared)",
+     "vývar cho k'ob (hustý, spoločný)"
+    ]
    ]
   },
   {
@@ -134,13 +371,41 @@
    "en": "Four boys croak like frogs to call the rain.",
    "sk": "Štyria chlapci kvákajú ako žaby, aby privolali dážď.",
    "w": [
-    ["Cuatro", "four", "štyria"],
-    ["niños", "boys", "chlapci"],
-    ["croan", "they croak", "kvákajú"],
-    ["como", "like", "ako"],
-    ["ranas", "frogs", "žaby"],
-    ["para llamar a", "to call", "aby privolali"],
-    ["la lluvia.", "the rain", "dážď"]
+    [
+     "Cuatro",
+     "four",
+     "štyria"
+    ],
+    [
+     "niños",
+     "boys",
+     "chlapci"
+    ],
+    [
+     "croan",
+     "they croak",
+     "kvákajú"
+    ],
+    [
+     "como",
+     "like",
+     "ako"
+    ],
+    [
+     "ranas",
+     "frogs",
+     "žaby"
+    ],
+    [
+     "para llamar a",
+     "to call",
+     "aby privolali"
+    ],
+    [
+     "la lluvia.",
+     "the rain",
+     "dážď"
+    ]
    ]
   }
  ]

@@ -424,6 +424,7 @@ async function fillOffline(){if(filling||!window.caches||!P.length)return;fillin
   try{const r=await fetch("audio/index.json",{cache:"no-cache"});if(r.ok)man=await r.json()}catch(e){}
   const oldMan=store.get("frases-audioman",null);
   if(man&&oldMan)for(const k of Object.keys(man))if(oldMan[k]&&oldMan[k]!==man[k])await c.delete(new URL("audio/"+k,location.href).href);
+  if(man&&oldMan)for(const k of Object.keys(oldMan))if(!(k in man))await c.delete(new URL("audio/"+k,location.href).href);
   const t=audioTiers(P.filter(p=>!p.my),MISS,SKL(),STORIES);const urls=[...t.base,...t.extra].map(u=>new URL(u,location.href).href);
   off.need=urls.length;
   for(let pass=0;pass<4;pass++){
@@ -599,8 +600,8 @@ function wire(){
   for(const s of seq){if(f<s.c1){gi=s.gi;break}}
   if(gi!==lastGi){lastGi=gi;hlGroup(gi,$("s-listen"))}});
  if("mediaSession" in navigator){
-  navigator.mediaSession.setActionHandler("play",()=>{dg("ms:play");if(st.tab==="listen")play()});
-  navigator.mediaSession.setActionHandler("pause",()=>{dg("ms:pause");pause()});
+  navigator.mediaSession.setActionHandler("play",()=>{dg("ms:play");if(st.tab==="listen")play();else if(typeof ST!=="undefined"&&ST&&ST.view==="lens"&&!ST.playing)frLoop()});
+  navigator.mediaSession.setActionHandler("pause",()=>{dg("ms:pause");if(typeof ST!=="undefined"&&ST&&ST.playing)frStop();else pause()});
   navigator.mediaSession.setActionHandler("nexttrack",()=>{if(st.tab==="listen")seek(1)});
   navigator.mediaSession.setActionHandler("previoustrack",()=>{if(st.tab==="listen")seek(-1)})}
  ["play","pause","ended","waiting","stalled","error","emptied"].forEach(ev=>audio.addEventListener(ev,()=>{if(playing)dg("audio:"+ev)}));
@@ -646,7 +647,7 @@ function wire(){
  window.addEventListener("pagehide",()=>{if(resetting)return;lisStop();flushLog()});
  document.addEventListener("visibilitychange",()=>{
   if(document.visibilityState==="hidden"){if(!resetting)flushLog()}
-  else{if(playing||st.tab==="pocket")keepAwake(true);applyUpdate()}})}
+  else{if(playing||st.tab==="pocket"||(typeof ST!=="undefined"&&ST&&ST.playing))keepAwake(true);applyUpdate()}})}
 
 function skMissions(map){
  MISS.forEach((m,mi)=>{

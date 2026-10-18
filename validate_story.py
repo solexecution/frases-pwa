@@ -53,8 +53,8 @@ def check(path):
                 errs.append(p + "each chunk must be [es, en, sk] with non-empty strings")
                 break
             joined.append(c[0].strip())
-            if len(c[0].split()) > 3:
-                errs.append(p + "chunk too long (max 3 words): " + c[0])
+            if len(c[0].split()) > 4:
+                errs.append(p + "chunk too long (max 4 words): " + c[0])
         else:
             if " ".join(joined) != " ".join(es.split()):
                 errs.append(p + "chunks do not rebuild the sentence. chunks: %r  sentence: %r" % (" ".join(joined), es))

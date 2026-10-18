@@ -13,12 +13,36 @@
    "en": "In Yucatán, grandmother says: the aluxes live in the bush.",
    "sk": "Na Yucatáne stará mama rozpráva: aluxovia žijú v divokom lese.",
    "w": [
-    ["En Yucatán,", "In Yucatán,", "Na Yucatáne"],
-    ["la abuela", "grandmother", "stará mama"],
-    ["cuenta:", "tells (says):", "rozpráva:"],
-    ["los aluxes", "the aluxes (small forest spirits)", "aluxovia (malí lesní duchovia)"],
-    ["viven", "live", "žijú"],
-    ["en el monte.", "in the bush (wild forest).", "v divokom lese."]
+    [
+     "En Yucatán,",
+     "In Yucatán,",
+     "Na Yucatáne"
+    ],
+    [
+     "la abuela",
+     "grandmother",
+     "stará mama"
+    ],
+    [
+     "cuenta:",
+     "tells (says):",
+     "rozpráva:"
+    ],
+    [
+     "los aluxes",
+     "the aluxes (small forest spirits)",
+     "aluxovia (malí lesní duchovia)"
+    ],
+    [
+     "viven",
+     "live",
+     "žijú"
+    ],
+    [
+     "en el monte.",
+     "in the bush (wild forest).",
+     "v divokom lese."
+    ]
    ]
   },
   {
@@ -26,11 +50,31 @@
    "en": "According to the legend, an alux is small, like a child.",
    "sk": "Podľa legendy je alux malý ako dieťa.",
    "w": [
-    ["Según la leyenda,", "According to the legend,", "Podľa legendy"],
-    ["un alux", "an alux (small forest spirit)", "alux (malý lesný duch)"],
-    ["es", "is", "je"],
-    ["pequeño", "small", "malý"],
-    ["como un niño.", "like a child.", "ako dieťa."]
+    [
+     "Según la leyenda,",
+     "According to the legend,",
+     "Podľa legendy"
+    ],
+    [
+     "un alux",
+     "an alux (small forest spirit)",
+     "alux (malý lesný duch)"
+    ],
+    [
+     "es",
+     "is",
+     "je"
+    ],
+    [
+     "pequeño",
+     "small",
+     "malý"
+    ],
+    [
+     "como un niño.",
+     "like a child.",
+     "ako dieťa."
+    ]
    ]
   },
   {
@@ -38,11 +82,31 @@
    "en": "They say he wears a hat and farmer's clothes.",
    "sk": "Hovorí sa, že nosí klobúk a roľnícke oblečenie.",
    "w": [
-    ["Dicen que", "They say that", "Hovorí sa, že"],
-    ["lleva", "he wears", "nosí"],
-    ["sombrero", "hat", "klobúk"],
-    ["y", "and", "a"],
-    ["ropa de campesino.", "farmer's clothes.", "roľnícke oblečenie."]
+    [
+     "Dicen que",
+     "They say that",
+     "Hovorí sa, že"
+    ],
+    [
+     "lleva",
+     "he wears",
+     "nosí"
+    ],
+    [
+     "sombrero",
+     "hat",
+     "klobúk"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "ropa de campesino.",
+     "farmer's clothes.",
+     "roľnícke oblečenie."
+    ]
    ]
   },
   {
@@ -50,10 +114,26 @@
    "en": "The aluxes guard the milpa at night.",
    "sk": "Aluxovia strážia milpu v noci.",
    "w": [
-    ["Los aluxes", "The aluxes", "Aluxovia"],
-    ["cuidan", "guard (look after)", "strážia (opatrujú)"],
-    ["la milpa", "the milpa (cornfield)", "milpu (kukuričné pole)"],
-    ["de noche.", "at night.", "v noci."]
+    [
+     "Los aluxes",
+     "The aluxes",
+     "Aluxovia"
+    ],
+    [
+     "cuidan",
+     "guard (look after)",
+     "strážia (opatrujú)"
+    ],
+    [
+     "la milpa",
+     "the milpa (cornfield)",
+     "milpu (kukuričné pole)"
+    ],
+    [
+     "de noche.",
+     "at night.",
+     "v noci."
+    ]
    ]
   },
   {
@@ -61,12 +141,36 @@
    "en": "Almost nobody sees them, but people say they hear their whistle.",
    "sk": "Takmer nikto ich nevidí, ale hovorí sa, že počujú ich hvizd.",
    "w": [
-    ["Casi nadie", "Almost nobody", "Takmer nikto"],
-    ["los ve,", "sees them,", "ich (ne)vidí,"],
-    ["pero", "but", "ale"],
-    ["dicen que", "people say that", "hovorí sa, že"],
-    ["oyen", "they hear", "počujú"],
-    ["su silbido.", "their whistle.", "ich hvizd."]
+    [
+     "Casi nadie",
+     "Almost nobody",
+     "Takmer nikto"
+    ],
+    [
+     "los ve,",
+     "sees them,",
+     "ich nevidí,"
+    ],
+    [
+     "pero",
+     "but",
+     "ale"
+    ],
+    [
+     "dicen que",
+     "people say that",
+     "hovorí sa, že"
+    ],
+    [
+     "oyen",
+     "they hear",
+     "počujú"
+    ],
+    [
+     "su silbido.",
+     "their whistle.",
+     "ich hvizd."
+    ]
    ]
   },
   {
@@ -74,14 +178,46 @@
    "en": "If a thief comes, the aluxes whistle and throw little stones.",
    "sk": "Ak príde zlodej, aluxovia hvízdajú a hádžu kamienky.",
    "w": [
-    ["Si", "If", "Ak"],
-    ["llega", "comes", "príde"],
-    ["un ladrón,", "a thief,", "zlodej,"],
-    ["los aluxes", "the aluxes", "aluxovia"],
-    ["silban", "whistle", "hvízdajú"],
-    ["y", "and", "a"],
-    ["tiran", "throw", "hádžu"],
-    ["piedritas.", "little stones.", "kamienky."]
+    [
+     "Si",
+     "If",
+     "Ak"
+    ],
+    [
+     "llega",
+     "comes",
+     "príde"
+    ],
+    [
+     "un ladrón,",
+     "a thief,",
+     "zlodej,"
+    ],
+    [
+     "los aluxes",
+     "the aluxes",
+     "aluxovia"
+    ],
+    [
+     "silban",
+     "whistle",
+     "hvízdajú"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "tiran",
+     "throw",
+     "hádžu"
+    ],
+    [
+     "piedritas.",
+     "little stones.",
+     "kamienky."
+    ]
    ]
   },
   {
@@ -89,10 +225,26 @@
    "en": "Before planting, some farmers ask the aluxes for permission.",
    "sk": "Pred sejbou niektorí roľníci si pýtajú dovolenie od aluxov.",
    "w": [
-    ["Antes de sembrar,", "Before planting,", "Pred sejbou"],
-    ["algunos campesinos", "some farmers", "niektorí roľníci"],
-    ["piden permiso", "ask permission", "si pýtajú dovolenie"],
-    ["a los aluxes.", "from the aluxes.", "od aluxov."]
+    [
+     "Antes de sembrar,",
+     "Before planting,",
+     "Pred sejbou"
+    ],
+    [
+     "algunos campesinos",
+     "some farmers",
+     "niektorí roľníci"
+    ],
+    [
+     "piden permiso",
+     "ask permission",
+     "si pýtajú dovolenie"
+    ],
+    [
+     "a los aluxes.",
+     "from the aluxes.",
+     "od aluxov."
+    ]
    ]
   },
   {
@@ -100,10 +252,26 @@
    "en": "They offer them saka', a corn drink.",
    "sk": "Ponúkajú im saka', nápoj z kukurice.",
    "w": [
-    ["Les ofrecen", "They offer them", "Ponúkajú im"],
-    ["saka',", "saka' (corn drink),", "saka' (kukuričný nápoj),"],
-    ["una bebida", "a drink", "nápoj"],
-    ["de maíz.", "of corn.", "z kukurice."]
+    [
+     "Les ofrecen",
+     "They offer them",
+     "Ponúkajú im"
+    ],
+    [
+     "saka',",
+     "saka' (corn drink),",
+     "saka' (kukuričný nápoj),"
+    ],
+    [
+     "una bebida",
+     "a drink",
+     "nápoj"
+    ],
+    [
+     "de maíz.",
+     "of corn.",
+     "z kukurice."
+    ]
    ]
   },
   {
@@ -111,13 +279,41 @@
    "en": "If people forget them, the aluxes hide tools and rock hammocks.",
    "sk": "Ak na nich zabudnú, aluxovia schovávajú náradie a hojdajú hamaky.",
    "w": [
-    ["Si los olvidan,", "If people forget them,", "Ak na nich zabudnú,"],
-    ["los aluxes", "the aluxes", "aluxovia"],
-    ["esconden", "hide", "schovávajú"],
-    ["herramientas", "tools", "náradie"],
-    ["y", "and", "a"],
-    ["mecen", "rock", "hojdajú"],
-    ["hamacas.", "hammocks.", "hamaky."]
+    [
+     "Si los olvidan,",
+     "If people forget them,",
+     "Ak na nich zabudnú,"
+    ],
+    [
+     "los aluxes",
+     "the aluxes",
+     "aluxovia"
+    ],
+    [
+     "esconden",
+     "hide",
+     "schovávajú"
+    ],
+    [
+     "herramientas",
+     "tools",
+     "náradie"
+    ],
+    [
+     "y",
+     "and",
+     "a"
+    ],
+    [
+     "mecen",
+     "rock",
+     "hojdajú"
+    ],
+    [
+     "hamacas.",
+     "hammocks.",
+     "hamaky."
+    ]
    ]
   },
   {
@@ -125,11 +321,31 @@
    "en": "But if people respect them, the aluxes guard the milpa.",
    "sk": "Ale ak ich rešpektujú, aluxovia strážia milpu.",
    "w": [
-    ["Pero si", "But if", "Ale ak"],
-    ["los respetan,", "people respect them,", "ich rešpektujú,"],
-    ["los aluxes", "the aluxes", "aluxovia"],
-    ["cuidan", "guard", "strážia"],
-    ["la milpa.", "the milpa (cornfield).", "milpu (kukuričné pole)."]
+    [
+     "Pero si",
+     "But if",
+     "Ale ak"
+    ],
+    [
+     "los respetan,",
+     "people respect them,",
+     "ich rešpektujú,"
+    ],
+    [
+     "los aluxes",
+     "the aluxes",
+     "aluxovia"
+    ],
+    [
+     "cuidan",
+     "guard",
+     "strážia"
+    ],
+    [
+     "la milpa.",
+     "the milpa (cornfield).",
+     "milpu (kukuričné pole)."
+    ]
    ]
   }
  ]

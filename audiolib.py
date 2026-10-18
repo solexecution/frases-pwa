@@ -13,9 +13,9 @@ def raw_path(text, voice, rate, pitch):
     return RAW / (key + ".mp3")
 
 
-def encode(raw, out, bitrate=BITRATE):
+def encode(raw, out, bitrate=BITRATE, af=TRIM):
     tmp = Path(str(out) + ".tmp" + EXT)
-    r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-af", TRIM, "-ac", "1", "-ar", "24000",
+    r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-af", af, "-ac", "1", "-ar", "24000",
                         "-c:a", "libopus", "-b:a", bitrate, "-vbr", "on", "-compression_level", "10", "-application", "audio",
                         "-map_metadata", "-1", "-fflags", "+bitexact", "-flags:a", "+bitexact", "-f", "ogg", str(tmp)])
     if r.returncode != 0 or not tmp.exists() or tmp.stat().st_size < 300:
@@ -46,10 +46,10 @@ async def fetch_raw(text, voice, rate, pitch, sem):
     raise last
 
 
-async def render(text, voice, rate, out, sem, pitch="+0Hz", bitrate=BITRATE):
+async def render(text, voice, rate, out, sem, pitch="+0Hz", bitrate=BITRATE, af=TRIM):
     raw = await fetch_raw(text, voice, rate, pitch, sem)
-    await asyncio.to_thread(encode, raw, out, bitrate)
+    await asyncio.to_thread(encode, raw, out, bitrate, af)
 
 
-def key(*parts):
-    return hashlib.sha1("|".join(parts + (BITRATE, EXT, TRIM)).encode("utf-8")).hexdigest()[:12]
+def key(*parts, af=TRIM):
+    return hashlib.sha1("|".join(parts + (BITRATE, EXT, af)).encode("utf-8")).hexdigest()[:12]

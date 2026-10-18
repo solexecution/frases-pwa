@@ -221,6 +221,31 @@ nav button[aria-pressed="true"]{color:var(--turq);background:color-mix(in srgb,v
 .stGloss b{color:var(--ink)}
 .stT{margin:0 0 2px;font-size:1.6rem;font-weight:800}
 .stTools{display:flex;gap:8px;margin:10px 0 6px;flex-wrap:wrap}
+.frSticky{position:sticky;top:0;z-index:2;background:var(--bg);padding:2px 0 8px}
+.frHead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.frTitle{min-width:0;display:flex;flex-direction:column}
+.frTitle b{font-size:1.2rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.frTools{display:flex;gap:6px;flex:none}
+.lens{position:relative;margin:14px 0 4px;padding:24px 14px 14px;border-radius:28px;border:3px solid var(--turq);background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb,var(--turq) 14%,var(--card)),var(--card));box-shadow:0 8px 24px color-mix(in srgb,var(--turq) 22%,transparent),inset 0 0 0 5px color-mix(in srgb,var(--turq) 8%,transparent);text-align:center}
+.lensIc{position:absolute;top:-17px;left:20px;width:36px;height:36px;padding:6px;border-radius:50%;background:var(--turq);color:#fff}
+.lensEs{font-size:clamp(1.5rem,6.6vw,2.1rem);font-weight:800;line-height:1.4;letter-spacing:-.015em}
+.fc{display:inline-block;padding:0 .14em;border-radius:12px;color:color-mix(in srgb,var(--ink) 66%,var(--card));cursor:pointer;transition:background .15s,color .15s,transform .15s}
+.fc.done{color:var(--ink)}
+.fc.on{background:var(--fillpink);color:#fff;transform:scale(1.06)}
+.lens.listening .fc{color:var(--ink)}
+.frGloss{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);min-height:2.4em;font-size:1.3rem;font-weight:700;line-height:1.25}
+.frGloss .eq{color:var(--muted)}
+.frTr{text-align:center;color:var(--muted);font-size:1.02rem;line-height:1.3;margin-top:8px}
+.frHear{display:block;margin:10px auto 0}
+.frMsg{min-height:1.4em;margin:8px 0;font-size:.95rem;color:var(--muted);text-align:center}
+.frCtl{display:flex;justify-content:center;align-items:center;gap:10px;margin-bottom:8px}
+.cb{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;padding:0}
+.cb svg{width:24px;height:24px}
+.cb.big{width:76px;height:76px;background:var(--fill);border-color:var(--fill);color:#fff}
+.cb.big svg{width:36px;height:36px}
+.cb:active{transform:scale(.94)}
+.frChips{display:flex;gap:6px;padding:2px 2px 0}
+.frChips .chip{flex:1;padding:10px 6px;font-size:.84rem;white-space:nowrap}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:40;max-width:648px;margin:0 auto;background:var(--ink);color:var(--bg);padding:13px 15px;border-radius:12px;font-size:.95rem;line-height:1.35;box-shadow:0 6px 24px rgba(0,0,0,.25);display:none}
 .dots{display:flex;gap:5px;margin-top:6px}
 .dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);display:block}
@@ -266,7 +291,7 @@ button:focus-visible,input:focus-visible,.txt:focus-visible{outline:3px solid va
     <div class="sub">Real conversations. Listen, then pick the right reply.</div>
     <div id="mList"></div>
     <div class="hi" id="stHead" style="margin-top:26px">Stories</div>
-    <div class="sub">Read aloud and see both languages at once. Tap a word for its meaning.</div>
+    <div class="sub">Read aloud and see both languages at once. Play goes word by word, with the meaning in a second voice.</div>
     <div id="stList"></div>
   </section>
 
